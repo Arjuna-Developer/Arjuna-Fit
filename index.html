@@ -1,364 +1,1241 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit</title>
-<meta name="description" content="Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, y la App ArjunaFit para que no abandones. Cupos 1:1 limitados.">
-<meta name="theme-color" content="#04050b">
-<link rel="icon" href="data:image/webp;base64,UklGRlgUAABXRUJQVlA4WAoAAAAQAAAAfwAAfwAAQUxQSN8EAAABDrratq2NHEtyNeCtQx0nduAYlqEaV8GzmJzA7MXQ8gGEeanbMDNzUjFU48nMrPRfl3/JlqX/C3Tvp+//fkWEwwBo20ZAlcgy3ZkfoFJESRcWvcFw+eT5N378edOM4ZXb8yeXh4MeLEISwU2wKoBw871HL/+wakqhaQPrzV0AiYuFOADo7T327pqxyK6GFMz5YAZCyL+ItbZR+zTd2K1IBJjfd+4HM0a6CWYpBWZ4yBit7ms6iBOHlgD0D3xh39p4TGYEw7OINAf6HUCdWYp2PjGyFZZKUHiBI7SREwuxAEtX7L8rlUoBLyK8ZF933f81oH3R/sxZKkbhpb7YAhrVO+ueZ4ykkJoAiLRNjZNYsbgyMlmQGhFY/IrWVYyBHR8a2ZSa4UWCAnEtbXPHcx9c7eAg4tHRGtr6b0oKcQKAcL/qLmY89PvkWfVP+l3BXK3HgXGbOIQggiotBL1Hpno6YflIWxkTXPfipDaXul5UJBXpho+tXCSjo9XoEys3+UkVjK2COIpgGc+sa3JymDwjI1l8qTjq6qAuxjzT1pYfMxvGaWwY5WQGKg7ml91ebKAz6AEr99mUZozb/spS9wP8ly9pEMnc22YsAhQ/V85AcSJfo1AK0FLanl1lGsGBt0NL1BY+zddolNTHPD3vN0HIIIhOTTH6ozSjEwzfn2aoeNpmSkmnJMXWLBVSAG+dzLj7mqEW8lqIJ+ahFTUOJ6UofpViNBOMFdvSscgRTTHFeLLoQsukKRgLblvLDEFw8HkqDthMMaGwOvd1vpteczuXz3usaNLbpDhrNmmGl7NQRFj80WQ0g+VHRTRet6JKD+3imF2nutogQN+1nVQbW+3gxr8pr7QeuNdmukk7OGpH6A4wostylW4EucxbClsdslueLYNV2tEMhmxIg4cP2xHKA3qSeuh5SSkHpH2DerQ5L9JWP1GPn7whDi//++HJi74R/e0e/e0+/f0e/f0+/eMe+sd99I976R/30z/vIX/eR/+89x/gvJ/+dQ/6133oX/eif92P/HVP+td9yV/3pn/dn/59D/L3fejf9yJ/34/+fU/y933p3/f+J7nvjxj9UUpo48Pwfes8Je2nlILohDzBeOFTOlMg6q3z1LQ9C0RKHHi7zSV4gsrxh5eQ1/TS3Ns0ShA/V6JW2P/+lREg+C+fdyxVeoBCyUsDBUrzoPv00swgRMqPyYbbsWGUE8YMjBdfcnvRiy7GswgQXPOJy9vfIJ+wdZiRN4zpsDCzgGRMVwe9lQJV8GM36YVzqoTXvegivbyoFQmI0XvEuLYP5CCPtHZGZcQB45Z9EEGnQgER46HfXery8ruCGaiSCfpvmhRuBCDc72i1AqCYOy5OWHIQ8ZjsX6XFjg9N/ZO8SNCJHlV3La6MTFbrcwYWv6IT26rvwj3PmBqfAxBpm06xra4idr5opIYj4sJLfbGFrdaKWIClK/YHVHE7vIjwUu511w4FovaJkZFss6L2wgscoY0Ks5xYQP/AF7l3lM48xMh9Os2Bfu4FOwONgfl9537If6XISrYyI//jaHVfM/ZJ4BSkC6C399i7a4VfdUjBPMEPofDPWGsb7XWAbgznECUKINx879HLP6yWe2jawHpzF0CiEdwEa4BFbzBcPnn+jR9/zm2UvXJ7/uTycNCDRai4AgBWUDggUg8AALA4AJ0BKoAAgAA+USCNRCOiIRcK3nA4BQS2AGSD/eXj5vzRax/h/pQ5KWsPMm6Z87P+u9WXmD/p101/MN+5X7Fe8F6LP8B6gH9E/1XWT+g5+y3pr+yD/bf9v+3/tMf+i9iMbPPv76zkc/dp/8v/GP8jzr7//iTqEex95xAH3RP2nnP3I/F20Bf096OWgH6z9hL+Zf4LrZ/uw2d4RsLjO6R9/vtkbOjZ3yGdZOfdK/gEqbKh8Ho5dONZ5gD+x2pq7Miz1HvHI10I3XkcJlVw5df1lpBieSuHEpLMutYUGrkWWGglklOF+eNp//+agHJEVSufVt62+HIx0S2MedAKbClBp/KStwCEuae//+P///66A7z5WUeKKpXlwSsSWtEDgqJpU4SIwBH55RItSFUuojz9taaSHdNvyQdni+UGPmIxgajZBAzrlZfalsOLNBof5v9ZaPsBlFW0HVR1zNDgRmXAz18Qdl1z9OPt6Ay3TUbMl3Po0jrZqKEk302k7o9+LjE5/lpGIixztnEwIzaxrfmzWpo1GUiSv4fwNgjPsSd0XqOYkB73dbe6cO/HafgcM3nND6ERAqTZffIexOr6jU05VcdZquUQq30p+1EvQAD+/w1lKUM8Ll8HJ3CaMcC/d4hU5UBGKXMRPp/EsXVBPrpd4qaPSTHP/E3aw6JsKT7wFSkaM36qT5bw8JLxLOw3ycHBNi5z9y8F58UWPRpa6KCMGlANWxoeSfxE1oj+fj7AxS59/LBnrDyKrz/ph9UhRwBCKEhu10r2wmgOBXcOcWJ2/zjZmfw8PO6Y4+bt1dFEsf9HgwJN2zXq6x4s0FLMKM0vQ7LzFbgt/1scC1W5YR38O9Ww8O58PmQ8Wpub1kuxpvs2m/bd9Tnwml3rBFwkcaed92AwmJ/zQrTSw3PnP7Kf53ICAmgeV1a0D6fausThSaguHiyaA6crO4N8NdpB1ThrawViAZozOKIveL0yUJbCfzA0ZQ5WrPVjsspshuBpCpCk7l1m46keW/qhH8MlzKzOD7HIz0fgRiO6DuU2L1ySkDk6QFVaY+7EZrlCAbaWaDuNPBkRqugWgm3grvuQGi9LSOaaKpqiS5lJM9bF5rr4ei7eeKghIvlR/ef97m+QTE7swtvm5zyUVyC06Y3KyxhDOf1VSBH+zI5ruww10bs3wwNFfsN4W+bhny+tuHuqAR48zOL+fYLFdbQsnaZZaXj428o52Nhc+wrmdj6+IzDqJor5jia7XW8wnQCkX28/mrgEhRDwqza3M7oL8vG+Q45/THOLCKx+n6bEjDI8DBz0tjCGferH6jcZz7fuRqd0cVf2ZQQpAmzd+hBWXkBLz/PfekEM2qhNvwG5gW16Ekvhu+wJu/Jpt4ZX7bUCC3xoWQ8gfn7kdsTayvkKuMsMI82lnGcsK3ObHzJ9hufdoAZtQKJ/3xBhD254mlGMjlHzLqkUCYorQPbODFk55Jy//a7tOZDICcCMqncjFYqAzOSXJFeVxxVju8ni9GwSQ25RRVB+L/93rfAavaqRK8v0PR3R2+dI4hzn/P+Nu5jo5byd0WA8zsgeVe5X0p07BPsMBOcmyWjfleWm1edpGmu4PaG9SKJc8JbkRfOC8G2f3XzQdfyxKMs2eBUbEUbobRGJcGzNyfBUy97mCf5n7r0vOvje+F1W0Lj5d8cdlekr+cwI7tpfRtiJox2rlBEqvYWPw4/DW72WI/ay7YCfeDDLfz86cgpCEXn/RDR4U10COXlCBKf3ACcDrlBGhSoWm/59YjbtlyybHJwP5+f7y3EXdvuKB9ieRfjFpztlK8RIiWs4b4DY1HvV4pu2UxGxfX5JI/XIEvmx/9Pigc+bQt718ZT/b/5OUHOQxfwZ/v7J+wOn2PYI8dShAGMA8Wb8rxMbGnkyka4pnO1iHo+xfDNblXnRzh8BLJJNOzJ/H8wY+Z/J5meTvhFlcUx+oWO453gcNQr3dVGr4e9TH60X3C9NdA9N/V9GWi6G+/3zRHmZvlFt+/jWNpB7EVuzg60yaFHN7KgO40fqzuOeSqEPp78bouxYcH3UVZbPYi+jrFJVH2RH9hNVhch5F/edJJ7gMgoYpaIx6zcWd8fyugSysdhsWg8NKg8wKhdbI0p16Qmy2vns0ST1LYU5FWc0aTnjJ6PkPYIHiENCVRjaxNnvvtvbs3EMzFE26+8fczkjHB+DbC0eKNYEMLyYxKerCVV1qC6tk1TkLkxEdOAmbx54Hpvv7CNUbV3TOetjnZTb597q+9ROdUm7Pf4kTKtFRekxQXKXcqPfqgbeHsf+BSHg52Q9/A0RTyIQ2tEUJ3nSF4zeupW5gliLXkWVLjE2z8h7n+P/qLEFEre3tX0xlKiNYq+xei7pzOSdeEXoITDgKN9fV0dUvfKEP989OqE9+TLPXXFhIGb16eNYnPrNZ6KQ4TcvDYq11crdeYD+LIZsmXEGvE5n5IkcRGq0Y3lpXQ2nlTzaFS5k8VzzLwNTIwV6R6moN/v6Zwa+mIrAHN2CqWr8WLzeS0+RBDUECpjjsZUzOdQSkpTHW0qx7AlELEcGMwBB84Xk53Qzl6ius+FkxVlqGdJLuUjHjTSXc6Ftqm8L3RE1ejtGrUEPW6FVZ0+TJgPX1ThBDCW9Iwn/q2STaEKuWbzEWHm0iQg8/qorK4iXdt1c1XYVIK6Bur316Soj7Amx8x/u92b8snWkS3h8gpLlytmlkjRBZOSSz0GQDzwsFRardB8+srv8JyKUapjBG1NtWIeyDqCzdAsYRZifg/0G95XDybG3KJg0yJvzCQO7UBbSMfG9eK9uJ97NU7pEzVkr/TDyLsWOZ+fNyGiNrqd6QscBLQVIfI6lb1vkOhbkJa9ovIr5vt0r7r1xOq7uO6L4dmygUG9/01oPh1u9fQOuEedmJ03GyimdD7rvgX+niyvwXZnq7dKNe6lPdOV2Af5Z1yphnlg+Do4UJZpqW9TCEfml/zQonvMHPcaSE/OeV1egXKudV2nWM/59/A6rZ0ZEAm8bP0xiptkE5ODO4rweQg2CAyBsp1IbMGCuNHBiqQ2+gbotWr2jt9CSLMug9nVI5ysRY9Bg2Rn9nEX8yEySpfLYYfU+vt0fKCamyYWeqwASZnBCGwQMAphaeUcbcHp7IHK/DPzDJyeNSCXcGIeeo2QALjmjskjk7QF8IiPy7W02MbWdxLvXrMPsq7KVcSc+H0i+2+8yX6LYbrm7fbHGuINO1llwiht7WXRZPgD61kgFiV/MoQfPEeOos6YdAQmrpYvpwqxXC21dDtVQ3qhGKha+kroekf9CsNioL82PI3tg0gQqloV0KM4L0pZ/gcKOdWvoBtldL9Rfv2Yv2T1hL28MLo+EHOMREAdkjUQ/ag2+HEm2D25GfJwdiXMtMd6ruP2n3nXikVt82jVt+syP2KiLi/IiFhi9p0y01k3AFa5nO9nFd4L5w4jNE7VEDLaGuDH27ULlg6hJ22Syd+0cIT5uCgvP+wwGgQ6UHDKNHeyiGCVGJS1CZcftXHOPng05UMXQL4GaCh+8mC29l/7YnqLwMqfivy9dxPySN2cM9PvDmVRSGixLRIxYowAOtQodSmsgIqQxapYUIu6r/egNUx61zQQNwTL+J2XxnjenJrDQ+5jdu83+accd4h9gpkPuExaNW9Ug58WQmLQIyRZ5w+pZG8UZ1Fi+2KQEGVkTXXVvDcRYoUlcHbq6Kfud5seVPyf88xmap62/fZmqY4lSwNA8S40bZCgHV+o8qKSM4yMERSiOQKDXMJayCfSrdqce/3I9FW9jygEDV+q8jByDZ5cS8227xnbYE1fL1Awky4bhoaQAY1dunpaSP7R/lOljFvlI4Sh2tbTFh3HhWeh1DnlPoAbUG4zuKfLkfCpHhKZgBXivaQoPoBB6ocSBa3+5Y6fc2JFpJa1l9uIPpQw7VnkoahC6/Mj21N8s8ET8QnNNH4WK+fIXhyhpVomXcwTQNxb6W8YC6GmqvGnsVTLTDdv7f+MnjU27FG6oo8zIC1mNSAdoSb97aIlCZVd2rXB0Eom2CA65VVjUQgXwsr+/nFU0bDLP9FgFouoRy8mxajtOR/P5hQzxUjDU6505N7ZGjmQisdW/CHL5Mbasx4/5if84YC6/Oj7hh2RrhCYot9iJVhRbATrU6XwXqRGrq/XR70slgdDHfstuld58AnQJpPN+9OGdAC4tHkO5ONTBOfTpjB3ouVNPheUEbnRO0ueNt/p4baFaXF2oPCl9jKHmouQ7+C/WXWTghr8BBFAqdzKARoJPenXlXZsGfskxeyTdHIDRu4yN+Ti6FNf/8gaOVs7NmRrMlJlNXfTww1ZY6zvzrDUnnRId3g0P8sLcQXPbNtLbOk8hi9rinhIyZB5wl+HcvX12NP5FpRqJitSl3X80uyGpWjHAVpMAefPPrEL16ANoYb08gcRj9+JRUrVIraVxnlzhEvRghxvLyK7yknLt21KLCbzYBJ07IE60S1qPLKQN6ql+qt438C00+8hmxBYkF77FVxAan7tNKIGzudrbwgaQf4yZ6Fna7eQsFHgpWNDTYt9lcCAyKWet78nowUGte7as+2nkkF1LKootAMzdZ4jCgNMl+/DJoGjnHqA3x4lOrDQORExONdFZ+fVNc1QxF21TqbeQIQHwMPf6UWIC0QXQILvPl+e+2JlJf/0UFGkO4muJ9CRVWrC95P+W5HOxbkzU+P0bty4VUQrilEVZhi//khuvRe7B/u6wZ7E4ovIAHTYkRBppkMDnCFE5Rcaz1Ocl5oyYJoTcNFARLdkL3bIYuGU8goMwVDAX7Gd9gITP564z+XUqCVqVadHN/T50xm+laxEOyxSpKJ46OSaV5IrBDu4GPfSQQQkzb5n0wPd6CazjPTYc2fe2b3H8EJbFS9xF4uCuypFJ60GC7+sLQ8nPeJpHcC2HcJsiiK8AjWUl01N3W6d7aMiKBACKHEh35LZFjHRO+JdTQQQuZJT5T1cYeR2gQy3pacihM9/3ypf4Sh6dH2VJTiIgdfH9X4yGAs7DwkjqjS+XKGFbGoxXTAfoyJJU6Q70c2QRjUn6acYiL9g+MsXted68iZX2rgp1sdTuzuxbrprtYt9fj7zeJPey36bjAiHy+VHFru5Hfcwj9yd8oniBFD1BpJGStMsx/n6tMwpgdEeIuZYq8rDHs4GIppOT7t8RGC/YXcAOgEixeT4tWi1gN8/Zql5/FErz51kQAtRoCYemVrUgAAAAAAA=">
-<meta property="og:title" content="ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit"><meta property="og:image" content="https://arjunafit.com/assets/img/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
-<script>document.documentElement.className="js"</script>
-<style>
-:root{--bg:#04050b;--tx:#f8f8f8;--mu:#c4c7d6;--ln:rgba(255,255,255,.2);--sf:rgba(255,255,255,.07);--lk:#ffd98a;--ac:#ffc857;--btn:#ffc857;--btx:#241326;--fr:Fraunces,Georgia,serif;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body.lt{--tx:#2b1633;--mu:#573260;--ln:rgba(43,22,51,.3);--sf:rgba(255,255,255,.4);--lk:#6b1d52;--ac:#2b1633;--btn:#2b1633;--btx:#fff4d6}
-*,*::before,*::after{box-sizing:border-box;transition:color .6s,background-color .6s,border-color .6s}
-html{scroll-behavior:smooth;scroll-padding-top:60px;background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--tx);font:400 1.05rem/1.65 "Inter Tight",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-#gl{position:fixed;inset:0;z-index:0;pointer-events:none}
-main,footer{position:relative;z-index:1}
-h1,h2,h3{font-family:var(--fr);line-height:1.1;margin:0 0 16px;letter-spacing:-.015em;font-weight:600}
-h1{font-size:clamp(2.1rem,7vw,4rem);font-weight:400}
-h2{font-size:clamp(1.8rem,5vw,2.7rem)}
-p{margin:0 0 16px}a{color:var(--lk)}
-.w{max-width:720px;margin:0 auto;width:100%}
-.sc{padding:90px 22px}
-.t{min-height:100svh;display:flex;align-items:center}
-.lead{font-size:1.15rem;color:var(--mu);max-width:560px}
-.fine{font-size:.88rem;color:var(--mu)}
-.tag{color:var(--lk);font-weight:600}
-.slogan{font:400 1.35rem/1.35 var(--fr);color:var(--lk);margin:6px 0 26px}
-.big{font:600 clamp(1.6rem,5vw,2.3rem)/1.2 var(--fr);color:var(--lk);margin:28px 0 14px}
-.clk{font:400 clamp(4.5rem,24vw,11rem)/1 var(--fr);background:linear-gradient(180deg,#ffd98a,#ff8a4c);-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 0 8px;font-variant-numeric:tabular-nums}
-.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:14px 18px;font:600 .85rem "Inter Tight",sans-serif;pointer-events:none}
-.top a,.top span{pointer-events:auto;color:var(--lk);text-decoration:none}
-#pg{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#8B5CF6,#ff8a4c,#ffd166);z-index:21}
-.btn{display:inline-block;background:var(--btn);color:var(--btx);font:700 1.05rem "Inter Tight",sans-serif;border:0;border-radius:12px;padding:17px 30px;text-decoration:none;cursor:pointer;box-shadow:0 10px 36px rgba(0,0,0,.25);transition:filter .2s,transform .2s,background-color .6s,color .6s}
-.btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
-:is(a,button,input,select,summary):focus-visible{outline:2px solid var(--ac);outline-offset:3px}
-.dots{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;max-width:420px;margin:26px 0}
-.dots i{aspect-ratio:1;border-radius:50%;background:var(--ac);transition:opacity .5s,transform .5s}
-.dots i.off{opacity:.12;transform:scale(.6)}
-.sy{display:grid;gap:10px;margin:14px 0}
-.sit{display:block;width:100%;min-height:58px;text-align:left;padding:14px 18px 14px 54px;position:relative;border:1px solid var(--ln);background:var(--sf);color:var(--tx);border-radius:14px;font:1.08rem/1.4 var(--fr);cursor:pointer}
-.sit::before{content:"";position:absolute;left:18px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;border:2px solid var(--ln)}
-.sit[aria-pressed=true]{border-color:var(--ac)}
-.sit[aria-pressed=true]::before{background:var(--ac);border-color:var(--ac)}
-.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin:22px 0}
-.card{padding:20px;border:1px solid var(--ln);border-radius:16px;background:var(--sf)}
-.card h3{font-size:1.15rem;margin:0 0 6px;color:var(--lk)}
-.card p{margin:0;color:var(--mu);font-size:.97rem}
-.bar{height:10px;border-radius:9px;background:var(--ln);overflow:hidden;margin:10px 0 22px}
-.bar i{display:block;height:100%;width:82%;background:linear-gradient(90deg,#ff8a4c,#ffd166);transition:width 1.8s ease}
-.js .appb:not(.in) .bar i{width:0}
-.vs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:22px 0}
-.vs>div{padding:20px;border:1px solid var(--ln);border-radius:16px;color:var(--mu)}
-.vs h3{color:inherit;font-size:1.1rem}
-.vs .on{border-color:var(--ac);background:var(--sf);color:var(--tx)}
-.vs .on h3{color:var(--lk)}
-details{border-top:1px solid var(--ln);padding:14px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mu);margin:8px 0 0}
-form{display:grid;gap:8px;margin:22px 0}
-label{font-weight:600;font-size:.9rem;margin-top:8px}
-input,select{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px;width:100%}
-option{background:#fff;color:#111}
-.tel{display:flex}.tel span{display:grid;place-items:center;padding:0 14px;border:1px solid var(--ln);border-right:0;border-radius:10px 0 0 10px;background:var(--sf);color:var(--mu)}.tel input{border-radius:0 10px 10px 0}
-form .btn{margin-top:14px}
-#ok{border:1px solid var(--ac);border-radius:16px;padding:22px 24px;margin:22px 0;background:var(--sf)}
-ol.pasos{padding-left:20px;color:var(--mu)}ol.pasos b{color:var(--tx)}
-footer{padding:28px 22px;text-align:center;color:var(--mu);font-size:.8rem}
-.js .rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
-.js .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}.dots i{transition:none}}
-.wide{max-width:960px}
-.top{align-items:center}
-.logo-header{display:block;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);box-shadow:0 0 0 2px rgba(139,92,246,.55)}
-.appx{display:grid;gap:30px;align-items:center;margin:26px 0}
-@media(min-width:760px){.appx{grid-template-columns:260px 1fr}}
-.phone{--tx:#f8f8f8;--mu:#aeb2c4;--ln:rgba(255,255,255,.14);--sf:rgba(255,255,255,.07);--lk:#ffd98a;--ac:#ffc857;width:240px;margin:0 auto;aspect-ratio:9/18.5;border-radius:36px;padding:10px;background:#0b0b14;border:2px solid rgba(255,255,255,.22);box-shadow:0 0 0 6px #14121f,0 0 80px rgba(139,92,246,.4);color:var(--tx);position:relative}
-.phone::before{content:"";position:absolute;top:14px;left:50%;width:70px;height:18px;margin-left:-35px;border-radius:12px;background:#000;z-index:2}
-.scr{height:100%;border-radius:28px;overflow:hidden;background:linear-gradient(180deg,#1b1240,#0b0b14 60%);padding:40px 14px 12px;display:flex;flex-direction:column;gap:10px;font-size:.78rem}
-.scr-top{display:flex;align-items:center;gap:8px;font:600 .95rem var(--fr)}
-.scr-top img{width:30px;height:30px;border-radius:50%}
-.scr small{color:var(--mu);font-size:.7rem}
-.scr-card{padding:10px 12px;border-radius:12px;background:var(--sf);border:1px solid var(--ln);display:grid;gap:3px}
-.scr-card b{font:600 .95rem var(--fr)}
-.mac{display:grid;gap:6px;margin-top:4px}.mac div{display:grid;grid-template-columns:54px 1fr;align-items:center;gap:8px}
-.mac i{display:block;height:7px;border-radius:5px;background:linear-gradient(90deg,#8B5CF6,#ffc857);width:var(--w)}
-.tabs{margin-top:auto;display:flex;justify-content:space-around;padding-top:8px;border-top:1px solid var(--ln);color:var(--mu);font-size:.66rem}
-.pil{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.pil .card{padding:14px 16px}.pil .card h3{font-size:1rem}
-.cap{font-size:.78rem;color:var(--mu);text-align:center;margin:14px 0 0}
-.hl{font-size:clamp(2.1rem,7vw,4rem);font-weight:400}
-.logo-header{width:44px;height:44px;object-fit:cover;aspect-ratio:1;border-radius:50%;background:#1a1030;border:2px solid #8B5CF6;box-shadow:0 0 18px rgba(139,92,246,.55)}
-.vid{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--ln);background:radial-gradient(120% 120% at 20% 0%,#3b1fa8,#0b0b14 70%);margin:22px 0}
-.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.vbtn{all:unset;box-sizing:border-box;position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:8px;text-align:center;cursor:pointer;color:#f8f8f8;padding:16px}
-.vbtn:disabled{cursor:default}.vbtn:focus-visible{outline:2px solid #ffc857;outline-offset:-4px}
-.vbtn b{font:600 1.3rem var(--fr)}.vbtn small{color:#c4c7d6;max-width:300px}
-.play{width:68px;height:68px;border-radius:50%;background:#ffc857;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(255,200,87,.2)}
-.play::before,.vthumb span::before{content:"";margin-left:4px;border-left:18px solid #241326;border-top:11px solid transparent;border-bottom:11px solid transparent}
-.phone{--ac:#ffc857;animation:fl 6s ease-in-out infinite}
-.screens{position:relative;flex:1;min-height:0}
-.s{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s;pointer-events:none}
-.phone[data-s="0"] .s0,.phone[data-s="1"] .s1,.phone[data-s="2"] .s2,.phone[data-s="3"] .s3{opacity:1;transform:none}
-.tabs span{transition:color .4s}
-.phone[data-s="0"] .t0,.phone[data-s="1"] .t1,.phone[data-s="2"] .t2,.phone[data-s="3"] .t3{color:#ffc857}
-.rowc{grid-auto-flow:column;grid-template-columns:62px 1fr;align-items:center;gap:12px}
-.rg{width:62px}.arc{transition:stroke-dasharray 1.4s ease .3s}
-.phone[data-s="0"] .arc{stroke-dasharray:72 100}
-.mac i{width:0;transition:width 1.1s ease .4s}.phone[data-s="0"] .mac i{width:var(--w)}
-.vthumb{aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#6D28FF,#1b1240);display:grid;place-items:center}
-.vthumb span{width:34px;height:34px;border-radius:50%;background:#ffc857;display:grid;place-items:center}
-.vthumb span::before{border-left-width:12px;border-top-width:8px;border-bottom-width:8px;margin-left:3px}
-.ex{display:flex;align-items:center;gap:8px;padding:3px 0}.ex small{margin-left:auto}
-.ck{flex:none;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);transition:background .4s,border-color .4s}
-.phone[data-s="1"] .ck{background:#ffc857;border-color:#ffc857}
-.ex:nth-child(1) .ck{transition-delay:.5s}.ex:nth-child(2) .ck{transition-delay:1.1s}.ex:nth-child(3) .ck{transition-delay:1.7s}
-.sp{width:100%}.sp path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s ease .2s}
-.phone[data-s="2"] .sp path{stroke-dashoffset:0}
-.ft{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.ft span{aspect-ratio:3/4;border-radius:8px;background:linear-gradient(160deg,#6D28FF,#ffc857 150%);opacity:.85}
-.bub{max-width:90%;padding:8px 10px;border-radius:12px;font-size:.74rem;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
-.bub.u{align-self:flex-end;background:#6D28FF}.bub.a{align-self:flex-start;background:rgba(255,255,255,.1)}
-.phone[data-s="3"] .bub{opacity:1;transform:none}.phone[data-s="3"] .u{transition-delay:.3s}.phone[data-s="3"] .a{transition-delay:1.5s}
-.pil .card{transition:border-color .4s,transform .4s,background-color .6s}
-.pil .card.on{border-color:var(--ac);transform:translateX(4px)}
-@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media (prefers-reduced-motion:reduce){.phone{animation:none}.s,.bub,.arc,.mac i,.sp path,.ck{transition:none}}
-.js .rvd:not(.in){opacity:0}
-.js .rvd.in{animation:d-l .9s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*.14s)}
-.js .rvd[data-d="r"].in{animation-name:d-r}.js .rvd[data-d="u"].in,.js .rvd[data-d="p"].in{animation-name:d-u}.js .rvd[data-d="d"].in{animation-name:d-d}
-@media(min-width:760px){.js .rvd[data-d="p"].in{animation-name:d-l}}
-@keyframes d-l{from{opacity:0;transform:translateX(-56px)}}
-@keyframes d-r{from{opacity:0;transform:translateX(56px)}}
-@keyframes d-u{from{opacity:0;transform:translateY(46px)}}
-@keyframes d-d{from{opacity:0;transform:translateY(-46px)}}
-.card,.vs>div{position:relative;overflow:hidden;transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,border-color .4s,background-color .6s}
-.card::before,.vs>div::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),transparent 55%);transition:opacity .3s}
-.card:hover::before,.vs>div:hover::before{opacity:1}
-.card:active,.vs>div:active{scale:.98}
-.pil .card{cursor:pointer}
-.pil .card.on{transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateX(4px)}
-.pil .card::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--ac)}
-.pil .card.on::after{animation:tmr 3.8s linear forwards}
-@keyframes tmr{from{width:0}to{width:100%}}
-.vs .on{overflow:visible}
-.vs .on::after{content:"";position:absolute;inset:-1px;border-radius:16px;pointer-events:none;animation:glw 3.2s ease-in-out infinite}
-@keyframes glw{0%,100%{box-shadow:0 0 0 0 rgba(255,200,87,0)}50%{box-shadow:0 0 34px 2px rgba(255,200,87,.35)}}
-@media (prefers-reduced-motion:reduce){.js .rvd:not(.in){opacity:1}.js .rvd.in,.vs .on::after,.pil .card.on::after{animation:none}.pil .card.on::after{width:100%}.card,.vs>div{transition:none}}
-.btn[hidden]{display:none}
-.qh{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:6px}.qh h2{margin:0}
-.qc{position:relative;width:60px;height:60px;flex:none}.qc svg{width:100%;transform:rotate(-90deg)}
-.qc circle{fill:none;stroke-width:3}.qc .tk{stroke:var(--ln)}.qc #qa{stroke:var(--ac);stroke-linecap:round;transition:stroke-dasharray .6s cubic-bezier(.2,.8,.2,1)}
-.qc b{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font:600 1.15rem var(--fr)}.qc small{font-size:.7rem;color:var(--mu)}
-#qn{display:inline-block}#qn.pop{animation:pop .45s ease}
-@keyframes pop{50%{transform:scale(1.45)}}
-.sit{overflow:hidden;transition:border-color .3s,background-color .4s,transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
-.sit::after{content:"";position:absolute;left:25px;top:50%;width:6px;height:11px;margin-top:-8px;border:solid var(--btx);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1) .08s}
-.sit[aria-pressed=true]{transform:translateX(6px);background:linear-gradient(90deg,rgba(255,200,87,.2),var(--sf));box-shadow:0 8px 26px rgba(0,0,0,.18)}
-.sit[aria-pressed=true]::after{transform:rotate(45deg) scale(1)}
-.sit:active{scale:.98}
-.sy:not(.touched) .sit::before{animation:ping 2.6s ease-out infinite;animation-delay:calc(var(--i,0)*.4s)}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,200,87,.55)}60%,100%{box-shadow:0 0 0 11px rgba(255,200,87,0)}}
-.rp{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;pointer-events:none;background:rgba(255,200,87,.4);animation:rp .65s ease-out forwards}
-@keyframes rp{to{transform:scale(30);opacity:0}}
-.qm{padding:16px 18px;border:1px solid var(--ln);border-radius:14px;background:var(--sf);margin-top:18px;transition:border-color .4s,background-color .6s,color .6s}
-.qm.on{border-color:var(--ac);color:var(--tx)}
-.qm.chg{animation:msg .5s cubic-bezier(.2,.8,.2,1)}
-@keyframes msg{from{opacity:0;transform:translateY(10px)}}
-.qcta.show{animation:cin .6s cubic-bezier(.2,.8,.2,1)}
-@keyframes cin{from{opacity:0;transform:translateY(16px) scale(.95)}}
-@media (prefers-reduced-motion:reduce){.sy:not(.touched) .sit::before,.rp,.qm.chg,.qcta.show,#qn.pop{animation:none}.sit,.sit::after,.qc #qa{transition:none}}
-#pt{position:fixed;inset:0;z-index:0;pointer-events:none}
-.qsend{display:block;margin-top:16px;font-size:.92rem}.qsend[hidden]{display:none}
-html{scroll-padding-top:84px}
-.top{--lk:#ffd98a;--tx:#fff4d6;--ln:rgba(255,255,255,.2);top:calc(env(safe-area-inset-top,0px) + 8px);left:12px;right:12px;max-width:720px;margin:0 auto;padding:6px 8px 6px 6px;border-radius:999px;background:rgba(22,11,40,.8);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 32px rgba(0,0,0,.3);pointer-events:auto}
-.stw{display:flex;align-items:center;gap:10px;padding:6px 14px;border-radius:999px;background:rgba(255,200,87,.14);border:1px solid rgba(255,200,87,.35)}
-#stp{color:#ffd98a;font-size:.8rem;white-space:nowrap}
-.dts{display:flex;gap:5px}.dts i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);transition:background .4s,transform .4s}.dts i.on{background:#ffc857;transform:scale(1.25)}
-.fcard{--tx:#f8f8f8;--mu:#c4c7d6;--ln:rgba(255,255,255,.22);--sf:rgba(255,255,255,.08);--lk:#ffd98a;--ac:#ffc857;--btn:#ffc857;--btx:#241326;color:#f8f8f8;padding:22px;border-radius:20px;background:rgba(26,13,44,.92);border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(0,0,0,.3)}
-</style></head><body>
-<div id="gl"></div><canvas id="pt" aria-hidden="true"></canvas><div id="pg"></div>
-<header class="top"><a href="#index" class="brand"><img class="logo-header" src="data:image/webp;base64,UklGRlgUAABXRUJQVlA4WAoAAAAQAAAAfwAAfwAAQUxQSN8EAAABDrratq2NHEtyNeCtQx0nduAYlqEaV8GzmJzA7MXQ8gGEeanbMDNzUjFU48nMrPRfl3/JlqX/C3Tvp+//fkWEwwBo20ZAlcgy3ZkfoFJESRcWvcFw+eT5N378edOM4ZXb8yeXh4MeLEISwU2wKoBw871HL/+wakqhaQPrzV0AiYuFOADo7T327pqxyK6GFMz5YAZCyL+ItbZR+zTd2K1IBJjfd+4HM0a6CWYpBWZ4yBit7ms6iBOHlgD0D3xh39p4TGYEw7OINAf6HUCdWYp2PjGyFZZKUHiBI7SREwuxAEtX7L8rlUoBLyK8ZF933f81oH3R/sxZKkbhpb7YAhrVO+ueZ4ykkJoAiLRNjZNYsbgyMlmQGhFY/IrWVYyBHR8a2ZSa4UWCAnEtbXPHcx9c7eAg4tHRGtr6b0oKcQKAcL/qLmY89PvkWfVP+l3BXK3HgXGbOIQggiotBL1Hpno6YflIWxkTXPfipDaXul5UJBXpho+tXCSjo9XoEys3+UkVjK2COIpgGc+sa3JymDwjI1l8qTjq6qAuxjzT1pYfMxvGaWwY5WQGKg7ml91ebKAz6AEr99mUZozb/spS9wP8ly9pEMnc22YsAhQ/V85AcSJfo1AK0FLanl1lGsGBt0NL1BY+zddolNTHPD3vN0HIIIhOTTH6ozSjEwzfn2aoeNpmSkmnJMXWLBVSAG+dzLj7mqEW8lqIJ+ahFTUOJ6UofpViNBOMFdvSscgRTTHFeLLoQsukKRgLblvLDEFw8HkqDthMMaGwOvd1vpteczuXz3usaNLbpDhrNmmGl7NQRFj80WQ0g+VHRTRet6JKD+3imF2nutogQN+1nVQbW+3gxr8pr7QeuNdmukk7OGpH6A4wostylW4EucxbClsdslueLYNV2tEMhmxIg4cP2xHKA3qSeuh5SSkHpH2DerQ5L9JWP1GPn7whDi//++HJi74R/e0e/e0+/f0e/f0+/eMe+sd99I976R/30z/vIX/eR/+89x/gvJ/+dQ/6133oX/eif92P/HVP+td9yV/3pn/dn/59D/L3fejf9yJ/34/+fU/y933p3/f+J7nvjxj9UUpo48Pwfes8Je2nlILohDzBeOFTOlMg6q3z1LQ9C0RKHHi7zSV4gsrxh5eQ1/TS3Ns0ShA/V6JW2P/+lREg+C+fdyxVeoBCyUsDBUrzoPv00swgRMqPyYbbsWGUE8YMjBdfcnvRiy7GswgQXPOJy9vfIJ+wdZiRN4zpsDCzgGRMVwe9lQJV8GM36YVzqoTXvegivbyoFQmI0XvEuLYP5CCPtHZGZcQB45Z9EEGnQgER46HfXery8ruCGaiSCfpvmhRuBCDc72i1AqCYOy5OWHIQ8ZjsX6XFjg9N/ZO8SNCJHlV3La6MTFbrcwYWv6IT26rvwj3PmBqfAxBpm06xra4idr5opIYj4sJLfbGFrdaKWIClK/YHVHE7vIjwUu511w4FovaJkZFss6L2wgscoY0Ks5xYQP/AF7l3lM48xMh9Os2Bfu4FOwONgfl9537If6XISrYyI//jaHVfM/ZJ4BSkC6C399i7a4VfdUjBPMEPofDPWGsb7XWAbgznECUKINx879HLP6yWe2jawHpzF0CiEdwEa4BFbzBcPnn+jR9/zm2UvXJ7/uTycNCDRai4AgBWUDggUg8AALA4AJ0BKoAAgAA+USCNRCOiIRcK3nA4BQS2AGSD/eXj5vzRax/h/pQ5KWsPMm6Z87P+u9WXmD/p101/MN+5X7Fe8F6LP8B6gH9E/1XWT+g5+y3pr+yD/bf9v+3/tMf+i9iMbPPv76zkc/dp/8v/GP8jzr7//iTqEex95xAH3RP2nnP3I/F20Bf096OWgH6z9hL+Zf4LrZ/uw2d4RsLjO6R9/vtkbOjZ3yGdZOfdK/gEqbKh8Ho5dONZ5gD+x2pq7Miz1HvHI10I3XkcJlVw5df1lpBieSuHEpLMutYUGrkWWGglklOF+eNp//+agHJEVSufVt62+HIx0S2MedAKbClBp/KStwCEuae//+P///66A7z5WUeKKpXlwSsSWtEDgqJpU4SIwBH55RItSFUuojz9taaSHdNvyQdni+UGPmIxgajZBAzrlZfalsOLNBof5v9ZaPsBlFW0HVR1zNDgRmXAz18Qdl1z9OPt6Ay3TUbMl3Po0jrZqKEk302k7o9+LjE5/lpGIixztnEwIzaxrfmzWpo1GUiSv4fwNgjPsSd0XqOYkB73dbe6cO/HafgcM3nND6ERAqTZffIexOr6jU05VcdZquUQq30p+1EvQAD+/w1lKUM8Ll8HJ3CaMcC/d4hU5UBGKXMRPp/EsXVBPrpd4qaPSTHP/E3aw6JsKT7wFSkaM36qT5bw8JLxLOw3ycHBNi5z9y8F58UWPRpa6KCMGlANWxoeSfxE1oj+fj7AxS59/LBnrDyKrz/ph9UhRwBCKEhu10r2wmgOBXcOcWJ2/zjZmfw8PO6Y4+bt1dFEsf9HgwJN2zXq6x4s0FLMKM0vQ7LzFbgt/1scC1W5YR38O9Ww8O58PmQ8Wpub1kuxpvs2m/bd9Tnwml3rBFwkcaed92AwmJ/zQrTSw3PnP7Kf53ICAmgeV1a0D6fausThSaguHiyaA6crO4N8NdpB1ThrawViAZozOKIveL0yUJbCfzA0ZQ5WrPVjsspshuBpCpCk7l1m46keW/qhH8MlzKzOD7HIz0fgRiO6DuU2L1ySkDk6QFVaY+7EZrlCAbaWaDuNPBkRqugWgm3grvuQGi9LSOaaKpqiS5lJM9bF5rr4ei7eeKghIvlR/ef97m+QTE7swtvm5zyUVyC06Y3KyxhDOf1VSBH+zI5ruww10bs3wwNFfsN4W+bhny+tuHuqAR48zOL+fYLFdbQsnaZZaXj428o52Nhc+wrmdj6+IzDqJor5jia7XW8wnQCkX28/mrgEhRDwqza3M7oL8vG+Q45/THOLCKx+n6bEjDI8DBz0tjCGferH6jcZz7fuRqd0cVf2ZQQpAmzd+hBWXkBLz/PfekEM2qhNvwG5gW16Ekvhu+wJu/Jpt4ZX7bUCC3xoWQ8gfn7kdsTayvkKuMsMI82lnGcsK3ObHzJ9hufdoAZtQKJ/3xBhD254mlGMjlHzLqkUCYorQPbODFk55Jy//a7tOZDICcCMqncjFYqAzOSXJFeVxxVju8ni9GwSQ25RRVB+L/93rfAavaqRK8v0PR3R2+dI4hzn/P+Nu5jo5byd0WA8zsgeVe5X0p07BPsMBOcmyWjfleWm1edpGmu4PaG9SKJc8JbkRfOC8G2f3XzQdfyxKMs2eBUbEUbobRGJcGzNyfBUy97mCf5n7r0vOvje+F1W0Lj5d8cdlekr+cwI7tpfRtiJox2rlBEqvYWPw4/DW72WI/ay7YCfeDDLfz86cgpCEXn/RDR4U10COXlCBKf3ACcDrlBGhSoWm/59YjbtlyybHJwP5+f7y3EXdvuKB9ieRfjFpztlK8RIiWs4b4DY1HvV4pu2UxGxfX5JI/XIEvmx/9Pigc+bQt718ZT/b/5OUHOQxfwZ/v7J+wOn2PYI8dShAGMA8Wb8rxMbGnkyka4pnO1iHo+xfDNblXnRzh8BLJJNOzJ/H8wY+Z/J5meTvhFlcUx+oWO453gcNQr3dVGr4e9TH60X3C9NdA9N/V9GWi6G+/3zRHmZvlFt+/jWNpB7EVuzg60yaFHN7KgO40fqzuOeSqEPp78bouxYcH3UVZbPYi+jrFJVH2RH9hNVhch5F/edJJ7gMgoYpaIx6zcWd8fyugSysdhsWg8NKg8wKhdbI0p16Qmy2vns0ST1LYU5FWc0aTnjJ6PkPYIHiENCVRjaxNnvvtvbs3EMzFE26+8fczkjHB+DbC0eKNYEMLyYxKerCVV1qC6tk1TkLkxEdOAmbx54Hpvv7CNUbV3TOetjnZTb597q+9ROdUm7Pf4kTKtFRekxQXKXcqPfqgbeHsf+BSHg52Q9/A0RTyIQ2tEUJ3nSF4zeupW5gliLXkWVLjE2z8h7n+P/qLEFEre3tX0xlKiNYq+xei7pzOSdeEXoITDgKN9fV0dUvfKEP989OqE9+TLPXXFhIGb16eNYnPrNZ6KQ4TcvDYq11crdeYD+LIZsmXEGvE5n5IkcRGq0Y3lpXQ2nlTzaFS5k8VzzLwNTIwV6R6moN/v6Zwa+mIrAHN2CqWr8WLzeS0+RBDUECpjjsZUzOdQSkpTHW0qx7AlELEcGMwBB84Xk53Qzl6ius+FkxVlqGdJLuUjHjTSXc6Ftqm8L3RE1ejtGrUEPW6FVZ0+TJgPX1ThBDCW9Iwn/q2STaEKuWbzEWHm0iQg8/qorK4iXdt1c1XYVIK6Bur316Soj7Amx8x/u92b8snWkS3h8gpLlytmlkjRBZOSSz0GQDzwsFRardB8+srv8JyKUapjBG1NtWIeyDqCzdAsYRZifg/0G95XDybG3KJg0yJvzCQO7UBbSMfG9eK9uJ97NU7pEzVkr/TDyLsWOZ+fNyGiNrqd6QscBLQVIfI6lb1vkOhbkJa9ovIr5vt0r7r1xOq7uO6L4dmygUG9/01oPh1u9fQOuEedmJ03GyimdD7rvgX+niyvwXZnq7dKNe6lPdOV2Af5Z1yphnlg+Do4UJZpqW9TCEfml/zQonvMHPcaSE/OeV1egXKudV2nWM/59/A6rZ0ZEAm8bP0xiptkE5ODO4rweQg2CAyBsp1IbMGCuNHBiqQ2+gbotWr2jt9CSLMug9nVI5ysRY9Bg2Rn9nEX8yEySpfLYYfU+vt0fKCamyYWeqwASZnBCGwQMAphaeUcbcHp7IHK/DPzDJyeNSCXcGIeeo2QALjmjskjk7QF8IiPy7W02MbWdxLvXrMPsq7KVcSc+H0i+2+8yX6LYbrm7fbHGuINO1llwiht7WXRZPgD61kgFiV/MoQfPEeOos6YdAQmrpYvpwqxXC21dDtVQ3qhGKha+kroekf9CsNioL82PI3tg0gQqloV0KM4L0pZ/gcKOdWvoBtldL9Rfv2Yv2T1hL28MLo+EHOMREAdkjUQ/ag2+HEm2D25GfJwdiXMtMd6ruP2n3nXikVt82jVt+syP2KiLi/IiFhi9p0y01k3AFa5nO9nFd4L5w4jNE7VEDLaGuDH27ULlg6hJ22Syd+0cIT5uCgvP+wwGgQ6UHDKNHeyiGCVGJS1CZcftXHOPng05UMXQL4GaCh+8mC29l/7YnqLwMqfivy9dxPySN2cM9PvDmVRSGixLRIxYowAOtQodSmsgIqQxapYUIu6r/egNUx61zQQNwTL+J2XxnjenJrDQ+5jdu83+accd4h9gpkPuExaNW9Ug58WQmLQIyRZ5w+pZG8UZ1Fi+2KQEGVkTXXVvDcRYoUlcHbq6Kfud5seVPyf88xmap62/fZmqY4lSwNA8S40bZCgHV+o8qKSM4yMERSiOQKDXMJayCfSrdqce/3I9FW9jygEDV+q8jByDZ5cS8227xnbYE1fL1Awky4bhoaQAY1dunpaSP7R/lOljFvlI4Sh2tbTFh3HhWeh1DnlPoAbUG4zuKfLkfCpHhKZgBXivaQoPoBB6ocSBa3+5Y6fc2JFpJa1l9uIPpQw7VnkoahC6/Mj21N8s8ET8QnNNH4WK+fIXhyhpVomXcwTQNxb6W8YC6GmqvGnsVTLTDdv7f+MnjU27FG6oo8zIC1mNSAdoSb97aIlCZVd2rXB0Eom2CA65VVjUQgXwsr+/nFU0bDLP9FgFouoRy8mxajtOR/P5hQzxUjDU6505N7ZGjmQisdW/CHL5Mbasx4/5if84YC6/Oj7hh2RrhCYot9iJVhRbATrU6XwXqRGrq/XR70slgdDHfstuld58AnQJpPN+9OGdAC4tHkO5ONTBOfTpjB3ouVNPheUEbnRO0ueNt/p4baFaXF2oPCl9jKHmouQ7+C/WXWTghr8BBFAqdzKARoJPenXlXZsGfskxeyTdHIDRu4yN+Ti6FNf/8gaOVs7NmRrMlJlNXfTww1ZY6zvzrDUnnRId3g0P8sLcQXPbNtLbOk8hi9rinhIyZB5wl+HcvX12NP5FpRqJitSl3X80uyGpWjHAVpMAefPPrEL16ANoYb08gcRj9+JRUrVIraVxnlzhEvRghxvLyK7yknLt21KLCbzYBJ07IE60S1qPLKQN6ql+qt438C00+8hmxBYkF77FVxAan7tNKIGzudrbwgaQf4yZ6Fna7eQsFHgpWNDTYt9lcCAyKWet78nowUGte7as+2nkkF1LKootAMzdZ4jCgNMl+/DJoGjnHqA3x4lOrDQORExONdFZ+fVNc1QxF21TqbeQIQHwMPf6UWIC0QXQILvPl+e+2JlJf/0UFGkO4muJ9CRVWrC95P+W5HOxbkzU+P0bty4VUQrilEVZhi//khuvRe7B/u6wZ7E4ovIAHTYkRBppkMDnCFE5Rcaz1Ocl5oyYJoTcNFARLdkL3bIYuGU8goMwVDAX7Gd9gITP564z+XUqCVqVadHN/T50xm+laxEOyxSpKJ46OSaV5IrBDu4GPfSQQQkzb5n0wPd6CazjPTYc2fe2b3H8EJbFS9xF4uCuypFJ60GC7+sLQ8nPeJpHcC2HcJsiiK8AjWUl01N3W6d7aMiKBACKHEh35LZFjHRO+JdTQQQuZJT5T1cYeR2gQy3pacihM9/3ypf4Sh6dH2VJTiIgdfH9X4yGAs7DwkjqjS+XKGFbGoxXTAfoyJJU6Q70c2QRjUn6acYiL9g+MsXted68iZX2rgp1sdTuzuxbrprtYt9fj7zeJPey36bjAiHy+VHFru5Hfcwj9yd8oniBFD1BpJGStMsx/n6tMwpgdEeIuZYq8rDHs4GIppOT7t8RGC/YXcAOgEixeT4tWi1gN8/Zql5/FErz51kQAtRoCYemVrUgAAAAAAA=" alt="ArjunaFit" width="40" height="40"></a><div class="stw"><span class="dts" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span id="stp">Paso 1 de 3</span></div></header>
-<main>
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
 
-<div class="part" id="index" data-n="1">
-<section class="sc t"><div class="w">
-<p class="tag">Asesoría 1:1 con Arju + App ArjunaFit</p>
-<div class="clk" aria-hidden="true">05:40</div>
-<h1>Llega al próximo mes con el cuerpo que hoy te estás prometiendo</h1>
-<p class="lead">Una hora de entrenamiento acompañada con Arju, y la App ArjunaFit para que no abandones a las dos semanas. A la hora que tú puedas.</p>
-<p class="slogan">Tu transformación no necesita presión. Necesita acompañamiento.</p>
-<a class="btn" href="#asesoria" data-ev="p1_hero_cta">Quiero empezar con Arju</a>
-<p class="fine" style="margin-top:14px">Cupos 1:1 limitados para cerrar el año.</p>
-</div></section>
-<section class="sc" id="s2"><div class="w">
-<h2 class="rv">El ciclo que se rompe</h2>
-<p class="lead rv">Así termina casi siempre cuando lo haces sola: suena la alarma a las 5:40 a. m. y esta vez te levantas. La semana 1 todo va perfecto. En la semana 2 llegan el trabajo, la casa y el cansancio: faltas un día, luego otro. Y lo dejas.</p>
-<div class="dots" id="dots" aria-hidden="true"></div>
-<p class="big rv">No te faltó voluntad: te faltó un sistema.</p>
-<p class="lead rv">Entrenes a las 5 de la mañana o a las 5 de la tarde, lo que importa es dejar de postergar. Con Arju y la App ArjunaFit, ese ciclo se rompe.</p>
-</div></section>
-<section class="sc" id="sf"><div class="w">
-<div class="qh"><h2 class="rv">¿Te suena familiar?</h2><div class="qc rv" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tk" cx="18" cy="18" r="15.9"/><circle id="qa" cx="18" cy="18" r="15.9" pathLength="100" stroke-dasharray="0 100"/></svg><b><span id="qn">0</span><small>/4</small></b></div></div>
-<p class="fine">Toca las que sean tuyas.</p>
-<div class="sy" role="group" aria-label="Situaciones que te suenan">
-<button type="button" class="sit rvd" data-d="l" style="--i:0" data-g="A" aria-pressed="false">Cada lunes me digo que empiezo, y lo dejo para después.</button>
-<button type="button" class="sit rvd" data-d="r" style="--i:1" data-g="A" aria-pressed="false">Todavía no me decido: no sé por dónde empezar.</button>
-<button type="button" class="sit rvd" data-d="l" style="--i:2" data-g="B" aria-pressed="false">Empecé con toda y a las dos semanas lo dejé.</button>
-<button type="button" class="sit rvd" data-d="r" style="--i:3" data-g="B" aria-pressed="false">Lo intenté sola y no supe si lo hacía bien.</button>
-</div>
-<p class="lead qm" id="sm" aria-live="polite">Elige las que se parezcan a ti.</p>
-<a class="btn qcta" id="qcta" href="#asesoria" data-ev="p1_quiz_cta" hidden>Quiero empezar con Arju</a>
-<a class="qsend" id="qsend" href="#" data-ev="p1_quiz_wa" hidden>Enviar mis respuestas a Arju por WhatsApp</a>
-</div></section>
-<section class="sc"><div class="w">
-<h2 class="rv">Con Arju y un sistema, empiezas hoy y no abandonas.</h2>
-<a class="btn" href="#asesoria" data-ev="p1_cta">Ver cómo cambia mi proceso</a>
-<p class="fine" style="margin-top:16px">¿Aún no es tu momento? <a data-wa="Hola, avísame del lanzamiento de la app y del reto de enero" data-ev="waitlist">Avísame del lanzamiento de la app</a>.</p>
-</div></section>
-</div>
+    <!-- Identidad de la página y buscadores -->
+    <title>ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit</title>
+    <meta
+      name="description"
+      content="Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, y la App ArjunaFit para que no abandones. Cupos 1:1 limitados."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#04050b" />
+    <link rel="canonical" href="https://arjunafit.com/" />
+    <link rel="icon" type="image/webp" href="assets/img/logo-arjunafit.webp" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-<div class="part" id="asesoria" data-n="2">
-<section class="sc"><div class="w">
-<p class="tag" id="pn">Para ti, que quieres empezar.</p>
-<h2 class="hl">Tu hora con Arju + La experiencia de la App ArjunaFit</h2>
-<p class="lead">Una hora de entrenamiento acompañada, a la hora que tú puedas, y una app que te sostiene el resto de la semana.</p>
-<a class="btn" href="#valoracion" data-ev="p2_hero_cta">Quiero empezar con Arju</a>
-</div></section>
-<section class="sc"><div class="w">
-<h2 class="rv">Entrenar directamente con Arju lo cambia todo.</h2>
-<div class="vid rv" id="vid"><button type="button" class="vbtn" id="vbtn" aria-label="Ver el video de Arju"><span class="play" aria-hidden="true"></span><b>Conoce a Arju</b><small id="vcap">Quién es, por qué creó ArjunaFit y cómo te acompaña</small></button></div>
-<div class="cards">
-<div class="card rvd" data-d="l" style="--i:0"><h3>Postura corregida</h3><p>Arju te ve, te corrige y entrenas bien desde el primer día, sin miedo a lesionarte.</p></div>
-<div class="card rvd" data-d="u" style="--i:1"><h3>Motivación directa</h3><p>Alguien al lado que te empuja cuando no tienes ganas y nota cuando faltas.</p></div>
-<div class="card rvd" data-d="r" style="--i:2"><h3>Ajustes semanales</h3><p>Revisamos tu avance y ajustamos tu plan para que nunca te estanques.</p></div>
-</div>
-<p class="fine">Su propio cambio tomó 7 años: por eso entiende los días sin ganas y no te juzga.</p>
-</div></section>
-<section class="sc" id="oferta"><div class="w wide">
-<h2 class="rv">Mientras tú entrenas, nosotros seguimos trabajando</h2>
-<p class="lead rv">Quien empieza hoy con Arju entra primero a la App ArjunaFit como Miembro Fundadora: acceso prioritario, lugar en el primer reto de 2027 y la beta para ayudar a darle forma.</p>
-<div class="appx">
-<div class="pcol rv"><div class="phone" id="phone" data-s="0" role="img" aria-label="Vista ilustrativa de la App ArjunaFit en un teléfono"><div class="scr" aria-hidden="true">
-<div class="scr-top"><img src="data:image/webp;base64,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" alt="" width="30" height="30">ArjunaFit</div>
-<div class="screens">
-<div class="s s0"><small>Nutrición y macros</small>
-<div class="scr-card rowc"><svg class="rg" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="3.4"/><circle class="arc" cx="18" cy="18" r="15.9" fill="none" stroke="#ffc857" stroke-width="3.4" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 18 18)"/></svg><div><b>Tu día</b><small>Calculadora flexible</small></div></div>
-<div class="scr-card"><div class="mac"><div><small>Proteína</small><i style="--w:78%"></i></div><div><small>Carbos</small><i style="--w:56%"></i></div><div><small>Grasas</small><i style="--w:38%"></i></div></div></div></div>
-<div class="s s1"><small>Rutinas guiadas</small>
-<div class="vthumb"><span></span></div>
-<div class="scr-card"><div class="ex"><i class="ck"></i>Sentadilla goblet<small>3 x 12</small></div><div class="ex"><i class="ck"></i>Puente de glúteo<small>3 x 15</small></div><div class="ex"><i class="ck"></i>Remo con mancuerna<small>3 x 12</small></div></div></div>
-<div class="s s2"><small>Control de progreso</small>
-<div class="scr-card"><svg viewBox="0 0 120 50" class="sp"><path pathLength="1" d="M2 40 C20 38 30 30 48 28 S80 20 96 12 L118 6" fill="none" stroke="#ffc857" stroke-width="2.5" stroke-linecap="round"/></svg><small>Peso y medidas</small></div>
-<div class="ft"><span></span><span></span><span></span></div><small>Tus fotos, solo para ti</small></div>
-<div class="s s3"><small>Coach IA y Arju 1:1</small>
-<div class="bub u">¿Cómo ajusto mi cena de hoy?</div>
-<div class="bub a">Sube un poco la proteína y mantén tus carbos. Te dejo la opción en tu plan.</div></div>
-</div>
-<div class="tabs"><span class="t0">Nutrición</span><span class="t1">Rutinas</span><span class="t2">Progreso</span><span class="t3">Coach IA</span></div>
-</div></div><p class="cap">Vista ilustrativa de la app en desarrollo.</p></div>
-<div class="pil">
-<div class="card rvd" data-d="p" style="--i:0"><h3>Nutrición &amp; Macros</h3><p>Calculadora flexible.</p></div>
-<div class="card rvd" data-d="p" style="--i:1"><h3>Rutinas Guiadas</h3><p>Técnica en video.</p></div>
-<div class="card rvd" data-d="p" style="--i:2"><h3>Control de Progreso</h3><p>Fotos y métricas.</p></div>
-<div class="card rvd" data-d="p" style="--i:3"><h3>IA Coaching &amp; Arju 1:1</h3><p>Ajustes continuos.</p></div>
-</div></div>
-<div class="appb rv"><p><b>Cómo va la app:</b> ArjunaFit.app está más del 80 % lista. El lanzamiento oficial, el primer reto y la beta llegan en enero de 2027.</p>
-<div class="bar" role="img" aria-label="App más del 80 por ciento lista"><i></i></div></div>
-<a class="btn" href="#valoracion" data-ev="p2_cta">Quiero empezar con Arju</a>
-</div></section>
-<section class="sc"><div class="w">
-<h2 class="rv">Los 3 caminos</h2>
-<div class="vs">
-<div class="rvd" data-d="l" style="--i:0"><h3>1. Seguir sola</h3><p style="margin:0">Otra vez empezar con ganas y quedarte sin guía cuando se acaben.</p></div>
-<div class="rvd" data-d="d" style="--i:1"><h3>2. Esperar a otro mes</h3><p style="margin:0">Otro mes de postergar y empezar de cero con los mismos obstáculos.</p></div>
-<div class="on rvd" data-d="u" style="--i:2"><h3>3. Empezar hoy con Arju + App</h3><p style="margin:0">Una hora acompañada, plan completo, ajustes semanales y acceso prioritario a la app.</p></div>
-</div>
-</div></section>
-<section class="sc"><div class="w">
-<h2 class="rv">Preguntas frecuentes</h2>
-<details><summary>No tengo tiempo</summary><p>Es una hora a la vez, en el horario que te quede bien: mañana, tarde o noche. El plan se arma a tu agenda.</p></details>
-<details><summary>¿Dónde entreno?</summary><p>Donde estés: casa o gimnasio. Arju adapta la rutina a tu espacio y a tu equipo.</p></details>
-<details><summary>¿Tengo que hacer dietas extremas?</summary><p>No. Aprendes a comer con estrategia, sin pasar hambre ni quitarte lo que te gusta.</p></details>
-<details><summary>¿Y si pago y no funciona?</summary><p>Antes de pagar haces una valoración gratis y conoces el plan. Y tu plan se ajusta cada semana según tu avance.</p></details>
-<div style="margin-top:34px"><a class="btn" href="#valoracion" data-ev="p2_end_cta">Quiero empezar con Arju</a></div>
-</div></section>
-</div>
+    <!-- Vista previa al compartir el enlace (WhatsApp, Instagram, Facebook, X).
+     Sube og.jpg (1200 x 630 px) y apple-touch-icon.png junto a este archivo: son las imágenes de la vista previa y del ícono en iPhone. -->
+    <meta property="og:site_name" content="ArjunaFit" />
+    <meta
+      property="og:title"
+      content="ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit"
+    />
+    <meta
+      property="og:description"
+      content="Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, y la App ArjunaFit para que no abandones."
+    />
+    <meta property="og:url" content="https://arjunafit.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:image" content="https://arjunafit.com/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="ArjunaFit: tu transformación no necesita presión, necesita acompañamiento. Asesoría 1:1 con Arju y App ArjunaFit."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit"
+    />
+    <meta
+      name="twitter:description"
+      content="Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, y la App ArjunaFit para que no abandones."
+    />
+    <meta name="twitter:image" content="https://arjunafit.com/og.jpg" />
 
-<div class="part" id="valoracion" data-n="3">
-<section class="sc"><div class="w">
-<h2 class="hl">Empieza hoy con Arju.</h2>
-<p class="lead">Valoración gratis y sin compromiso: vemos tu punto de partida y te decimos tu plan.</p>
-<form id="f" class="fcard">
-<label for="fn">Nombre</label><input id="fn" name="n" required autocomplete="given-name">
-<label for="fo">Objetivo</label><select id="fo" name="o"><option>Perder grasa</option><option>Ganar músculo</option><option>Salud y energía</option></select>
-<label for="fl">Lugar de entrenamiento</label><select id="fl" name="l"><option>Casa</option><option>Gimnasio</option><option>Aire libre</option></select>
-<label for="fh">Horario</label><select id="fh" name="h"><option>Mañana</option><option>Mediodía</option><option>Tarde</option><option>Noche</option><option>Varía</option></select>
-<label for="fw">WhatsApp (+57)</label><div class="tel"><span aria-hidden="true">+57</span><input id="fw" name="w" type="tel" inputmode="numeric" required pattern="[0-9 ]{10,13}" autocomplete="tel-national" placeholder="300 000 0000"></div>
-<button class="btn" type="submit">Quiero empezar con Arju</button>
-</form>
-<div id="ok" hidden role="status"><h2>¡Excelente, <span id="nm"></span>!</h2><p style="margin:0">Te llevamos a WhatsApp para hablar con Arju y armar tu plan. <a id="wl" href="#">Si no se abre, toca aquí</a>. WhatsApp de ArjunaFit: 320 949 7919.</p></div>
-<p class="fine">Tus datos están seguros. Toma menos de 2 minutos.</p>
-</div></section>
-<section class="sc"><div class="w">
-<h2 class="rv">Qué pasa después</h2>
-<ol class="pasos rv"><li><b>Arju te escribe</b> por WhatsApp.</li><li><b>Valoración gratis:</b> miramos tu punto de partida.</li><li><b>Tu plan:</b> entrenamiento, nutrición y ajustes semanales.</li></ol>
-<p class="fine">¿Necesitas pensarlo? <a data-wa="Hola Arju, tengo una duda antes de empezar" data-ev="p3_duda">Escríbenos tu duda</a>.</p>
-<p class="slogan rv">Tu transformación no necesita presión. Necesita acompañamiento.</p>
-</div></section>
-</div>
+    <!-- Datos estructurados (Google): organización, servicio y preguntas frecuentes.
+     Las preguntas de aquí deben ser las mismas de la sección "Preguntas frecuentes". -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://arjunafit.com/#org",
+            "name": "ArjunaFit",
+            "url": "https://arjunafit.com/",
+            "logo": "https://arjunafit.com/apple-touch-icon.png",
+            "description": "Entrenamiento, nutrición y acompañamiento con inteligencia artificial para reducir el abandono.",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+57-320-949-7919",
+              "availableLanguage": "es"
+            }
+          },
+          {
+            "@type": "Service",
+            "@id": "https://arjunafit.com/#asesoria",
+            "name": "Asesoría 1:1 con Arju + App ArjunaFit",
+            "serviceType": "Entrenamiento y nutrición acompañados",
+            "description": "Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, plan completo, ajustes semanales y acceso prioritario a la App ArjunaFit.",
+            "provider": { "@id": "https://arjunafit.com/#org" },
+            "areaServed": { "@type": "Country", "name": "Colombia" },
+            "inLanguage": "es"
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Y si no tengo tiempo?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Es una hora a la vez, en el horario que te quede bien: mañana, tarde o noche. El plan se arma a tu agenda."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Dónde entreno?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Donde estés: casa o gimnasio. Arju adapta la rutina a tu espacio y a tu equipo."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Tengo que hacer dietas extremas?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Aprendes a comer con estrategia, sin pasar hambre ni quitarte lo que te gusta."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Y si pago y no funciona?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Antes de pagar haces una valoración gratis y conoces el plan. Y tu plan se ajusta cada semana según tu avance."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
 
-</main>
-<footer>ArjunaFit · <a href="https://arjunafit.com/terminos.html">Términos</a> · <a href="https://arjunafit.com/privacidad.html">Privacidad</a></footer>
-<script>
-const R=document.documentElement,B=document.body,$=s=>[...document.querySelectorAll(s)],g=id=>document.getElementById(id);
-const WA="573209497919",go=m=>"https://wa.me/"+WA+"?text="+encodeURIComponent(m);
-const mem={},S={get:k=>{try{const v=sessionStorage.getItem(k);return v===null?(mem[k]??null):v}catch(e){return mem[k]??null}},set:(k,v)=>{mem[k]=v;try{sessionStorage.setItem(k,v)}catch(e){}}};
-const ev=n=>(window.dataLayer=window.dataLayer||[]).push({event:n});
-const rm=matchMedia("(prefers-reduced-motion:reduce)").matches,cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
-$("[data-wa]").forEach(a=>{a.href=go(a.dataset.wa);a.target="_blank";a.rel="noopener"});
-$("[data-ev]").forEach(a=>a.addEventListener("click",()=>ev(a.dataset.ev)));
-const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.2});
-$(".rv,.rvd").forEach(e=>io.observe(e));
-const dt=g("dots");dt.innerHTML="<i></i>".repeat(30);const dots=$(".dots i"),s2=g("s2");
-const ST=[[0,[4,5,11]],[.18,[11,16,48]],[.36,[42,27,82]],[.52,[107,43,115]],[.66,[194,71,107]],[.8,[240,122,79]],[.92,[249,178,78]],[1,[253,224,138]]];
-const at=t=>{t=cl(t);let i=ST.findIndex(s=>s[0]>=t);if(i<1)i=1;const a=ST[i-1],b=ST[i],k=(t-a[0])/(b[0]-a[0]);return a[1].map((c,j)=>Math.round(c+(b[1][j]-c)*k))};
-const lum=c=>{const f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2])};
-let tk=0,PROG=0,LTM=false;
-function up(){tk=0;const m=R.scrollHeight-innerHeight,p=m>0?cl(scrollY/m):0,t=p;
-g("gl").style.background="linear-gradient(180deg,rgb("+at(t-.2)+"),rgb("+at(t+.12)+"))";LTM=lum(at(t))>.22;B.classList.toggle("lt",LTM);PROG=p;g("pg").style.transform="scaleX("+p.toFixed(3)+")";
-if(!rm){const q=s2.getBoundingClientRect(),k=cl((innerHeight*.8-q.top)/(q.height+innerHeight*.2)),n=10+k*20;dots.forEach((d,i)=>d.classList.toggle("off",i>=10&&i<n))}}
-const PN={"":"Para ti, que quieres empezar.",A:"Para ti, que lo estás pensando.",B:"Para ti, que quieres volver a empezar.",AB:"Para ti, que quieres volver a empezar."};
-let lastN=-1;
-function qUI(n){g("qa").style.strokeDasharray=(n*25)+" 100";const q=g("qn"),m=g("sm"),c=g("qcta");q.textContent=n;if(n!=lastN){q.classList.remove("pop");void q.offsetWidth;q.classList.add("pop");m.classList.remove("chg");void m.offsetWidth;m.classList.add("chg")}
-m.classList.toggle("on",n>0);const ms=sits.filter(b=>b.getAttribute("aria-pressed")=="true").map(b=>b.textContent.replace(/\.$/,"")),qs=g("qsend");qs.hidden=!n;qs.href=go("Hola Arju 👋 Marqué "+ms.length+" de 4 situaciones en tu página: "+ms.join(" | ")+". Quiero empezar contigo.");if(n>0&&c.hidden){c.hidden=false;c.classList.add("show")}else if(n==0){c.hidden=true;c.classList.remove("show")}lastN=n}
-const sits=$(".sit");
-function upQ(){const on=sits.filter(b=>b.getAttribute("aria-pressed")=="true"),n=on.length,a=on.filter(b=>b.dataset.g=="A").length,b=n-a;
-S.set("n",n);S.set("sel",sits.map(x=>x.getAttribute("aria-pressed")=="true"?1:0).join(""));S.set("gr",n?(a&&b?"AB":a?"A":"B"):"");g("pn").textContent=PN[S.get("gr")||""];
-g("sm").textContent=!n?"Elige las que se parezcan a ti.":"Marcaste "+n+" de 4. "+(a&&b?"Llevas tiempo queriendo empezar y las mismas cosas te frenaron. Esta vez no empiezas sola.":a?"Estás postergando, y postergar también cansa. Hoy puedes empezar con Arju, sin compromiso.":"Ya lo intentaste y lo dejaste: no fue falta de voluntad, te faltó compañía y un sistema.");qUI(n)}
-sits.forEach(b=>b.addEventListener("click",e=>{b.parentElement.classList.add("touched");b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")!="true");
-if(!rm){const r=b.getBoundingClientRect(),p=document.createElement("span");p.className="rp";p.style.left=(e.clientX?e.clientX-r.left:r.width/2)+"px";p.style.top=(e.clientY?e.clientY-r.top:r.height/2)+"px";b.appendChild(p);p.addEventListener("animationend",()=>p.remove())}
-if(navigator.vibrate)navigator.vibrate(10);upQ();ev("situacion_tap")}));
-const sel=S.get("sel");if(sel)sits.forEach((b,i)=>b.setAttribute("aria-pressed",sel[i]=="1"));upQ();
-const seen={},so=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){const n=x.target.dataset.n;g("stp").textContent="Paso "+n+" de 3";$(".dts i").forEach((d,i)=>d.classList.toggle("on",i<n));if(!seen[n]){seen[n]=1;ev("p"+n+"_view")}}}),{rootMargin:"-45% 0px -45% 0px"});
-$(".part").forEach(e=>so.observe(e));addEventListener("scroll",()=>{tk||(tk=requestAnimationFrame(up))},{passive:true});addEventListener("resize",up);
-const f=g("f");if(S.get("nm"))f.elements.n.value=S.get("nm");
-f.addEventListener("submit",x=>{x.preventDefault();const d=new FormData(f),nm=String(d.get("n")).trim(),w=String(d.get("w")).replace(/\D/g,"");S.set("nm",nm);ev("form_submit");
-const ms=sits.filter(b=>b.getAttribute("aria-pressed")=="true").map(b=>b.textContent.replace(/\.$/,""));const u=go("Hola Arju 👋 Soy "+nm+". Quiero empezar con la asesoría 1:1 y la App ArjunaFit. Objetivo: "+d.get("o").toLowerCase()+". Lugar: "+d.get("l").toLowerCase()+". Horario: "+d.get("h").toLowerCase()+". Situaciones que me suenan ("+ms.length+" de 4): "+(ms.join(" | ")||"ninguna")+". Mi WhatsApp: +57 "+w);
-g("nm").textContent=nm;g("wl").href=u;g("ok").hidden=false;g("ok").scrollIntoView({behavior:rm?"auto":"smooth",block:"center"});ev("whatsapp_open");setTimeout(()=>{window.location.href=u},1400)});
-const YT="";/* ID del video de YouTube de Arju, por ejemplo "dQw4w9WgXcQ" */
-const vb=g("vbtn");if(!YT){vb.disabled=true;g("vcap").textContent="Video próximamente"}else vb.addEventListener("click",()=>{g("vid").innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+YT+'?autoplay=1&rel=0&modestbranding=1" title="Video de Arju" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';ev("video_play")});
-const pho=g("phone"),pc=$(".pil .card");let si=0,tm=0;
-const show=i=>{si=i;pho.dataset.s=i;pc.forEach((c,j)=>c.classList.toggle("on",j==i))};
-new IntersectionObserver(es=>{clearInterval(tm);if(es[0].isIntersecting&&!rm)tm=setInterval(()=>show((si+1)%4),3800)},{threshold:.3}).observe(pho);show(0);
-const jump=j=>{clearInterval(tm);show(j);if(!rm)tm=setInterval(()=>show((si+1)%4),3800)};
-pc.forEach((c,j)=>{c.tabIndex=0;c.setAttribute("role","button");c.addEventListener("click",()=>jump(j));c.addEventListener("keydown",e=>{if(e.key=="Enter"||e.key==" "){e.preventDefault();jump(j)}})});
-if(!rm&&matchMedia("(hover:hover)").matches)$(".card,.vs>div").forEach(c=>{c.addEventListener("pointermove",e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.setProperty("--mx",(x*100).toFixed(1)+"%");c.style.setProperty("--my",(y*100).toFixed(1)+"%");c.style.setProperty("--rx",((.5-y)*8).toFixed(2)+"deg");c.style.setProperty("--ry",((x-.5)*8).toFixed(2)+"deg")});c.addEventListener("pointerleave",()=>{c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")})});
-(()=>{if(rm)return;const c=g("pt"),x=c.getContext("2d"),D=Math.min(devicePixelRatio||1,1.5);let W,H,P=[],last=0;
-const mk=r=>({x:Math.random()*W,y:r?Math.random()*H:H+10,r:.6+Math.random()*1.2,a:.15+Math.random()*.3,v:.08+Math.random()*.22,d:(Math.random()-.5)*.12,t:Math.random()*6.28,s:.4+Math.random()*1.2});
-function size(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0);const n=Math.round(Math.min(70,Math.max(26,W*H/20000))*(navigator.hardwareConcurrency<=4?.7:1));while(P.length<n)P.push(mk(true));P.length=n}
-function loop(ts){requestAnimationFrame(loop);if(ts-last<33)return;last=ts;x.clearRect(0,0,W,H);const k=cl(PROG*1.4),col=LTM?"107,29,82":Math.round(220+35*k)+","+Math.round(210+4*k)+","+Math.round(255-115*k);
-for(const p of P){p.y-=p.v*(1+PROG*.8);p.x+=p.d+Math.sin(p.t+ts/2500)*.08;p.t+=.01;if(p.y<-8){Object.assign(p,mk(false));p.x=Math.random()*W}
-const tw=.55+.45*Math.sin(ts/900*p.s+p.t);x.fillStyle="rgba("+col+","+(p.a*tw*(LTM?.5:1)).toFixed(3)+")";x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill()}}
-size();addEventListener("resize",size);requestAnimationFrame(loop)})();
-up();
-</script></body></html>
+    <!-- Tipografías: Fraunces (títulos) e Inter Tight (texto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter+Tight:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Marca la página como "con JavaScript" antes de pintar: los efectos de aparición (.js .rv) dependen de esto.
+     Si landing.js no arranca en 4 s (error, bloqueo), se quita la marca y el contenido se ve igual, sin efectos. -->
+    <script>
+      document.documentElement.className = "js";
+      setTimeout(function () {
+        if (!window.__af) document.documentElement.className = "";
+      }, 4000);
+    </script>
+
+    <!-- Diseño: todo el CSS está en este archivo (ver su índice) -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+    <!-- CAPAS DE FONDO: amanecer (#gl), partículas (#pt) y barra de progreso (#pg). Las pinta landing.js -->
+    <div id="gl"></div>
+    <canvas id="pt" aria-hidden="true"></canvas>
+    <div id="pg"></div>
+    <!-- HEADER FLOTANTE: logo redondo + (en pantallas grandes) botón de acción + claves encontradas (#kn) + "Paso X de 3" y etapa de tu camino (#evo) -->
+    <header class="top">
+      <a href="#index" class="brand" aria-label="ArjunaFit, ir al inicio"
+        ><img
+          class="logo-header"
+          src="assets/img/logo-arjunafit.webp"
+          alt=""
+          width="40"
+          height="40"
+        /><span class="bn" aria-hidden="true">ArjunaFit</span></a
+      ><a class="btn hcta" id="hcta" href="#valoracion" data-ev="top_cta"
+        >Quiero empezar con Arju</a
+      ><span
+        class="kc"
+        id="kc"
+        role="status"
+        aria-label="Claves encontradas: 0 de 5"
+        ><i aria-hidden="true">✦</i><b id="kn">0</b>/5</span
+      >
+      <div class="stw">
+        <span class="dts" aria-hidden="true"
+          ><i class="on"></i><i></i><i></i></span
+        ><span class="stt"
+          ><span id="stp">Paso 1 de 3</span
+          ><small id="evo">Con dudas</small></span
+        >
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <!-- ===== PASO 1 · Historia: reloj, ciclo que se rompe, cuestionario y video de Arju ===== -->
+      <div class="part" id="index" data-n="1">
+        <!-- 1.1 Hero (en escritorio: texto a la izquierda y el reloj a la derecha) -->
+        <section class="sc t" data-evo="Con dudas" aria-labelledby="h-hero">
+          <div class="w">
+            <p class="tag">Asesoría 1:1 con Arju + App ArjunaFit</p>
+            <div class="clk" aria-hidden="true">05:40</div>
+            <h1 id="h-hero">
+              Llega al próximo mes con el cuerpo que hoy te estás prometiendo
+            </h1>
+            <p class="lead">
+              Una hora de entrenamiento acompañada con Arju, y la App ArjunaFit
+              para que no abandones a las dos semanas. A la hora que tú puedas.
+            </p>
+            <p class="slogan">
+              Tu transformación no necesita presión. Necesita acompañamiento.
+            </p>
+            <a class="btn" href="#asesoria" data-ev="p1_hero_cta"
+              >Quiero empezar con Arju</a
+            >
+            <p class="fine hero-note">
+              Cupos 1:1 limitados para cerrar el año.
+            </p>
+            <p class="hint">
+              <i aria-hidden="true">✦</i> Esta página esconde 5 claves.
+              Encuéntralas mientras bajas.
+            </p>
+          </div>
+        </section>
+        <!-- 1.2 El ciclo que se rompe (los 30 puntos se apagan al bajar).
+     Los bloques .split (sp-a, sp-v, sp-b) van apilados en el celular y en dos columnas en escritorio. -->
+        <section class="sc" id="s2" aria-labelledby="h-ciclo">
+          <div class="w wide">
+            <div class="split split-ciclo">
+              <div class="sp-a">
+                <h2 class="rv" id="h-ciclo">
+                  El ciclo que se
+                  <span class="nw"
+                    >rompe<button
+                      type="button"
+                      class="key"
+                      data-k="1"
+                      aria-label="Clave escondida 1: tócala para descubrirla"
+                    >
+                      <i aria-hidden="true"></i></button
+                  ></span>
+                </h2>
+                <p class="lead rv">
+                  Así termina casi siempre cuando lo haces sola. La semana 1 va
+                  perfecta. En la semana 2 llegan el trabajo, la casa y el
+                  cansancio: faltas un día, luego otro. Y lo dejas.
+                </p>
+              </div>
+              <div class="sp-v">
+                <div class="dots" id="dots" aria-hidden="true"></div>
+                <button
+                  type="button"
+                  class="rl rv"
+                  id="rl"
+                  data-after="Así se siente no ir sola."
+                >
+                  Volver a encenderlos, con Arju
+                </button>
+              </div>
+              <div class="sp-b">
+                <p class="big rv">No te faltó voluntad: te faltó un sistema.</p>
+                <p class="lead rv">
+                  Con Arju y la App ArjunaFit, ese ciclo se rompe, entrenes a la
+                  hora que entrenes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 1.3 Cuestionario "¿Te suena familiar?" (puede enviarse a WhatsApp) -->
+        <section
+          class="sc"
+          id="sf"
+          data-evo="Te reconoces"
+          aria-labelledby="h-quiz"
+        >
+          <div class="w wide">
+            <div class="split split-quiz">
+              <div class="sp-a">
+                <div class="qh">
+                  <h2 class="rv" id="h-quiz">
+                    ¿Te suena
+                    <span class="nw"
+                      >familiar?<button
+                        type="button"
+                        class="key"
+                        data-k="2"
+                        aria-label="Clave escondida 2: tócala para descubrirla"
+                      >
+                        <i aria-hidden="true"></i></button
+                    ></span>
+                  </h2>
+                  <div class="qc rv" aria-hidden="true">
+                    <svg viewBox="0 0 36 36">
+                      <circle class="tk" cx="18" cy="18" r="15.9" />
+                      <circle
+                        id="qa"
+                        cx="18"
+                        cy="18"
+                        r="15.9"
+                        pathLength="100"
+                        stroke-dasharray="0 100"
+                      /></svg
+                    ><b><span id="qn">0</span><small>/4</small></b>
+                  </div>
+                </div>
+                <p class="fine">Toca las que sean tuyas.</p>
+              </div>
+              <div class="sp-v">
+                <div
+                  class="sy"
+                  role="group"
+                  aria-label="Situaciones que te suenan"
+                >
+                  <button
+                    type="button"
+                    class="sit rvd"
+                    data-d="l"
+                    style="--i: 0"
+                    data-g="A"
+                    aria-pressed="false"
+                  >
+                    Cada lunes me digo que empiezo, y lo dejo para después.
+                  </button>
+                  <button
+                    type="button"
+                    class="sit rvd"
+                    data-d="r"
+                    style="--i: 1"
+                    data-g="A"
+                    aria-pressed="false"
+                  >
+                    Todavía no me decido: no sé por dónde empezar.
+                  </button>
+                  <button
+                    type="button"
+                    class="sit rvd"
+                    data-d="l"
+                    style="--i: 2"
+                    data-g="B"
+                    aria-pressed="false"
+                  >
+                    Empecé con toda y a las dos semanas lo dejé.
+                  </button>
+                  <button
+                    type="button"
+                    class="sit rvd"
+                    data-d="r"
+                    style="--i: 3"
+                    data-g="B"
+                    aria-pressed="false"
+                  >
+                    Lo intenté sola y no supe si lo hacía bien.
+                  </button>
+                </div>
+              </div>
+              <div class="sp-b">
+                <p class="lead qm" id="sm" aria-live="polite">
+                  Lo que marques adapta el resto de la página.
+                </p>
+                <a
+                  class="btn qcta"
+                  id="qcta"
+                  href="#asesoria"
+                  data-ev="p1_quiz_cta"
+                  hidden
+                  >Quiero empezar con Arju</a
+                >
+                <a class="qsend" id="qsend" href="#" data-ev="p1_quiz_wa" hidden
+                  >Enviar mis respuestas a Arju por WhatsApp</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 1.4 Conoce a Arju: marco del video de confianza, al final del paso 1.
+     Dice "Próximamente" y se ve quieto hasta que landing.js tenga el ID de YouTube (CONFIG.youtubeId). -->
+        <section
+          class="sc"
+          id="conoce"
+          data-evo="Conoces a Arju"
+          aria-labelledby="h-conoce"
+        >
+          <div class="w wide ctr">
+            <p class="tag rv">Quien te acompaña</p>
+            <h2 class="rv" id="h-conoce">Conoce a Arju</h2>
+            <div class="vid gl rv soon" id="vid">
+              <button
+                type="button"
+                class="vbtn"
+                id="vbtn"
+                aria-label="Video próximamente"
+              >
+                <span class="soon-b"
+                  ><i aria-hidden="true"></i>Próximamente</span
+                ><span class="play" aria-hidden="true"></span
+                ><small id="vcap"
+                  >Quién es, por qué creó ArjunaFit y cómo te acompaña</small
+                >
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== PASO 2 · Oferta: asesoría 1:1 con Arju + App ArjunaFit ===== -->
+      <div class="part" id="asesoria" data-n="2">
+        <!-- 2.1 Promesa (la etiqueta #pn cambia según lo que marque en el cuestionario) -->
+        <section class="sc" data-evo="Con claridad" aria-labelledby="h-promesa">
+          <div class="w ctr">
+            <p class="tag" id="pn">Para ti, que quieres empezar.</p>
+            <h2 class="hl" id="h-promesa">
+              Tu hora con Arju + la App ArjunaFit
+            </h2>
+            <p class="lead">
+              Una hora de entrenamiento acompañada, a la hora que tú puedas, y
+              una app que te sostiene el resto de la semana.
+            </p>
+            <a class="btn" href="#valoracion" data-ev="p2_hero_cta"
+              >Quiero empezar con Arju</a
+            >
+          </div>
+        </section>
+        <!-- 2.2 Entrenar con Arju: 3 beneficios (el video de Arju está al final del paso 1, bloque 1.4) -->
+        <section class="sc" aria-labelledby="h-entrenar">
+          <div class="w wide ctr">
+            <h2 class="rv" id="h-entrenar">
+              Entrenar directamente con Arju lo cambia
+              <span class="nw"
+                >todo.<button
+                  type="button"
+                  class="key"
+                  data-k="3"
+                  aria-label="Clave escondida 3: tócala para descubrirla"
+                >
+                  <i aria-hidden="true"></i></button
+              ></span>
+            </h2>
+            <div class="cards">
+              <div class="card rvd" data-d="l" style="--i: 0">
+                <h3>Postura corregida</h3>
+                <p>
+                  Arju te ve, te corrige y entrenas bien desde el primer día,
+                  sin miedo a lesionarte.
+                </p>
+              </div>
+              <div class="card rvd" data-d="u" style="--i: 1">
+                <h3>Motivación directa</h3>
+                <p>
+                  Alguien al lado que te empuja cuando no tienes ganas y nota
+                  cuando faltas.
+                </p>
+              </div>
+              <div class="card rvd" data-d="r" style="--i: 2">
+                <h3>Ajustes semanales</h3>
+                <p>
+                  Revisamos tu avance y ajustamos tu plan para que nunca te
+                  estanques.
+                </p>
+              </div>
+            </div>
+            <p class="fine">
+              Su propio cambio tomó 7 años: por eso entiende los días sin ganas
+              y no te juzga.
+            </p>
+          </div>
+        </section>
+        <!-- 2.3 Ellas ya lo están haciendo: foto + una frase corta de cada alumna.
+     Las fotos salen de arjunafit.com/assets/img/recomendaciones/ (las mismas de la página anterior).
+     Para fotos de cambios (antes y después) solo cambia el src. Si una foto no carga, se ve su inicial. -->
+        <section class="sc" data-evo="Con confianza" aria-labelledby="h-ellas">
+          <div class="w wide ctr">
+            <h2 class="rv" id="h-ellas">Ellas ya lo están haciendo</h2>
+            <p class="lead rv">Alumnas reales, con sus propias palabras.</p>
+            <div class="chs" role="list" aria-label="Testimonios de alumnas">
+              <figure
+                class="story rvd"
+                role="listitem"
+                data-d="u"
+                style="--i: 0"
+              >
+                <div class="pho" data-i="M">
+                  <img
+                    src="https://arjunafit.com/assets/img/recomendaciones/1.png"
+                    alt="Foto de Maria C., alumna de ArjunaFit"
+                    width="320"
+                    height="400"
+                    loading="lazy"
+                    onerror="this.hidden = true"
+                  /><span class="mo">3 meses</span>
+                </div>
+                <figcaption>
+                  <b>Maria C.</b><small>27 años · Bogotá</small>
+                  <blockquote>
+                    Por primera vez no abandoné después de dos semanas.
+                  </blockquote>
+                </figcaption>
+              </figure>
+              <figure
+                class="story rvd"
+                role="listitem"
+                data-d="u"
+                style="--i: 1"
+              >
+                <div class="pho" data-i="D">
+                  <img
+                    src="https://arjunafit.com/assets/img/recomendaciones/2.png"
+                    alt="Foto de Danna V., alumna de ArjunaFit"
+                    width="320"
+                    height="400"
+                    loading="lazy"
+                    onerror="this.hidden = true"
+                  /><span class="mo">4 meses</span>
+                </div>
+                <figcaption>
+                  <b>Danna V.</b><small>24 años · Madrid</small>
+                  <blockquote>
+                    Ya no tengo que pensar qué entrenar ni qué comer.
+                  </blockquote>
+                </figcaption>
+              </figure>
+              <figure
+                class="story rvd"
+                role="listitem"
+                data-d="u"
+                style="--i: 2"
+              >
+                <div class="pho" data-i="A">
+                  <img
+                    src="https://arjunafit.com/assets/img/recomendaciones/3.png"
+                    alt="Foto de Alejandra T., alumna de ArjunaFit"
+                    width="320"
+                    height="400"
+                    loading="lazy"
+                    onerror="this.hidden = true"
+                  /><span class="mo">3 meses</span>
+                </div>
+                <figcaption>
+                  <b>Alejandra T.</b><small>29 años · Miami</small>
+                  <blockquote>
+                    Dejé de sentir que estaba haciendo esto sola.
+                  </blockquote>
+                </figcaption>
+              </figure>
+              <figure
+                class="story rvd"
+                role="listitem"
+                data-d="u"
+                style="--i: 3"
+              >
+                <div class="pho" data-i="D">
+                  <img
+                    src="https://arjunafit.com/assets/img/recomendaciones/4.png"
+                    alt="Foto de Dayana G., alumna de ArjunaFit"
+                    width="320"
+                    height="400"
+                    loading="lazy"
+                    onerror="this.hidden = true"
+                  /><span class="mo">5 meses</span>
+                </div>
+                <figcaption>
+                  <b>Dayana G.</b><small>38 años · Sabaneta</small>
+                  <blockquote>
+                    La app me ayudó a volver incluso después de perder varios
+                    días.
+                  </blockquote>
+                </figcaption>
+              </figure>
+            </div>
+            <p class="fine sw">Desliza para ver más</p>
+            <p class="fine">
+              Testimonios reales de alumnas de ArjunaFit. Los resultados varían
+              según cada persona.
+            </p>
+          </div>
+        </section>
+        <!-- 2.4 La app: Miembro Fundadora (3 beneficios) + teléfono animado + 4 pilares en cristal + avance.
+     En escritorio: texto y pilares a la izquierda, teléfono fijo a la derecha. -->
+        <section class="sc" id="oferta" aria-labelledby="h-app">
+          <div class="w wide">
+            <div class="split split-app">
+              <div class="sp-a">
+                <h2 class="rv" id="h-app">
+                  Mientras tú entrenas, nosotros seguimos
+                  <span class="nw"
+                    >trabajando<button
+                      type="button"
+                      class="key"
+                      data-k="4"
+                      aria-label="Clave escondida 4: tócala para descubrirla"
+                    >
+                      <i aria-hidden="true"></i></button
+                  ></span>
+                </h2>
+                <p class="lead rv">
+                  Quien empieza hoy con Arju entra primero a la App ArjunaFit,
+                  como <b>Miembro Fundadora</b>:
+                </p>
+                <ul class="perks rv">
+                  <li>Acceso prioritario</li>
+                  <li>Lugar en el primer reto de 2027</li>
+                  <li>La beta, para ayudar a darle forma</li>
+                </ul>
+              </div>
+              <div class="sp-v">
+                <div class="pcol rv">
+                  <div
+                    class="phone"
+                    id="phone"
+                    data-s="0"
+                    role="img"
+                    aria-label="Vista ilustrativa de la App ArjunaFit en un teléfono"
+                  >
+                    <div class="scr" aria-hidden="true">
+                      <div class="scr-top">
+                        <img
+                          src="assets/img/logo-arjunafit.webp"
+                          alt=""
+                          width="30"
+                          height="30"
+                        />ArjunaFit
+                      </div>
+                      <div class="screens">
+                        <div class="s s0">
+                          <small>Nutrición y macros</small>
+                          <div class="scr-card rowc">
+                            <svg class="rg" viewBox="0 0 36 36">
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="15.9"
+                                fill="none"
+                                stroke="rgba(255,255,255,.14)"
+                                stroke-width="3.4"
+                              />
+                              <circle
+                                class="arc"
+                                cx="18"
+                                cy="18"
+                                r="15.9"
+                                fill="none"
+                                stroke="#ffc857"
+                                stroke-width="3.4"
+                                stroke-linecap="round"
+                                pathLength="100"
+                                stroke-dasharray="0 100"
+                                transform="rotate(-90 18 18)"
+                              />
+                            </svg>
+                            <div>
+                              <b>Tu día</b><small>Calculadora flexible</small>
+                            </div>
+                          </div>
+                          <div class="scr-card">
+                            <div class="mac">
+                              <div>
+                                <small>Proteína</small><i style="--w: 78%"></i>
+                              </div>
+                              <div>
+                                <small>Carbos</small><i style="--w: 56%"></i>
+                              </div>
+                              <div>
+                                <small>Grasas</small><i style="--w: 38%"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="scr-card">
+                            <div class="ex">
+                              <i class="ck"></i>Desayuno<small>Listo</small>
+                            </div>
+                            <div class="ex">
+                              <i class="ck"></i>Almuerzo<small>Listo</small>
+                            </div>
+                            <div class="ex">
+                              <i class="ck"></i>Cena<small>Pendiente</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="s s1">
+                          <small>Rutinas guiadas</small>
+                          <div class="vthumb"><span></span></div>
+                          <div class="scr-card">
+                            <div class="ex">
+                              <i class="ck"></i>Sentadilla goblet<small
+                                >3 x 12</small
+                              >
+                            </div>
+                            <div class="ex">
+                              <i class="ck"></i>Puente de glúteo<small
+                                >3 x 15</small
+                              >
+                            </div>
+                            <div class="ex">
+                              <i class="ck"></i>Remo con mancuerna<small
+                                >3 x 12</small
+                              >
+                            </div>
+                          </div>
+                          <div class="scr-card nxt-r">
+                            <small>Siguiente</small><b>Estiramiento final</b>
+                          </div>
+                        </div>
+                        <div class="s s2">
+                          <small>Control de progreso</small>
+                          <div class="scr-card">
+                            <svg viewBox="0 0 120 50" class="sp">
+                              <path
+                                pathLength="1"
+                                d="M2 40 C20 38 30 30 48 28 S80 20 96 12 L118 6"
+                                fill="none"
+                                stroke="#ffc857"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                              /></svg
+                            ><small>Peso y medidas</small>
+                          </div>
+                          <div class="ft">
+                            <span></span><span></span><span></span>
+                          </div>
+                          <small>Tus fotos, solo para ti</small>
+                          <div class="scr-card wk">
+                            <small>Tu semana</small>
+                            <div class="wkd">
+                              <i class="on"></i><i class="on"></i
+                              ><i class="on"></i><i class="on"></i><i></i><i></i
+                              ><i></i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="s s3">
+                          <small>Coach IA y Arju 1:1</small>
+                          <div class="bub u">¿Cómo ajusto mi cena de hoy?</div>
+                          <div class="bub a">
+                            Sube un poco la proteína y mantén tus carbos. Te
+                            dejo la opción en tu plan.
+                          </div>
+                          <div class="msg">
+                            <span>Escríbele a tu coach…</span><i></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tabs">
+                        <span class="t0">Nutrición</span
+                        ><span class="t1">Rutinas</span
+                        ><span class="t2">Progreso</span
+                        ><span class="t3">Coach IA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="cap">Vista ilustrativa de la app en desarrollo.</p>
+                </div>
+              </div>
+              <div class="sp-b">
+                <div class="rcol">
+                  <div class="pil">
+                    <div class="card rvd" data-d="p" style="--i: 0">
+                      <span class="ico" aria-hidden="true"
+                        ><svg viewBox="0 0 24 24">
+                          <path
+                            d="M12 7.5c-2-3-7-2-7 3 0 5 3 9 7 9s7-4 7-9c0-5-5-6-7-3z"
+                          />
+                          <path d="M12 7.5c0-2 1-3.5 3-4.5" /></svg
+                      ></span>
+                      <div>
+                        <h3>Nutrición &amp; Macros</h3>
+                        <p>Calculadora flexible.</p>
+                      </div>
+                    </div>
+                    <div class="card rvd" data-d="p" style="--i: 1">
+                      <span class="ico" aria-hidden="true"
+                        ><svg viewBox="0 0 24 24">
+                          <rect x="3" y="5" width="18" height="14" rx="3.5" />
+                          <path d="M10.2 9.4v5.2l4.5-2.6z" /></svg
+                      ></span>
+                      <div>
+                        <h3>Rutinas Guiadas</h3>
+                        <p>Técnica en video.</p>
+                      </div>
+                    </div>
+                    <div class="card rvd" data-d="p" style="--i: 2">
+                      <span class="ico" aria-hidden="true"
+                        ><svg viewBox="0 0 24 24">
+                          <path d="M3 18l6-6 4 4 8-9" />
+                          <path d="M15 7h6v6" /></svg
+                      ></span>
+                      <div>
+                        <h3>Control de Progreso</h3>
+                        <p>Fotos y métricas.</p>
+                      </div>
+                    </div>
+                    <div class="card rvd" data-d="p" style="--i: 3">
+                      <span class="ico" aria-hidden="true"
+                        ><svg viewBox="0 0 24 24">
+                          <path d="M4 5.5h16v11H9.5L5 20.5v-4H4z" />
+                          <path
+                            d="M12 8.6l.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z"
+                          /></svg
+                      ></span>
+                      <div>
+                        <h3>IA Coaching &amp; Arju 1:1</h3>
+                        <p>Ajustes continuos.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="appb gl rv">
+                  <p>
+                    <b>Cómo va la app:</b> ArjunaFit.app está más del 80 %
+                    lista. El lanzamiento oficial, el primer reto y la beta
+                    llegan en enero de 2027.
+                  </p>
+                  <div
+                    class="bar"
+                    role="img"
+                    aria-label="App más del 80 por ciento lista"
+                  >
+                    <i></i>
+                  </div>
+                </div>
+                <a class="btn" href="#valoracion" data-ev="p2_cta"
+                  >Quiero empezar con Arju</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 2.5 Los 3 caminos -->
+        <section class="sc" data-evo="Con decisión" aria-labelledby="h-caminos">
+          <div class="w wide ctr">
+            <h2 class="rv" id="h-caminos">
+              Los 3
+              <span class="nw"
+                >caminos<button
+                  type="button"
+                  class="key"
+                  data-k="5"
+                  aria-label="Clave escondida 5: tócala para descubrirla"
+                >
+                  <i aria-hidden="true"></i></button
+              ></span>
+            </h2>
+            <div class="vs">
+              <div class="rvd" data-d="l" style="--i: 0">
+                <h3>1. Seguir sola</h3>
+                <p>
+                  Otra vez empezar con ganas y quedarte sin guía cuando se
+                  acaben.
+                </p>
+              </div>
+              <div class="rvd" data-d="d" style="--i: 1">
+                <h3>2. Esperar a otro mes</h3>
+                <p>
+                  Otro mes de postergar y empezar de cero con los mismos
+                  obstáculos.
+                </p>
+              </div>
+              <div class="on rvd" data-d="u" style="--i: 2">
+                <h3>3. Empezar hoy con Arju + App</h3>
+                <p>
+                  Una hora acompañada, plan completo, ajustes semanales y acceso
+                  prioritario a la app.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 2.6 Preguntas frecuentes (si cambias una, cámbiala también en los datos estructurados del <head>) -->
+        <section class="sc" aria-labelledby="h-faq">
+          <div class="w wide">
+            <div class="split split-faq">
+              <div class="sp-a">
+                <h2 class="rv" id="h-faq">Preguntas frecuentes</h2>
+              </div>
+              <div class="sp-v">
+                <details>
+                  <summary>¿Y si no tengo tiempo?</summary>
+                  <p>
+                    Es una hora a la vez, en el horario que te quede bien:
+                    mañana, tarde o noche. El plan se arma a tu agenda.
+                  </p>
+                </details>
+                <details>
+                  <summary>¿Dónde entreno?</summary>
+                  <p>
+                    Donde estés: casa o gimnasio. Arju adapta la rutina a tu
+                    espacio y a tu equipo.
+                  </p>
+                </details>
+                <details>
+                  <summary>¿Tengo que hacer dietas extremas?</summary>
+                  <p>
+                    No. Aprendes a comer con estrategia, sin pasar hambre ni
+                    quitarte lo que te gusta.
+                  </p>
+                </details>
+                <details>
+                  <summary>¿Y si pago y no funciona?</summary>
+                  <p>
+                    Antes de pagar haces una valoración gratis y conoces el
+                    plan. Y tu plan se ajusta cada semana según tu avance.
+                  </p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 2.7 Tu guía del éxito: las 5 claves escondidas (✦). Se revelan al tocar su ✦ en la página o con "Revelar".
+     Los textos de las claves salen de esta lista (una sola fuente: el aviso inferior los lee de aquí). -->
+        <section class="sc" id="guia" aria-labelledby="h-guia">
+          <div class="w wide ctr">
+            <p class="tag">Tu guía del éxito</p>
+            <h2 class="rv" id="h-guia">Cinco claves, y ya son tuyas.</h2>
+            <p class="lead rv" id="gsub">
+              Las que fuiste encontrando por la página. Si te falta alguna,
+              tócala.
+            </p>
+            <ol class="gd" id="gd">
+              <li class="gk rvd" data-d="u" style="--i: 0" data-k="1">
+                <span class="gn">1</span>
+                <div>
+                  <b>Nunca fue falta de voluntad</b>
+                  <p>
+                    Lo que se rompe es el sistema, no tú. Con alguien al lado,
+                    la constancia deja de depender de las ganas.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="gr"
+                  aria-label="Revelar la clave 1"
+                >
+                  Revelar
+                </button>
+              </li>
+              <li class="gk rvd" data-d="u" style="--i: 1" data-k="2">
+                <span class="gn">2</span>
+                <div>
+                  <b>Empieza pequeño</b>
+                  <p>
+                    Una hora bien acompañada vale más que una semana perfecta
+                    que no puedes sostener.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="gr"
+                  aria-label="Revelar la clave 2"
+                >
+                  Revelar
+                </button>
+              </li>
+              <li class="gk rvd" data-d="u" style="--i: 2" data-k="3">
+                <span class="gn">3</span>
+                <div>
+                  <b>Que alguien te vea</b>
+                  <p>
+                    Cuando alguien corrige tu postura y nota que faltaste,
+                    entrenar deja de ser un acto solitario.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="gr"
+                  aria-label="Revelar la clave 3"
+                >
+                  Revelar
+                </button>
+              </li>
+              <li class="gk rvd" data-d="u" style="--i: 3" data-k="4">
+                <span class="gn">4</span>
+                <div>
+                  <b>Ajusta, no te castigues</b>
+                  <p>
+                    Una mala semana se ajusta, no se paga con culpa. El plan
+                    cambia contigo.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="gr"
+                  aria-label="Revelar la clave 4"
+                >
+                  Revelar
+                </button>
+              </li>
+              <li class="gk rvd" data-d="u" style="--i: 4" data-k="5">
+                <span class="gn">5</span>
+                <div>
+                  <b>Disfrútalo</b>
+                  <p>
+                    Lo que disfrutas, lo sostienes. Tu cuerpo cambia cuando
+                    entrenar deja de ser una batalla.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="gr"
+                  aria-label="Revelar la clave 5"
+                >
+                  Revelar
+                </button>
+              </li>
+            </ol>
+            <p class="gdm" id="gdm" aria-live="polite"></p>
+            <a class="btn" href="#valoracion" data-ev="p2_end_cta"
+              >Quiero empezar con Arju</a
+            >
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== PASO 3 · Valoración: formulario que abre WhatsApp y "Qué pasa después" =====
+     En escritorio: título y "Qué pasa después" a la izquierda, formulario a la derecha. -->
+      <div class="part" id="valoracion" data-n="3">
+        <section
+          class="sc"
+          data-evo="Lista para empezar"
+          data-evo-done="Mente nueva ✦"
+          aria-labelledby="h-form"
+        >
+          <div class="w wide">
+            <div class="split split-form">
+              <div class="sp-a">
+                <p class="tag" id="rc">
+                  Llegaste con dudas. Ahora sabes cómo se rompe el ciclo.
+                </p>
+                <h2 class="hl" id="h-form">Empieza hoy con Arju.</h2>
+                <p class="lead">
+                  Valoración gratis y sin compromiso: vemos tu punto de partida
+                  y te decimos tu plan.
+                </p>
+              </div>
+              <div class="sp-v">
+                <form
+                  id="f"
+                  class="fcard"
+                  novalidate
+                  aria-label="Valoración gratis con Arju"
+                >
+                  <div class="row2">
+                    <div class="fld">
+                      <label for="fn">Nombre</label>
+                      <input
+                        id="fn"
+                        name="n"
+                        type="text"
+                        required
+                        autocomplete="given-name"
+                        autocapitalize="words"
+                        spellcheck="false"
+                        enterkeyhint="next"
+                        placeholder="Tu nombre"
+                        aria-describedby="en"
+                      />
+                      <p class="err" id="en" role="alert" hidden></p>
+                    </div>
+                    <div class="fld">
+                      <label for="fw">WhatsApp</label>
+                      <div class="tel">
+                        <span aria-hidden="true">+57</span
+                        ><input
+                          id="fw"
+                          name="w"
+                          type="text"
+                          inputmode="tel"
+                          required
+                          autocomplete="tel-national"
+                          autocapitalize="off"
+                          spellcheck="false"
+                          enterkeyhint="send"
+                          placeholder="300 123 4567"
+                          aria-describedby="ew"
+                        />
+                      </div>
+                      <p class="err" id="ew" role="alert" hidden></p>
+                    </div>
+                  </div>
+                  <p class="fh">Cuéntale a Arju <span>(opcional)</span></p>
+                  <fieldset class="opts">
+                    <legend>Objetivo</legend>
+                    <div class="chips">
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="o"
+                          value="Perder grasa"
+                          checked
+                        /><span>Perder grasa</span></label
+                      >
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="o"
+                          value="Ganar músculo"
+                        /><span>Ganar músculo</span></label
+                      >
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="o"
+                          value="Salud y energía"
+                        /><span>Salud y energía</span></label
+                      >
+                    </div>
+                  </fieldset>
+                  <fieldset class="opts">
+                    <legend>Lugar de entrenamiento</legend>
+                    <div class="chips">
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="l"
+                          value="Casa"
+                          checked
+                        /><span>Casa</span></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="l" value="Gimnasio" /><span
+                          >Gimnasio</span
+                        ></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="l" value="Aire libre" /><span
+                          >Aire libre</span
+                        ></label
+                      >
+                    </div>
+                  </fieldset>
+                  <fieldset class="opts">
+                    <legend>Horario</legend>
+                    <div class="chips">
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="h"
+                          value="Mañana"
+                          checked
+                        /><span>Mañana</span></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="h" value="Mediodía" /><span
+                          >Mediodía</span
+                        ></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="h" value="Tarde" /><span
+                          >Tarde</span
+                        ></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="h" value="Noche" /><span
+                          >Noche</span
+                        ></label
+                      >
+                      <label class="opt"
+                        ><input type="radio" name="h" value="Varía" /><span
+                          >Varía</span
+                        ></label
+                      >
+                    </div>
+                  </fieldset>
+                  <button class="btn" type="submit" id="fsub">
+                    Quiero mi valoración gratis
+                  </button>
+                  <p class="fine nxt">
+                    Se abre WhatsApp con tu mensaje ya escrito. Tú decides si lo
+                    envías.
+                  </p>
+                  <noscript
+                    ><p class="fine nxt">
+                      ¿No funciona el formulario?
+                      <a
+                        href="https://wa.me/573209497919?text=Hola%20Arju%20%F0%9F%91%8B%20Quiero%20empezar%20con%20la%20asesor%C3%ADa%201%3A1%20y%20la%20App%20ArjunaFit."
+                        >Escríbele a Arju por WhatsApp</a
+                      >.
+                    </p></noscript
+                  >
+                </form>
+                <div id="ok" hidden role="status">
+                  <h2 tabindex="-1">¡Excelente, <span id="nm"></span>!</h2>
+                  <p>
+                    Te llevamos a WhatsApp para hablar con Arju y armar tu plan.
+                    <a id="wl" href="#">Si no se abre, toca aquí</a>. WhatsApp
+                    de ArjunaFit: 320 949 7919.
+                  </p>
+                </div>
+                <p class="fine">
+                  Tus datos están seguros y solo se usan para contactarte. Al
+                  continuar aceptas la
+                  <a href="https://arjunafit.com/privacidad.html"
+                    >política de privacidad</a
+                  >. Toma menos de 2 minutos.
+                </p>
+              </div>
+              <div class="sp-b">
+                <h2 class="rv" id="h-despues">Qué pasa después</h2>
+                <ol class="pasos rv">
+                  <li><b>Arju te escribe</b> por WhatsApp.</li>
+                  <li>
+                    <b>Valoración gratis:</b> miramos tu punto de partida.
+                  </li>
+                  <li>
+                    <b>Tu plan:</b> entrenamiento, nutrición y ajustes
+                    semanales.
+                  </li>
+                </ol>
+                <p class="fine">
+                  ¿Necesitas pensarlo?
+                  <a
+                    class="tap"
+                    href="https://wa.me/573209497919?text=Hola%20Arju%2C%20tengo%20una%20duda%20antes%20de%20empezar"
+                    data-wa="Hola Arju, tengo una duda antes de empezar"
+                    data-ev="p3_duda"
+                    >Escríbenos tu duda</a
+                  >.
+                </p>
+                <p class="slogan rv">
+                  Tu transformación no necesita presión. Necesita
+                  acompañamiento.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- BARRA DE ACCIÓN (solo celular): botón fijo abajo que aparece en el paso 2 cuando no hay otro botón a la vista. La maneja landing.js (sección 18).
+     Es un <aside> con nombre para que quede dentro de una zona de la página (lectores de pantalla). -->
+    <aside class="dock" id="dock" aria-label="Acción rápida">
+      <a class="btn" href="#valoracion" data-ev="dock_cta"
+        >Quiero empezar con Arju</a
+      >
+    </aside>
+    <!-- AVISO de clave encontrada: lo abre landing.js (sección 14) -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+      <i class="tsp" aria-hidden="true">✦</i>
+      <div>
+        <b id="tt"></b>
+        <p id="tx"></p>
+      </div>
+      <button type="button" class="tcl" id="tcl" aria-label="Cerrar">
+        &times;
+      </button>
+    </div>
+    <!-- FOOTER -->
+    <footer>
+      ArjunaFit · <a href="https://arjunafit.com/terminos.html">Términos</a> ·
+      <a href="https://arjunafit.com/privacidad.html">Privacidad</a>
+      <p>
+        ArjunaFit es acompañamiento de entrenamiento y nutrición y no reemplaza
+        la orientación de un profesional de la salud. Consulta a tu médico antes
+        de empezar.
+      </p>
+    </footer>
+    <script src="assets/js/landing.js" defer></script>
+  </body>
+</html>
