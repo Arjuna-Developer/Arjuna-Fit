@@ -43,7 +43,7 @@
 
     // ID del video de YouTube de Arju (por ejemplo "dQw4w9WgXcQ").
     // Vacío = el marco del video muestra "Próximamente".
-    youtubeId: 'https://youtu.be/cV_EG0BBTrI',
+    youtubeId: 'cV_EG0BBTrI',
 
     // Luminancia del fondo (0 a 1) desde la que el texto pasa a tonos oscuros.
     // El texto casi blanco (#f8f8f8) cumple 4,5:1 hasta ≈ .17 y el casi negro
