@@ -26,11 +26,22 @@
 
    Cada sección es una función init...() independiente: si una falla (por
    ejemplo, quitaste un bloque del HTML), las demás siguen funcionando.
+
+   COMPATIBILIDAD: está escrito en JavaScript de 2017 (ES2017) a propósito.
+   Si agregas código, NO uses "??", "?.", "catch {" sin variable, "...objeto"
+   ni "replaceAll": un solo símbolo de esos y el archivo ENTERO deja de correr
+   en los Android con WebView o navegador viejo (Chrome anterior a 80, Samsung
+   Internet antiguo, navegadores de apps): la página queda sin efectos y sin
+   formulario. Para comprobarlo antes de subir:
+       npx acorn --ecma2017 --silent assets/js/landing.js
+   (sin mensajes = bien).
    ========================================================================== */
 (function () {
   'use strict';
 
-  window.__af = 1; // avisa al <head> que este script arrancó (ver el temporizador de 4 s)
+  window.__af = 1; // avisa al <head> que este script arrancó (ver la marca "js" del <head>)
+  // ms desde que empezó a cargar la página: lo lee el panel ?diag
+  window.__afAt = window.performance && performance.now ? Math.round(performance.now()) : 0;
 
 
   /* ========================================================================
@@ -137,8 +148,13 @@
   const byId = (id) => document.getElementById(id);
   const clamp = (x, min = 0, max = 1) => Math.min(max, Math.max(min, x));
 
-  // Quien pide menos movimiento ve la página quieta
-  const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // Quien pide menos movimiento (en Android: Ajustes > Accesibilidad > «Quitar
+  // animaciones», a veces activado sin saberlo; en iPhone: «Reducir movimiento»)
+  // ve la página con MENOS movimiento, no sin vida: siguen los fundidos, el
+  // cambio de color del amanecer y el apagado de los 30 días; se apagan las
+  // partículas, el teléfono que rota solo, la inclinación de tarjetas y los
+  // desplazamientos y giros.
+  const reducedMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches);
 
   // Enlace de WhatsApp con mensaje prellenado
   function whatsappUrl(message) {
@@ -147,31 +163,43 @@
 
   // sessionStorage con respaldo en memoria (modo privado o almacenamiento bloqueado)
   const memory = {};
+  const remembered = (key) => (memory[key] === undefined ? null : memory[key]);
   const store = {
     get(key) {
       try {
         const value = sessionStorage.getItem(key);
-        return value === null ? (memory[key] ?? null) : value;
-      } catch {
-        return memory[key] ?? null;
+        return value === null ? remembered(key) : value;
+      } catch (e) {
+        return remembered(key);
       }
     },
     set(key, value) {
       memory[key] = value;
-      try { sessionStorage.setItem(key, value); } catch { /* sin almacenamiento */ }
+      try { sessionStorage.setItem(key, value); } catch (e) { /* sin almacenamiento */ }
     }
   };
+
+  // Vibración corta al tocar (solo Android). Algunos navegadores internos la
+  // bloquean o fallan: nunca debe frenar lo que sigue.
+  function buzz(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* sin vibración */ }
+  }
 
   // Analítica: solo empuja eventos al dataLayer (aún no hay pixel instalado)
   function track(name) {
     (window.dataLayer = window.dataLayer || []).push({ event: name });
   }
 
+  // Módulos que no arrancaron (los lee el panel ?diag)
+  const failed = [];
+  window.__afFail = failed;
+
   // Ejecuta un módulo sin que un error tumbe a los demás
   function safe(name, fn) {
     try {
       return fn();
     } catch (error) {
+      failed.push(name + ': ' + (error && error.message ? error.message : error));
       if (window.console) console.warn('[ArjunaFit] módulo "' + name + '" no arrancó:', error);
       return null;
     }
@@ -216,6 +244,23 @@
      Agrega .in a los elementos .rv y .rvd cuando se ven (20 % en pantalla).
      El movimiento lo define el CSS (sección 08).
      ======================================================================== */
+
+  // Si el <head> ya había quitado la marca "js" (el script llegó tarde por una
+  // red lenta), se vuelve a poner sin parpadeos: lo que ya se ve en pantalla
+  // queda visible (.in, sin repetir la entrada) antes de reactivar los efectos
+  // del resto de la página.
+  function wakeEffects() {
+    if (root.classList.contains('js')) return;
+    qsa('.rv,.rvd').forEach((el) => {
+      const box = el.getBoundingClientRect();
+      if (box.bottom > 0 && box.top < innerHeight) {
+        el.classList.add('in');
+        if (el.classList.contains('rvd')) el.style.animation = 'none';
+      }
+    });
+    root.classList.add('js');
+  }
+
   function initReveal() {
     if (!('IntersectionObserver' in window)) { // navegadores muy viejos: todo se ve de una vez
       qsa('.rv,.rvd').forEach((el) => el.classList.add('in'));
@@ -297,7 +342,7 @@
       //    navegador no recalcula el diseño dos veces en cada cuadro.
       const max = root.scrollHeight - innerHeight;
       const p = max > 0 ? clamp(scrollY / max) : 0;
-      const box = reducedMotion ? null : cycle.getBoundingClientRect();
+      const box = cycle.getBoundingClientRect();
       frameHooks.forEach((fn) => safe('cuadro', fn));
 
       // 2) Pintar
@@ -411,7 +456,7 @@
         btn.parentElement.classList.add('touched'); // deja de latir la invitación
         btn.setAttribute('aria-pressed', !isOn(btn));
         if (!reducedMotion) ripple(btn, e);
-        if (navigator.vibrate) navigator.vibrate(10);
+        buzz(10);
         render();
         track('situacion_tap');
       });
@@ -880,7 +925,7 @@
         const star = stars.find((s) => Number(s.dataset.k) === k);
         if (star && !reducedMotion) replay(star, 'pop');
         if (!reducedMotion) replay(chip, 'pop');
-        if (navigator.vibrate) navigator.vibrate(12);
+        buzz(12);
         track('clave_' + k);
       }
 
@@ -966,13 +1011,13 @@
   /* ========================================================================
      16 · CICLO: VOLVER A ENCENDER LOS DÍAS
      El botón #rl enciende los 30 puntos de #dots en cascada (clase .relit;
-     el retraso de cada punto es --k). Con movimiento reducido no hace nada
-     (el CSS lo oculta y los puntos ya están encendidos).
+     el retraso de cada punto es --k). Con movimiento reducido también
+     funciona: los puntos solo cambian de opacidad, no de tamaño.
      ======================================================================== */
   function initRelight() {
     const button = byId('rl');
     const grid = byId('dots');
-    if (!button || !grid || reducedMotion) return;
+    if (!button || !grid) return;
 
     Array.from(grid.children).forEach((dot, i) => dot.style.setProperty('--k', i));
 
@@ -980,7 +1025,7 @@
       grid.classList.add('relit');
       button.disabled = true;
       button.textContent = button.dataset.after;
-      if (navigator.vibrate) navigator.vibrate(12);
+      buzz(12);
       track('ciclo_reencendido');
     });
   }
@@ -1102,6 +1147,7 @@
      El amanecer se pinta al final, cuando todo lo demás ya existe.
      ======================================================================== */
   function boot() {
+    safe('efectos', wakeEffects);
     safe('enlaces', initLinks);
     safe('títulos', initHeadings);
     safe('aparición', initReveal);
