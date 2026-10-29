@@ -28,8 +28,7 @@
    23 · Ciclo: volver a encender los días
    24 · Barra de acción en el celular
    25 · Escritorio (desde 1024 px) y pantallas grandes
-   26 · Accesibilidad y casos especiales (foco, contraste alto, colores forzados, celular horizontal,
-        respaldo sin JavaScript)
+   26 · Accesibilidad y casos especiales (foco, contraste alto, colores forzados, celular horizontal)
    27 · Movimiento reducido (debe ir al final)
 
    REGLAS DE ORDEN
@@ -3473,73 +3472,27 @@ footer a { /* zona táctil de 44 px sin mover el texto */
 
 
 /* ==========================================================================
-   26b · RESPALDO SIN JAVASCRIPT
-   El formulario, el cuestionario, las claves ✦ y los contadores del header
-   necesitan landing.js. Si no corre (navegador antiguo, bloqueo), el <head>
-   quita la marca .js: el formulario se esconde y sale el botón de WhatsApp
-   (.nj), así nadie queda sin cómo escribirle a Arju, y se esconde lo que sin
-   JavaScript sería un botón muerto o un dato congelado (#sf = cuestionario,
-   .key + .hint + #gsub = claves y las frases que invitan a buscarlas o
-   tocarlas, .rl + .dots = los 30 días, .kc + .stw = contador y "Paso X de
-   3"). Con JavaScript, .nj no existe y todo esto se ve normal.
-   ========================================================================== */
-.nj {
-  margin: 18px 0 0;
-}
-
-.js .nj {
-  display: none;
-}
-
-html:not(.js) #f,
-html:not(.js) #sf,
-html:not(.js) .key,
-html:not(.js) .hint,
-html:not(.js) #gsub,
-html:not(.js) .rl,
-html:not(.js) .dots,
-html:not(.js) .kc,
-html:not(.js) .stw {
-  display: none;
-}
-
-html:not(.js) .top { /* sin contadores, el header queda como una píldora con solo el avatar */
-  right: auto;
-  margin: 0;
-}
-
-
-/* ==========================================================================
    27 · MOVIMIENTO REDUCIDO
-   Con prefers-reduced-motion se quita el MOVIMIENTO (desplazamientos, giros,
-   partículas, teléfono que rota solo, inclinación de tarjetas) pero no la
-   vida: la aparición al hacer scroll es solo un fundido y los 30 días se
-   atenúan. En Android «Quitar animaciones» activa esto (a veces sin que la
-   persona lo sepa). Debe ir al final del archivo.
+   Con prefers-reduced-motion todo queda visible y quieto; la oferta se
+   entiende igual sin animaciones. Debe ir al final del archivo.
    ========================================================================== */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  /* Aparición al hacer scroll: solo fundido, sin desplazamientos */
+  /* Aparición al hacer scroll */
   .js .rv {
+    opacity: 1;
     transform: none;
-    transition: opacity .6s ease;
+    transition: none;
+  }
+
+  .js .rvd:not(.in) {
+    opacity: 1;
   }
 
   .js .rvd.in,
-  .js .rvd[data-d].in {
-    animation: fade-in .6s ease backwards;
-    animation-delay: calc(var(--i, 0) * .08s);
-  }
-
   .vs .on::after,
   .pil .card.on::after {
     animation: none;
@@ -3583,9 +3536,9 @@ html:not(.js) .top { /* sin contadores, el header queda como una píldora con so
     transition: none;
   }
 
-  /* Puntos del ciclo: se atenúan (opacidad), sin encogerse */
-  .dots i.off {
-    transform: none;
+  /* Puntos del ciclo */
+  .dots i {
+    transition: none;
   }
 
   /* Claves, aviso, guía, fotos, preguntas, formulario y barra de acción */
@@ -3607,7 +3560,14 @@ html:not(.js) .top { /* sin contadores, el header queda como una píldora con so
   .story,
   .dock,
   summary::after,
-  .opt span {
+  .opt span,
+  .dots.relit i,
+  .dots.relit i.off {
     transition: none;
+  }
+
+  /* Sin movimiento los 30 días ya se ven encendidos: el botón sobra */
+  .rl {
+    display: none;
   }
 }

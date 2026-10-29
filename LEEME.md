@@ -3,9 +3,7 @@
 Landing de ventas de arjunafit.com: asesoría 1:1 con Arju + App ArjunaFit (lanzamiento en enero de 2027; quien empieza hoy con Arju entra como Miembro Fundadora).
 El diseño y la lógica están separados del contenido para que cada cosa se encuentre en un solo lugar.
 
-**Versión:** auditoría final (octubre de 2026) + arreglo para Android (28 de octubre de 2026; ver «Si en Android no se ven los efectos»). El informe de esa auditoría está al final de este archivo.
-
-**Qué se publica:** la carpeta tal cual (`index.html` + `assets/`), desde GitHub a Vercel. La carpeta `dist/` (un solo archivo) quedó obsoleta: arjunafit.com no la sirve.
+**Versión:** auditoría final (octubre de 2026). El informe de esa auditoría está al final de este archivo.
 
 ---
 
@@ -13,14 +11,13 @@ El diseño y la lógica están separados del contenido para que cada cosa se enc
 
 ```
 index.html                       La página: solo textos y estructura
-assets/css/styles.css            Todo el diseño, en 27 secciones numeradas (la 26b es el respaldo sin JavaScript)
+assets/css/styles.css            Todo el diseño, en 27 secciones numeradas
 assets/js/landing.js             Toda la lógica, en 20 secciones numeradas
-assets/js/diag.js                Panel de diagnóstico: solo se carga con arjunafit.com/?diag
 assets/img/logo-arjunafit.webp   Logo redondo (favicon, header y teléfono)
 assets/img/og.jpg                Imagen que aparece al compartir el enlace (1200 x 630 px)
 assets/img/apple-touch-icon.png  Ícono al guardar la página en el iPhone (180 x 180 px)
 build.py                         Junta todo en un solo archivo
-dist/                            OBSOLETO: versión de un solo archivo; arjunafit.com publica index.html + assets/
+dist/                            Lo que se sube: index.html (un solo archivo) + og.jpg + apple-touch-icon.png
 ```
 
 `styles.css` y `landing.js` empiezan con un índice. Cada sección tiene un título en mayúsculas; busca ese título para saltar a ella.
@@ -28,8 +25,6 @@ dist/                            OBSOLETO: versión de un solo archivo; arjunafi
 ---
 
 ## Cómo subirla
-
-> **Actualización (28 de octubre de 2026):** arjunafit.com se publica con la **Opción B** (GitHub → Vercel, `index.html` + `assets/`). La Opción A ya no aplica.
 
 **Opción A · Archivos sueltos (la forma que ya usas en Vercel)**
 Arrastra juntos los **tres archivos de `dist/`**: `index.html`, `og.jpg` y `apple-touch-icon.png`.
@@ -127,21 +122,11 @@ Las fotos se piden a `https://arjunafit.com/assets/img/recomendaciones/1.jpeg` h
 
 ---
 
-## Si en Android no se ven los efectos
-
-1. Abre `arjunafit.com/?diag` en ese celular. A los 2 segundos aparece el panel «Diagnóstico ArjunaFit»; la primera línea dice si `landing.js` no corrió (navegador viejo o bloqueado), si algún módulo falló o si el celular pide menos movimiento.
-2. Saca una captura del panel o toca «Copiar» y pega el texto.
-3. Causas más comunes: **a)** Ajustes › Accesibilidad › «Quitar animaciones» (o el ahorro de energía) activa «movimiento reducido»; **b)** navegador o WebView anterior a 2020 que no entiende JavaScript moderno (`landing.js` usa sintaxis de 2015, ES2015; se revisa con `npx acorn --ecma2017 --silent assets/js/landing.js`); **c)** red lenta: las fuentes de Google ya no bloquean la carga.
-4. La inclinación de las tarjetas solo existe con mouse (`hover: hover`): en un celular nunca se ve, es normal.
-5. `diag.js` solo se descarga con `?diag`: los visitantes normales no lo cargan.
-
----
-
 ## Reglas para no romper nada
 
 1. **El orden del CSS importa.** Dos reglas con el mismo peso se resuelven por orden de aparición. Cambia valores, pero no muevas bloques de lugar sin probar. La sección 20 (cristal) va después de las secciones 09 a 19 a propósito.
 2. **Los `id` y las clases del HTML los usa `landing.js`.** Si cambias uno (`#f`, `#fn`, `#fw`, `#fsub`, `#ok`, `#sm`, `#gd`, `#dock`, `#hcta`, `#toast`, `#kn`, `#evo`, `.chs`, `.sit`, `.key`, `.rv`, `.rvd`, `.part`…), cámbialo también en el JS.
-3. **El bloque `@media (prefers-reduced-motion)` va al final del CSS.** Quita el movimiento (partículas, teléfono que rota solo, desplazamientos al aparecer, tarjetas que se inclinan) para quien lo pide, pero deja los fundidos, el amanecer y los 30 días que se atenúan: la página sigue viva. En Android, «Quitar animaciones» activa esta preferencia. Sin JavaScript, la guía se lee completa y el botón fijo no aparece.
+3. **El bloque `@media (prefers-reduced-motion)` va al final del CSS.** Es lo que deja la página quieta para quien pide menos movimiento. Sin JavaScript, la guía se lee completa y el botón fijo no aparece.
 4. **Cada módulo del JS corre aislado.** Si uno falla, los demás siguen funcionando y el error aparece como aviso en la consola.
 5. **Los colores del texto están calculados contra el amanecer.** Si cambias `sunrise` o los colores de texto, vuelve a comprobar el contraste al bajar toda la página (ver el informe al final).
 
@@ -181,7 +166,7 @@ Con `form_start`, `form_error` y `form_submit` puedes medir cuántas personas em
 - Foco visible con teclado en todo lo que se puede tocar, enlace «Saltar al contenido», orden de Tab lógico y zonas táctiles de 44 px o más.
 - Texto agrandado hasta 200 % sin que el diseño se rompa ni aparezca scroll horizontal.
 - Se adapta a «reducir movimiento», «reducir transparencia», contraste alto y colores forzados de Windows.
-- Sin JavaScript todo el contenido se lee. Si `landing.js` falla o no se puede descargar, el `<head>` lo detecta al instante (si solo va lento, a los 4 segundos), muestra la página completa, esconde el formulario y deja un botón de WhatsApp. Si el script llega tarde, la página se «despierta» sola.
+- Sin JavaScript todo el contenido se lee; si el script no arranca, a los 4 segundos la página se muestra completa.
 - Formulario con etiquetas, teclado numérico para el teléfono, autocompletado de nombre y teléfono, errores junto a cada campo (con aviso a lectores de pantalla) y el foco va al primer campo por corregir.
 
 ---

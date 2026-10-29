@@ -1,48 +1,6 @@
 <!doctype html>
 <html lang="es-CO">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="dark" />
-
-    <!-- Marca la página como "con JavaScript" ANTES de pintar: los efectos de aparición (.js .rv) dependen de esto.
-     Va arriba de todo (antes del Pixel, las fuentes y el CSS) para que nada lo retrase. Está escrito en JavaScript
-     antiguo (ES5) a propósito: tiene que funcionar en cualquier celular.
-     Si landing.js no corre (navegador antiguo, bloqueo, red muy lenta) se quita la marca: la página se ve completa
-     y, en vez del formulario, sale el botón de WhatsApp de respaldo (.nj). Si landing.js llega tarde, él mismo
-     vuelve a poner la marca (wakeEffects).
-     Con ?diag al final de la dirección carga assets/js/diag.js: un panel que dice qué pasa en ese celular. -->
-    <script>
-      (function (w, d) {
-        var r = d.documentElement;
-        var errs = (w.__afErr = []);
-        r.className = "js";
-        function off() {
-          r.className = "";
-        }
-        w.addEventListener("error", function (e) {
-          var f = (e && e.filename) || "";
-          errs.push(
-            ((e && e.message) || "error") +
-              " (" + f.split("/").pop() + ":" + ((e && e.lineno) || 0) + ")"
-          );
-          if (!w.__af && /landing\.js/.test(f)) off();
-        });
-        setTimeout(function () {
-          if (!w.__af) off();
-        }, 4000);
-        if (/[?&]diag(&|=|$)/.test(w.location.search)) {
-          var s = d.createElement("script");
-          s.src = "assets/js/diag.js";
-          s.defer = true;
-          d.head.appendChild(s);
-        }
-      })(window, document);
-    </script>
-
     <!-- Meta Pixel Code -->
     <script>
       !(function (f, b, e, v, n, t, s) {
@@ -66,7 +24,7 @@
         window,
         document,
         "script",
-        "https://connect.facebook.net/en_US/fbevents.js"
+        "https://connect.facebook.net/en_US/fbevents.js",
       );
       fbq("init", "952437584191948");
       fbq("track", "PageView");
@@ -79,7 +37,11 @@
         src="https://www.facebook.com/tr?id=952437584191948&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
 
     <!-- Identidad de la página y buscadores -->
     <title>ArjunaFit: asesoría 1:1 con Arju + App ArjunaFit</title>
@@ -91,10 +53,10 @@
     <meta name="theme-color" content="#04050b" />
     <link rel="canonical" href="https://arjunafit.com/" />
     <link rel="icon" type="image/webp" href="assets/img/logo-arjunafit.webp" />
-    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Vista previa al compartir el enlace (WhatsApp, Instagram, Facebook, X).
-     og.jpg (1200 x 630 px) y apple-touch-icon.png viven en assets/img/: son las imágenes de la vista previa y del ícono en iPhone. -->
+     Sube og.jpg (1200 x 630 px) y apple-touch-icon.png junto a este archivo: son las imágenes de la vista previa y del ícono en iPhone. -->
     <meta property="og:site_name" content="ArjunaFit" />
     <meta
       property="og:title"
@@ -107,7 +69,7 @@
     <meta property="og:url" content="https://arjunafit.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CO" />
-    <meta property="og:image" content="https://arjunafit.com/assets/img/og.jpg" />
+    <meta property="og:image" content="https://arjunafit.com/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -123,7 +85,7 @@
       name="twitter:description"
       content="Una hora de entrenamiento acompañada con Arju, a la hora que tú puedas, y la App ArjunaFit para que no abandones."
     />
-    <meta name="twitter:image" content="https://arjunafit.com/assets/img/og.jpg" />
+    <meta name="twitter:image" content="https://arjunafit.com/og.jpg" />
 
     <!-- Datos estructurados (Google): organización, servicio y preguntas frecuentes.
      Las preguntas de aquí deben ser las mismas de la sección "Preguntas frecuentes". -->
@@ -196,21 +158,22 @@
       }
     </script>
 
-    <!-- Tipografías: Fraunces (títulos) e Inter Tight (texto).
-     Se piden SIN bloquear la página: antes esta hoja frenaba el arranque de landing.js (con red lenta, o si
-     Google tardaba, los efectos arrancaban tarde o nunca). Mientras llegan se usa la fuente de respaldo y luego
-     cambian solas (display=swap). -->
+    <!-- Tipografías: Fraunces (títulos) e Inter Tight (texto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter+Tight:wght@400;600;700&display=swap"
-      media="print"
-      onload="this.media = 'all'"
+      rel="stylesheet"
     />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter+Tight:wght@400;600;700&display=swap" />
-    </noscript>
+
+    <!-- Marca la página como "con JavaScript" antes de pintar: los efectos de aparición (.js .rv) dependen de esto.
+     Si landing.js no arranca en 4 s (error, bloqueo), se quita la marca y el contenido se ve igual, sin efectos. -->
+    <script>
+      document.documentElement.className = "js";
+      setTimeout(function () {
+        if (!window.__af) document.documentElement.className = "";
+      }, 4000);
+    </script>
 
     <!-- Diseño: todo el CSS está en este archivo (ver su índice) -->
     <link rel="stylesheet" href="assets/css/styles.css" />
@@ -267,7 +230,7 @@
             <p class="slogan">
               Tu transformación no necesita presión. Necesita acompañamiento.
             </p>
-            <a class="btn" href="#asesoria" data-ev="p1_hero_cta"
+            <a class="btn" href="#valoracion" data-ev="p1_hero_cta"
               >Quiero empezar con Arju</a
             >
             <p class="fine hero-note">
@@ -418,12 +381,17 @@
                 <a
                   class="btn qcta"
                   id="qcta"
-                  href="#asesoria"
+                  href="#valoracion"
                   data-ev="p1_quiz_cta"
                   hidden
                   >Quiero empezar con Arju</a
                 >
-                <a class="qsend" id="qsend" href="#" data-ev="p1_quiz_wa" hidden
+                <a
+                  class="qsend"
+                  id="qsend"
+                  href="#valoracion"
+                  data-ev="p1_quiz_wa"
+                  hidden
                   >Enviar mis respuestas a Arju por WhatsApp</a
                 >
               </div>
@@ -1086,14 +1054,6 @@
                   Valoración gratis y sin compromiso: vemos tu punto de partida
                   y te decimos tu plan.
                 </p>
-                <p class="nj">
-                  <a
-                    class="btn"
-                    href="https://wa.me/573209497919?text=Hola%20Arju%2C%20quiero%20empezar%20con%20la%20asesor%C3%ADa%201%3A1%20y%20la%20valoraci%C3%B3n%20gratis"
-                    rel="noopener"
-                    >Escríbele a Arju por WhatsApp</a
-                  >
-                </p>
               </div>
               <div class="sp-v">
                 <form
@@ -1317,6 +1277,6 @@
         de empezar.
       </p>
     </footer>
-    <script src="assets/js/landing.js" defer onerror="document.documentElement.className = ''"></script>
+    <script src="assets/js/landing.js" defer></script>
   </body>
 </html>
