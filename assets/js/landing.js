@@ -16,6 +16,7 @@
    11 · Teléfono animado y pilares
    12 · Inclinación de tarjetas
    13 · Partículas
+   13b · Pausar animaciones (botón bajo el teléfono)
    14 · Claves escondidas y guía del éxito
    15 · Etapa de tu camino (header) y resumen final
    16 · Ciclo: volver a encender los días
@@ -26,11 +27,22 @@
 
    Cada sección es una función init...() independiente: si una falla (por
    ejemplo, quitaste un bloque del HTML), las demás siguen funcionando.
+
+   COMPATIBILIDAD: está escrito en JavaScript de 2017 (ES2017) a propósito.
+   Si agregas código, NO uses "??", "?.", "catch {" sin variable, "...objeto"
+   ni "replaceAll": un solo símbolo de esos y el archivo ENTERO deja de correr
+   en los Android con WebView o navegador viejo (Chrome anterior a 80, Samsung
+   Internet antiguo, navegadores de apps): la página queda sin efectos y sin
+   formulario. Para comprobarlo antes de subir:
+       npx acorn --ecma2017 --silent assets/js/landing.js
+   (sin mensajes = bien).
    ========================================================================== */
 (function () {
   'use strict';
 
-  window.__af = 1; // avisa al <head> que este script arrancó (ver el temporizador de 4 s)
+  window.__af = 1; // avisa al <head> que este script arrancó (ver la marca "js" del <head>)
+  // ms desde que empezó a cargar la página: lo lee el panel ?diag
+  window.__afAt = window.performance && performance.now ? Math.round(performance.now()) : 0;
 
 
   /* ========================================================================
@@ -52,6 +64,16 @@
 
     // Cada cuántos milisegundos cambia la pantalla del teléfono
     phoneIntervalMs: 3800,
+
+    // Movimiento de fondo que sigue aunque el celular pida «menos movimiento»
+    // (en Android: Ajustes › Accesibilidad › «Quitar animaciones»). Mucha gente
+    // lo activa solo para que el celular vaya más rápido y se quedaría sin ver la
+    // app en acción. Opciones:
+    //   'phone'     el teléfono de la app cambia de pantalla solo
+    //   'particles' las motas del fondo (con ese ajuste van más lentas y sin destello)
+    // Siempre hay un botón «Pausar animaciones» bajo el teléfono. Con [] se apaga
+    // todo para quien tenga ese ajuste, como lo pide su celular.
+    motionWhenReduced: ['phone', 'particles'],
 
     // Puntos del ciclo: total y cuántos quedan siempre encendidos
     dots: { total: 30, fixed: 10 },
@@ -137,8 +159,14 @@
   const byId = (id) => document.getElementById(id);
   const clamp = (x, min = 0, max = 1) => Math.min(max, Math.max(min, x));
 
-  // Quien pide menos movimiento ve la página quieta
-  const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // Quien pide menos movimiento (en Android: Ajustes > Accesibilidad > «Quitar
+  // animaciones», a veces activado solo para que el celular vaya más rápido; en
+  // iPhone: «Reducir movimiento») ve la página con MENOS movimiento, no sin vida:
+  // siguen los fundidos, el cambio de color del amanecer y el apagado de los 30
+  // días; se apagan la inclinación de tarjetas y los desplazamientos y giros.
+  // El teléfono de la app y las partículas siguen, más suaves y con botón de
+  // pausa, según CONFIG.motionWhenReduced (ver keeps() más abajo).
+  const reducedMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches);
 
   // Enlace de WhatsApp con mensaje prellenado
   function whatsappUrl(message) {
@@ -147,31 +175,63 @@
 
   // sessionStorage con respaldo en memoria (modo privado o almacenamiento bloqueado)
   const memory = {};
+  const remembered = (key) => (memory[key] === undefined ? null : memory[key]);
   const store = {
     get(key) {
       try {
         const value = sessionStorage.getItem(key);
-        return value === null ? (memory[key] ?? null) : value;
-      } catch {
-        return memory[key] ?? null;
+        return value === null ? remembered(key) : value;
+      } catch (e) {
+        return remembered(key);
       }
     },
     set(key, value) {
       memory[key] = value;
-      try { sessionStorage.setItem(key, value); } catch { /* sin almacenamiento */ }
+      try { sessionStorage.setItem(key, value); } catch (e) { /* sin almacenamiento */ }
     }
   };
+
+  // Vibración corta al tocar (solo Android). Algunos navegadores internos la
+  // bloquean o fallan: nunca debe frenar lo que sigue.
+  function buzz(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* sin vibración */ }
+  }
+
+  // Movimiento de fondo (teléfono de la app y partículas): sigue aunque el celular
+  // pida «menos movimiento» si está en CONFIG.motionWhenReduced, y cualquiera lo
+  // puede pausar con el botón #pa (se recuerda mientras dure la visita). Estando
+  // en pausa, <html> lleva la clase .mo-paused: el CSS (sección 26c) detiene también
+  // los brillos y flechas que se repiten solos.
+  const keeps = (what) => !reducedMotion || (CONFIG.motionWhenReduced || []).indexOf(what) > -1;
+  const motion = { paused: store.get('mp') === '1', hooks: [] };
+  if (motion.paused) root.classList.add('mo-paused');
+  // Lo lee el panel ?diag
+  window.__afMotion = { reduced: reducedMotion, phone: keeps('phone'), particles: keeps('particles'), paused: motion.paused };
+
+  function setPaused(value) {
+    motion.paused = value;
+    window.__afMotion.paused = value;
+    store.set('mp', value ? '1' : '0');
+    if (value) root.classList.add('mo-paused');
+    else root.classList.remove('mo-paused');
+    motion.hooks.forEach((fn) => safe('pausa', fn));
+  }
 
   // Analítica: solo empuja eventos al dataLayer (aún no hay pixel instalado)
   function track(name) {
     (window.dataLayer = window.dataLayer || []).push({ event: name });
   }
 
+  // Módulos que no arrancaron (los lee el panel ?diag)
+  const failed = [];
+  window.__afFail = failed;
+
   // Ejecuta un módulo sin que un error tumbe a los demás
   function safe(name, fn) {
     try {
       return fn();
     } catch (error) {
+      failed.push(name + ': ' + (error && error.message ? error.message : error));
       if (window.console) console.warn('[ArjunaFit] módulo "' + name + '" no arrancó:', error);
       return null;
     }
@@ -216,6 +276,23 @@
      Agrega .in a los elementos .rv y .rvd cuando se ven (20 % en pantalla).
      El movimiento lo define el CSS (sección 08).
      ======================================================================== */
+
+  // Si el <head> ya había quitado la marca "js" (el script llegó tarde por una
+  // red lenta), se vuelve a poner sin parpadeos: lo que ya se ve en pantalla
+  // queda visible (.in, sin repetir la entrada) antes de reactivar los efectos
+  // del resto de la página.
+  function wakeEffects() {
+    if (root.classList.contains('js')) return;
+    qsa('.rv,.rvd').forEach((el) => {
+      const box = el.getBoundingClientRect();
+      if (box.bottom > 0 && box.top < innerHeight) {
+        el.classList.add('in');
+        if (el.classList.contains('rvd')) el.style.animation = 'none';
+      }
+    });
+    root.classList.add('js');
+  }
+
   function initReveal() {
     if (!('IntersectionObserver' in window)) { // navegadores muy viejos: todo se ve de una vez
       qsa('.rv,.rvd').forEach((el) => el.classList.add('in'));
@@ -297,7 +374,7 @@
       //    navegador no recalcula el diseño dos veces en cada cuadro.
       const max = root.scrollHeight - innerHeight;
       const p = max > 0 ? clamp(scrollY / max) : 0;
-      const box = reducedMotion ? null : cycle.getBoundingClientRect();
+      const box = cycle.getBoundingClientRect();
       frameHooks.forEach((fn) => safe('cuadro', fn));
 
       // 2) Pintar
@@ -411,7 +488,7 @@
         btn.parentElement.classList.add('touched'); // deja de latir la invitación
         btn.setAttribute('aria-pressed', !isOn(btn));
         if (!reducedMotion) ripple(btn, e);
-        if (navigator.vibrate) navigator.vibrate(10);
+        buzz(10);
         render();
         track('situacion_tap');
       });
@@ -637,8 +714,10 @@
      11 · TELÉFONO ANIMADO Y PILARES
      Cada 3,8 s el teléfono pasa a la siguiente pantalla (data-s = 0 a 3) y
      se marca el pilar que corresponde (.on). Solo corre mientras el
-     teléfono se ve. Tocar un pilar salta a su pantalla y reinicia el
-     reloj. Las animaciones de cada pantalla están en el CSS (sección 13).
+     teléfono se ve y no está en pausa (botón #pa). Con «menos movimiento»
+     sigue girando si CONFIG.motionWhenReduced incluye 'phone'. Tocar un
+     pilar salta a su pantalla y reinicia el reloj. Las animaciones de cada
+     pantalla están en el CSS (sección 13).
      ======================================================================== */
   function initPhone() {
     const SCREENS = 4; // pantallas .s0 a .s3
@@ -657,16 +736,27 @@
       timer = setInterval(() => show((current + 1) % SCREENS), CONFIG.phoneIntervalMs);
     };
 
-    const jump = (i) => {
+    // Rota solo mientras se ve, si el celular lo permite (CONFIG.motionWhenReduced)
+    // y no está en pausa
+    const moves = keeps('phone');
+    let visible = false;
+    const sync = () => {
       clearInterval(timer);
+      if (moves && visible && !motion.paused) run();
+    };
+    // El CSS deja correr las animaciones de cada pantalla aunque haya «menos movimiento»
+    if (moves) root.classList.add('mo-phone');
+
+    const jump = (i) => {
       show(i);
-      if (!reducedMotion) run();
+      sync();
     };
 
     new IntersectionObserver((entries) => {
-      clearInterval(timer);
-      if (entries[0].isIntersecting && !reducedMotion) run();
+      visible = entries[0].isIntersecting;
+      sync();
     }, { threshold: .3 }).observe(phone);
+    motion.hooks.push(sync);
 
     show(0);
 
@@ -716,11 +806,15 @@
      13 · PARTÍCULAS
      Motas suaves que suben por el fondo (canvas #pt). Pocas y lentas:
      lavanda de noche, doradas al amanecer, moradas en modo claro. Siguen
-     el estado del amanecer (state.progress y state.light). Se apagan con
-     movimiento reducido y se limitan a ~30 cuadros por segundo.
+     el estado del amanecer (state.progress y state.light). Con movimiento
+     reducido siguen, más suaves (menos, más lentas y sin destello) si
+     CONFIG.motionWhenReduced incluye 'particles'; con el botón #pa quedan
+     quietas (siguen a la vista).
+     Se limitan a ~30 cuadros por segundo.
      ======================================================================== */
   function initParticles() {
-    if (reducedMotion) return;
+    if (!keeps('particles')) return;
+    const calm = reducedMotion; // con «menos movimiento»: menos motas, más lentas y sin destello
 
     const canvas = byId('pt');
     const ctx = canvas.getContext && canvas.getContext('2d');
@@ -738,7 +832,7 @@
       y: anywhere ? Math.random() * H : H + 10,
       r: .6 + Math.random() * 1.2,   // radio
       a: .15 + Math.random() * .3,   // opacidad base
-      v: .08 + Math.random() * .22,  // velocidad de subida
+      v: (.08 + Math.random() * .22) * (calm ? .5 : 1), // velocidad de subida
       d: (Math.random() - .5) * .12, // deriva lateral
       t: Math.random() * 6.28,       // fase
       s: .4 + Math.random() * 1.2    // velocidad del destello
@@ -755,7 +849,7 @@
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const target = Math.round(
-        Math.min(70, Math.max(26, W * H / 20000)) * (navigator.hardwareConcurrency <= 4 ? .7 : 1)
+        Math.min(70, Math.max(26, W * H / 20000)) * (navigator.hardwareConcurrency <= 4 ? .7 : 1) * (calm ? .6 : 1)
       );
       while (particles.length < target) particles.push(make(true));
       particles.length = target;
@@ -763,7 +857,9 @@
 
     const frame = (ts) => {
       requestAnimationFrame(frame);
-      if (ts - last < 33) return;
+      // En pausa las motas se quedan quietas y solo se repintan unas 4 veces por
+      // segundo, para seguir el color del amanecer sin gastar batería
+      if (ts - last < (motion.paused ? 250 : 33)) return;
       last = ts;
       ctx.clearRect(0, 0, W, H);
 
@@ -773,14 +869,16 @@
         : Math.round(220 + 35 * k) + ',' + Math.round(210 + 4 * k) + ',' + Math.round(255 - 115 * k);
 
       for (const p of particles) {
-        p.y -= p.v * (1 + state.progress * .8);
-        p.x += p.d + Math.sin(p.t + ts / 2500) * .08;
-        p.t += .01;
-        if (p.y < -8) {
-          Object.assign(p, make(false));
-          p.x = Math.random() * W;
+        if (!motion.paused) {
+          p.y -= p.v * (1 + state.progress * .8);
+          p.x += (p.d + Math.sin(p.t + ts / 2500) * .08) * (calm ? .5 : 1);
+          p.t += .01;
+          if (p.y < -8) {
+            Object.assign(p, make(false));
+            p.x = Math.random() * W;
+          }
         }
-        const twinkle = .55 + .45 * Math.sin(ts / 900 * p.s + p.t);
+        const twinkle = calm || motion.paused ? .8 : .55 + .45 * Math.sin(ts / 900 * p.s + p.t);
         ctx.fillStyle = 'rgba(' + color + ',' + (p.a * twinkle * (state.light ? .5 : 1)).toFixed(3) + ')';
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, 6.283);
@@ -791,6 +889,31 @@
     resize();
     addEventListener('resize', resize);
     requestAnimationFrame(frame);
+  }
+
+
+  /* ========================================================================
+     13b · PAUSAR ANIMACIONES
+     Botón #pa bajo el teléfono: pausa o reanuda el movimiento de fondo (el
+     teléfono que rota solo y las partículas). Se recuerda mientras dure la
+     visita, así quien lo necesita detiene todo con un toque. Si CONFIG deja
+     sin movimiento a quien pide «menos movimiento», el botón no sale.
+     ======================================================================== */
+  function initMotionToggle() {
+    const button = byId('pa');
+    if (!button || !(keeps('phone') || keeps('particles'))) return;
+
+    const paint = () => {
+      button.textContent = motion.paused ? 'Reanudar animaciones' : 'Pausar animaciones';
+    };
+
+    paint();
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      setPaused(!motion.paused);
+      paint();
+      track(motion.paused ? 'motion_pause' : 'motion_resume');
+    });
   }
 
 
@@ -880,7 +1003,7 @@
         const star = stars.find((s) => Number(s.dataset.k) === k);
         if (star && !reducedMotion) replay(star, 'pop');
         if (!reducedMotion) replay(chip, 'pop');
-        if (navigator.vibrate) navigator.vibrate(12);
+        buzz(12);
         track('clave_' + k);
       }
 
@@ -966,13 +1089,13 @@
   /* ========================================================================
      16 · CICLO: VOLVER A ENCENDER LOS DÍAS
      El botón #rl enciende los 30 puntos de #dots en cascada (clase .relit;
-     el retraso de cada punto es --k). Con movimiento reducido no hace nada
-     (el CSS lo oculta y los puntos ya están encendidos).
+     el retraso de cada punto es --k). Con movimiento reducido también
+     funciona: los puntos solo cambian de opacidad, no de tamaño.
      ======================================================================== */
   function initRelight() {
     const button = byId('rl');
     const grid = byId('dots');
-    if (!button || !grid || reducedMotion) return;
+    if (!button || !grid) return;
 
     Array.from(grid.children).forEach((dot, i) => dot.style.setProperty('--k', i));
 
@@ -980,7 +1103,7 @@
       grid.classList.add('relit');
       button.disabled = true;
       button.textContent = button.dataset.after;
-      if (navigator.vibrate) navigator.vibrate(12);
+      buzz(12);
       track('ciclo_reencendido');
     });
   }
@@ -1102,6 +1225,7 @@
      El amanecer se pinta al final, cuando todo lo demás ya existe.
      ======================================================================== */
   function boot() {
+    safe('efectos', wakeEffects);
     safe('enlaces', initLinks);
     safe('títulos', initHeadings);
     safe('aparición', initReveal);
@@ -1120,6 +1244,7 @@
     safe('teléfono', initPhone);
     safe('tarjetas', initTilt);
     safe('partículas', initParticles);
+    safe('pausa', initMotionToggle);
     if (sunrise) sunrise.update();
   }
 

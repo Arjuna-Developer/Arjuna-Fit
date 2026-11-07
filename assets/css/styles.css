@@ -28,7 +28,8 @@
    23 · Ciclo: volver a encender los días
    24 · Barra de acción en el celular
    25 · Escritorio (desde 1024 px) y pantallas grandes
-   26 · Accesibilidad y casos especiales (foco, contraste alto, colores forzados, celular horizontal)
+   26 · Accesibilidad y casos especiales (foco, contraste alto, colores forzados, celular horizontal,
+        respaldo sin JavaScript en 26b, pausa de animaciones en 26c)
    27 · Movimiento reducido (debe ir al final)
 
    REGLAS DE ORDEN
@@ -1474,6 +1475,24 @@ select {
   border-radius: 999px;
 }
 
+.pa { /* botón bajo la leyenda: pausa o reanuda el movimiento de fondo (landing.js, sección 13b); cristal en la sección 20 */
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px; /* zona táctil cómoda */
+  margin: 8px auto 0;
+  padding: 10px 18px;
+  font: 600 .84rem/1.2 "Inter Tight", system-ui, sans-serif;
+  color: var(--tx);
+  text-align: center;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pa[hidden] {
+  display: none;
+}
+
 /* Pilares: tocar uno salta a su pantalla; el activo (.on) muestra un temporizador */
 .pil {
   display: grid;
@@ -2118,6 +2137,7 @@ footer p { /* aviso de salud */
 .story,
 .gk,
 .cap,
+.pa,
 .toast,
 .vs > div {
   background: var(--gl-hl), var(--gl-tint); /* brillos arriba, tinte debajo (el tinte cambia suave entre modos) */
@@ -3212,6 +3232,16 @@ body.lt .split-app .sp-v::after {
     border-color: var(--gl-hi);
   }
 
+  .pa { /* con ratón no hace falta tanta zona táctil: ocupa menos alto bajo el teléfono pegajoso */
+    min-height: 36px;
+    margin-top: 6px;
+    padding: 7px 16px;
+  }
+
+  .pa:hover {
+    border-color: var(--ac);
+  }
+
   .sit:hover:not([aria-pressed="true"]) {
     border-color: var(--ac);
   }
@@ -3293,7 +3323,8 @@ footer a { /* zona táctil de 44 px sin mover el texto */
 
   .btn,
   .rl,
-  .gr {
+  .gr,
+  .pa {
     border: 2px solid ButtonText;
   }
 
@@ -3472,33 +3503,104 @@ footer a { /* zona táctil de 44 px sin mover el texto */
 
 
 /* ==========================================================================
-   27 · MOVIMIENTO REDUCIDO
-   Con prefers-reduced-motion todo queda visible y quieto; la oferta se
-   entiende igual sin animaciones. Debe ir al final del archivo.
+   26b · RESPALDO SIN JAVASCRIPT
+   El formulario, el cuestionario, las claves ✦ y los contadores del header
+   necesitan landing.js. Si no corre (navegador antiguo, bloqueo), el <head>
+   quita la marca .js: el formulario se esconde y sale el botón de WhatsApp
+   (.nj), así nadie queda sin cómo escribirle a Arju, y se esconde lo que sin
+   JavaScript sería un botón muerto o un dato congelado (#sf = cuestionario,
+   .key + .hint + #gsub = claves y las frases que invitan a buscarlas o
+   tocarlas, .rl + .dots = los 30 días, .kc + .stw = contador y "Paso X de
+   3"). Con JavaScript, .nj no existe y todo esto se ve normal.
    ========================================================================== */
+.nj {
+  margin: 18px 0 0;
+}
+
+.js .nj {
+  display: none;
+}
+
+html:not(.js) #f,
+html:not(.js) #sf,
+html:not(.js) .key,
+html:not(.js) .hint,
+html:not(.js) #gsub,
+html:not(.js) .rl,
+html:not(.js) .dots,
+html:not(.js) .kc,
+html:not(.js) .stw {
+  display: none;
+}
+
+html:not(.js) .top { /* sin contadores, el header queda como una píldora con solo el avatar */
+  right: auto;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   26c · PAUSA DE ANIMACIONES (botón #pa bajo el teléfono)
+   landing.js pone .mo-paused en <html> mientras la pausa esté activa. Detiene
+   el flotado del teléfono y los brillos, anillos y flechas que se repiten
+   solos (quedan en su estado base) y deja quieta la barra del pilar activo.
+   El teléfono que cambia de pantalla y las partículas los frena el propio JS.
+   ========================================================================== */
+html.mo-paused .phone,
+html.mo-paused .sy:not(.touched) .sit::before,
+html.mo-paused .vs .on::after,
+html.mo-paused .sw::after,
+html.mo-paused .key i,
+html.mo-paused .rl::before {
+  animation: none;
+}
+
+html.mo-paused .pil .card.on::after {
+  animation-play-state: paused;
+}
+
+
+/* ==========================================================================
+   27 · MOVIMIENTO REDUCIDO
+   Con prefers-reduced-motion se quita el MOVIMIENTO GRANDE (desplazamientos,
+   giros, flotado del teléfono, inclinación de tarjetas) pero no la vida: la
+   aparición al hacer scroll es solo un fundido y los 30 días se atenúan.
+   El teléfono de la app (cambio de pantallas) y las partículas suaves siguen
+   según CONFIG.motionWhenReduced de landing.js (el JS pone .mo-phone en <html>
+   y dibuja las partículas); el botón #pa las pausa. En Android «Quitar
+   animaciones» activa esto, a veces sin que la persona lo sepa. Debe ir al
+   final del archivo.
+   ========================================================================== */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  /* Aparición al hacer scroll */
+  /* Aparición al hacer scroll: solo fundido, sin desplazamientos */
   .js .rv {
-    opacity: 1;
     transform: none;
-    transition: none;
-  }
-
-  .js .rvd:not(.in) {
-    opacity: 1;
+    transition: opacity .6s ease;
   }
 
   .js .rvd.in,
-  .vs .on::after,
-  .pil .card.on::after {
+  .js .rvd[data-d].in {
+    animation: fade-in .6s ease backwards;
+    animation-delay: calc(var(--i, 0) * .08s);
+  }
+
+  .vs .on::after {
     animation: none;
   }
 
-  .pil .card.on::after {
+  /* Reloj del pilar (barra dorada): corre solo si el teléfono rota solo (.mo-phone) */
+  html:not(.mo-phone) .pil .card.on::after {
+    animation: none;
     width: 100%;
   }
 
@@ -3522,23 +3624,24 @@ footer a { /* zona táctil de 44 px sin mover el texto */
     transition: none;
   }
 
-  /* Teléfono */
+  /* Teléfono: no flota; el cambio de pantallas y sus animaciones internas siguen
+     mientras landing.js lo permita (.mo-phone, CONFIG.motionWhenReduced) */
   .phone {
     animation: none;
   }
 
-  .s,
-  .bub,
-  .arc,
-  .mac i,
-  .sp path,
-  .ck {
+  html:not(.mo-phone) .s,
+  html:not(.mo-phone) .bub,
+  html:not(.mo-phone) .arc,
+  html:not(.mo-phone) .mac i,
+  html:not(.mo-phone) .sp path,
+  html:not(.mo-phone) .ck {
     transition: none;
   }
 
-  /* Puntos del ciclo */
-  .dots i {
-    transition: none;
+  /* Puntos del ciclo: se atenúan (opacidad), sin encogerse */
+  .dots i.off {
+    transform: none;
   }
 
   /* Claves, aviso, guía, fotos, preguntas, formulario y barra de acción */
@@ -3560,14 +3663,7 @@ footer a { /* zona táctil de 44 px sin mover el texto */
   .story,
   .dock,
   summary::after,
-  .opt span,
-  .dots.relit i,
-  .dots.relit i.off {
+  .opt span {
     transition: none;
-  }
-
-  /* Sin movimiento los 30 días ya se ven encendidos: el botón sobra */
-  .rl {
-    display: none;
   }
 }

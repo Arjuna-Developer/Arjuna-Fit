@@ -30,6 +30,18 @@
     try { return w.getComputedStyle(d.documentElement).getPropertyValue('--bg').replace(/\s+/g, ''); } catch (e) { return '?'; }
   }
 
+  // Cuenta píxeles pintados en el lienzo de las partículas (#pt): -1 no existe, -2 no se pudo leer
+  function particlePixels() {
+    try {
+      var cv = d.getElementById('pt');
+      if (!cv || !cv.getContext) return -1;
+      var data = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+      var n = 0;
+      for (var i = 3; i < data.length; i += 4) { if (data[i]) n++; }
+      return n;
+    } catch (e) { return -2; }
+  }
+
   // ---- arma el texto del panel
   function report() {
     var started = !!w.__af;
@@ -43,22 +55,34 @@
     var scrollMax = Math.max(1, d.documentElement.scrollHeight - w.innerHeight);
     var lines = [];
 
+    // landing.js (versión con movimiento ajustable) publica aquí qué movimiento de fondo corre
+    var motion = w.__afMotion || null;
+    var pauseBtn = d.getElementById('pa');
+    var parts = [];
+    if (motion && motion.phone) parts.push('el teléfono de la app');
+    if (motion && motion.particles) parts.push('las partículas');
+
     var verdict;
     if (!started) {
       verdict = 'RESULTADO: landing.js NO corrió en este celular. Sin él no hay efectos, ni cuestionario, ni formulario.';
       if (!modern2020 || !modern2019) verdict += ' Este navegador no entiende JavaScript moderno.';
     } else if (failed.length) {
       verdict = 'RESULTADO: landing.js corrió, pero fallaron estos módulos: ' + failed.join(' | ');
+    } else if (!motion) {
+      verdict = 'RESULTADO: landing.js corre, pero es una versión ANTERIOR (sin botón «Pausar animaciones»). Sube también la versión nueva de landing.js e index.html.';
     } else if (reduced) {
-      verdict = 'RESULTADO: todo corre, pero este celular pide MENOS MOVIMIENTO (Android: Ajustes > Accesibilidad > Quitar animaciones, o modo de ahorro de energía). Por eso no hay partículas, teléfono que rota solo ni tarjetas que se inclinan; los fundidos y el amanecer sí deberían verse.';
+      verdict = 'RESULTADO: todo corre. Este celular pide MENOS MOVIMIENTO (Android: Ajustes > Accesibilidad > Quitar animaciones; en algunos modelos, el ahorro de energía): la página quita los desplazamientos, el flotado y las tarjetas que se inclinan, ' +
+        (parts.length ? 'pero igual mueve ' + parts.join(' y ') + ' (más suave) y trae el botón «Pausar animaciones».' : 'y además apaga el teléfono y las partículas (motionWhenReduced está vacío en landing.js). Los fundidos y el amanecer sí deberían verse.');
     } else {
       verdict = 'RESULTADO: todo corre y el celular no pide menos movimiento: los efectos deberían verse. Baja por la página y toca «Actualizar»: --bg debe cambiar de color.';
     }
+    if (started && motion && motion.paused) verdict += ' OJO: las animaciones están EN PAUSA (botón «Reanudar animaciones» bajo el teléfono de la app).';
     lines.push(verdict);
     lines.push('');
 
     lines.push('== landing.js');
-    lines.push('Arrancó: ' + (started ? 'sí, a los ' + w.__afAt + ' ms' : 'NO'));
+    lines.push('Arrancó: ' + (started ? 'sí' + (w.__afAt ? ', a los ' + w.__afAt + ' ms' : '') : 'NO'));
+    lines.push('Versión: ' + (motion ? 'nueva (movimiento ajustable + botón de pausa)' : (started ? 'ANTERIOR (sin botón de pausa)' : '?')));
     lines.push('Marca "js" en <html>: ' + (/(^|\s)js(\s|$)/.test(d.documentElement.className) ? 'sí' : 'NO'));
     lines.push('Módulos con error: ' + (failed.length ? failed.join(' | ') : 'ninguno'));
     lines.push('Errores capturados: ' + (errors.length ? errors.slice(0, 5).join(' | ') : 'ninguno'));
@@ -79,6 +103,21 @@
     lines.push('Transparencia reducida: ' + yes(media('(prefers-reduced-transparency: reduce)')));
     lines.push('Modo oscuro del sistema: ' + yes(media('(prefers-color-scheme: dark)')));
     lines.push('Puntero con hover (mouse): ' + yes(hover) + (hover ? '' : ' → la inclinación de tarjetas solo existe con mouse'));
+    lines.push('');
+
+    var phoneEl = d.getElementById('phone');
+    var px = particlePixels();
+    lines.push('== Movimiento de fondo (lo maneja landing.js)');
+    if (motion) {
+      lines.push('Teléfono de la app cambia solo: ' + yes(motion.phone) + (motion.phone && reduced ? ' (aunque el celular pide menos movimiento)' : ''));
+      lines.push('Partículas: ' + yes(motion.particles) + (motion.particles && reduced ? ' (suaves, aunque el celular pide menos movimiento)' : ''));
+      lines.push('En pausa (botón de la página): ' + yes(motion.paused));
+    } else {
+      lines.push('Sin datos: landing.js no corrió o es una versión anterior');
+    }
+    lines.push('Botón «Pausar animaciones»: ' + (pauseBtn ? (pauseBtn.hidden ? 'está pero oculto' : 'visible') : 'NO está en la página (index.html es de otra versión)'));
+    lines.push('Partículas dibujadas ahora: ' + (px > 0 ? 'sí (' + px + ' píxeles pintados)' : (px === 0 ? 'NO (lienzo vacío)' : (px === -1 ? 'no hay lienzo #pt' : 'no se pudo leer'))));
+    lines.push('Pantalla del teléfono ahora: ' + (phoneEl ? phoneEl.getAttribute('data-s') : '?') + ' (cambia sola cada ~4 s mientras el teléfono se ve en pantalla)');
     lines.push('');
 
     lines.push('== Lo que necesita la página');
