@@ -19,10 +19,18 @@
       (function (w, d) {
         var r = d.documentElement;
         var errs = (w.__afErr = []);
-        r.className = "js";
+        r.className = "js mw";
+        // El hero se esconde, sin mover nada, hasta que el bloque "1.1b Mi objetivo" (pegado al hero) le pone el
+        // texto de su objetivo; así nunca se ve el hero general un instante cuando la visita llega con un objetivo.
+        // Si algo fallara, a los 1,5 s se muestra solo.
+        setTimeout(function () {
+          r.className = r.className.replace(/(^|\s)mw(?=\s|$)/g, "");
+        }, 1500);
+        // Sin landing.js solo se quitan "js" y "mw": las marcas del objetivo (os, ow) se quedan y el selector sigue.
         function off() {
-          r.className = "";
+          r.className = r.className.replace(/(^|\s)(js|mw)(?=\s|$)/g, "");
         }
+        w.__afOff = off;
         w.addEventListener("error", function (e) {
           var f = (e && e.filename) || "";
           errs.push(
@@ -221,7 +229,7 @@
     <div id="gl"></div>
     <canvas id="pt" aria-hidden="true"></canvas>
     <div id="pg"></div>
-    <!-- HEADER FLOTANTE: logo redondo + (en pantallas grandes) botón de acción + claves encontradas (#kn) + "Paso X de 3" y etapa de tu camino (#evo) -->
+    <!-- HEADER FLOTANTE: logo redondo + (en pantallas grandes) botón de acción + "Paso X de 3" y etapa de tu camino (#evo) -->
     <header class="top">
       <a href="#index" class="brand" aria-label="ArjunaFit, ir al inicio"
         ><img
@@ -233,12 +241,6 @@
         /><span class="bn" aria-hidden="true">ArjunaFit</span></a
       ><a class="btn hcta" id="hcta" href="#valoracion" data-ev="top_cta"
         >Quiero empezar con Arju</a
-      ><span
-        class="kc"
-        id="kc"
-        role="status"
-        aria-label="Claves encontradas: 0 de 5"
-        ><i aria-hidden="true">✦</i><b id="kn">0</b>/5</span
       >
       <div class="stw">
         <span class="dts" aria-hidden="true"
@@ -255,15 +257,26 @@
         <!-- 1.1 Hero (en escritorio: texto a la izquierda y el reloj a la derecha) -->
         <section class="sc t" data-evo="Con dudas" aria-labelledby="h-hero">
           <div class="w">
-            <p class="tag">Asesoría 1:1 con Arju + App ArjunaFit</p>
+            <p class="tag" id="ht" data-o="ht">Asesoría 1:1 con Arju + App ArjunaFit</p>
             <div class="clk" aria-hidden="true">05:40</div>
-            <h1 id="h-hero">
+            <h1 id="h-hero" data-o="h-hero" tabindex="-1">
               Llega al próximo mes con el cuerpo que hoy te estás prometiendo
             </h1>
-            <p class="lead">
-              Una hora de entrenamiento acompañada con Arju, y la App ArjunaFit
-              para que no abandones a las dos semanas. A la hora que tú puedas.
+            <p class="lead" id="hl" data-o="hl">
+              Aumentar o bajar de peso, crecer glúteos, desinflamar abdomen: una hora con Arju y la App ArjunaFit para que no abandones a las dos semanas.
             </p>
+            <!-- Mi objetivo: lo maneja el bloque 1.1b (justo debajo). Sin JavaScript no se ve. -->
+            <div class="og" id="og">
+              <p class="og-t" id="og-t">Mi objetivo es:</p>
+              <div class="og-g" role="group" aria-labelledby="og-t">
+                <button type="button" class="ob" data-g="subir" aria-pressed="false">Aumentar de peso</button>
+                <button type="button" class="ob" data-g="bajar" aria-pressed="false">Bajar de peso</button>
+                <button type="button" class="ob" data-g="gluteos" aria-pressed="false">Crecer glúteos</button>
+                <button type="button" class="ob" data-g="abdomen" aria-pressed="false">Desinflamar abdomen</button>
+                <button type="button" class="oc" id="oc">Cambiar</button>
+              </div>
+              <p class="vh" id="ol" role="status" aria-live="polite"></p>
+            </div>
             <p class="slogan">
               Tu transformación no necesita presión. Necesita acompañamiento.
             </p>
@@ -273,12 +286,300 @@
             <p class="fine hero-note">
               Cupos 1:1 limitados para cerrar el año.
             </p>
-            <p class="hint">
-              <i aria-hidden="true">✦</i> Esta página esconde 5 claves.
-              Encuéntralas mientras bajas.
-            </p>
           </div>
         </section>
+        <!-- 1.1b Mi objetivo. El hero pregunta «Mi objetivo es:» con 4 botones; al elegir uno, TODA la página se ajusta:
+     el hero, el ciclo, los beneficios, el orden de las alumnas, una pregunta frecuente y el formulario
+     (con su mensaje de WhatsApp). La elección se recuerda mientras dure la visita. Un anuncio puede saltarse la
+     pregunta con una dirección como arjunafit.com/?m=gluteos (m=subir, bajar, gluteos o abdomen).
+     Sin JavaScript, o si este bloque fallara, la página se queda general (con su botón de siempre).
+     Cada texto que cambia lleva data-o="id" en el HTML; aquí abajo, en SEG, está el texto de cada id para cada
+     objetivo (el id que no esté se queda con el texto del HTML). Va pegado al hero a propósito: así el texto cambia
+     ANTES de que se pinte (el <head> esconde el hero con la clase mw hasta que este bloque termina; si algo fallara,
+     a los 1,5 s se muestra solo). Está en JavaScript antiguo (ES5) como el <head>: aquí NO uses const, let, flechas
+     ni comillas invertidas. landing.js lee lo que este bloque deja en window.__afObj y window.__afSeg. -->
+        <script>
+          (function (w, d) {
+            var root = d.documentElement;
+            var STORE = "obj"; // lo que se recuerda en sessionStorage mientras dure la visita
+            var own = Object.prototype.hasOwnProperty;
+
+            // goal = opción del formulario · order = orden de las alumnas (posiciones del HTML; sin order, el de siempre)
+            // t = textos por data-o. rc (resumen sobre el formulario) lo pone landing.js.
+            var SEG = {
+              subir: {
+                goal: "Aumentar de peso",
+                t: {
+                  ht: "Para aumentar de peso",
+                  "h-hero": "Aumentar de peso con fuerza y forma, no solo comiendo más",
+                  hl: "Si comes y no subes, no eres tú: falta un plan hecho para ti. Una hora con Arju y la App ArjunaFit te guían el entrenamiento y la comida.",
+                  cy: "Así termina casi siempre cuando lo haces sola. La semana 1 comes más y entrenas con ganas. En la semana 2 llegan el trabajo, la casa y el cansancio: se te pasa una comida, faltas un día, luego otro. Y lo dejas.",
+                  e1: "Arju te ve, te corrige y levantas bien desde el primer día, sin miedo a lesionarte.",
+                  e3: "Revisamos cómo vas y ajustamos tu entrenamiento y tu comida para que sigas avanzando.",
+                  cm3: "Una hora acompañada, plan de entrenamiento y comida para aumentar de peso, ajustes semanales y acceso prioritario a la app.",
+                  fq3q: "¿Tengo que comer hasta sentirme llena?",
+                  fq3a: "No. Aprendes a comer más con estrategia, con comidas que sí disfrutas y a tu ritmo.",
+                  fl: "Valoración gratis y sin compromiso: vemos tu punto de partida y te decimos tu plan para aumentar de peso.",
+                  rc: "Llegaste con dudas sobre cómo aumentar de peso. Ahora sabes cómo se rompe el ciclo."
+                }
+              },
+              bajar: {
+                goal: "Bajar de peso",
+                t: {
+                  ht: "Para bajar de peso",
+                  "h-hero": "Bajar de peso sin empezar de cero cada lunes",
+                  hl: "Si lo dejaste a las dos semanas, no eres tú: faltó acompañamiento. Una hora con Arju y la App ArjunaFit para sostenerlo, sin dietas extremas.",
+                  cy: "Así termina casi siempre cuando lo haces sola. La semana 1 va perfecta: rutina y comida al pie de la letra. En la semana 2 llegan el trabajo, la casa y el cansancio: faltas un día, luego otro. Y lo dejas.",
+                  e3: "Revisamos tu avance y ajustamos tu plan para que no te estanques ni empieces de cero.",
+                  cm3: "Una hora acompañada, plan para bajar de peso sin dietas extremas, ajustes semanales y acceso prioritario a la app.",
+                  fl: "Valoración gratis y sin compromiso: vemos tu punto de partida y te decimos tu plan para bajar de peso.",
+                  rc: "Llegaste con dudas sobre cómo bajar de peso. Ahora sabes cómo se rompe el ciclo."
+                }
+              },
+              gluteos: {
+                goal: "Crecer glúteos",
+                order: [2, 0, 1, 3],
+                t: {
+                  ht: "Para crecer tus glúteos",
+                  "h-hero": "Crecer tus glúteos sin adivinar si lo haces bien",
+                  hl: "Si no sientes el glúteo al entrenar, no eres tú: falta quien te corrija. Arju ajusta tu postura al momento y la App ArjunaFit te guía toda la semana.",
+                  cy: "Así termina casi siempre cuando lo haces sola. La semana 1 entrenas glúteo con toda. En la semana 2 no sabes si lo haces bien y llegan el trabajo y el cansancio: faltas un día, luego otro. Y lo dejas.",
+                  e1: "Arju te ve, te corrige y sientes el glúteo trabajar desde el primer día, sin miedo a lesionarte.",
+                  e3: "Revisamos tu avance y subimos la exigencia a tu ritmo para que sigas progresando.",
+                  cm3: "Una hora acompañada, plan para crecer tus glúteos, ajustes semanales y acceso prioritario a la app.",
+                  fq3q: "¿Cómo sé que lo estoy haciendo bien?",
+                  fq3a: "Durante tu hora, Arju te corrige la postura, y la app te muestra la técnica en video, para que sientas el trabajo en el glúteo.",
+                  fl: "Valoración gratis y sin compromiso: vemos tu punto de partida y te decimos tu plan para crecer tus glúteos.",
+                  rc: "Llegaste con dudas sobre cómo crecer tus glúteos. Ahora sabes cómo se rompe el ciclo."
+                }
+              },
+              abdomen: {
+                goal: "Desinflamar abdomen",
+                order: [3, 0, 1, 2],
+                t: {
+                  ht: "Para desinflamar tu abdomen",
+                  "h-hero": "Desinflamar tu abdomen sin tés, fajas ni dietas extremas",
+                  hl: "Si ya probaste tés, fajas y abdominales, no eres tú: faltó un plan. Una hora con Arju y la App ArjunaFit para sentirte más ligera.",
+                  cy: "Así termina casi siempre cuando lo haces sola. La semana 1 pruebas de todo: abdominales, tés y cuidar la comida. En la semana 2 llegan el trabajo, la casa y el cansancio: faltas un día, luego otro. Y lo dejas.",
+                  e1: "Arju te ve, te corrige y trabajas el abdomen con buena técnica desde el primer día, sin miedo a lesionarte.",
+                  e3: "Revisamos tu avance y ajustamos tu entrenamiento y tu comida cada semana, según cómo te sientes.",
+                  cm3: "Una hora acompañada, plan para desinflamar tu abdomen, ajustes semanales y acceso prioritario a la app.",
+                  fq3q: "¿Necesito fajas, tés o cientos de abdominales?",
+                  fq3a: "No. Tu plan combina entrenamiento y comida con estrategia, sin fajas, tés ni dietas extremas.",
+                  fl: "Valoración gratis y sin compromiso: vemos tu punto de partida y te decimos tu plan para desinflamar tu abdomen.",
+                  rc: "Llegaste con dudas sobre cómo desinflamar tu abdomen. Ahora sabes cómo se rompe el ciclo."
+                }
+              }
+            };
+            // Palabras que se aceptan en ?m= (sin importar mayúsculas ni tildes)
+            var ALIAS = {
+              subir: ["subir", "aumentar", "masa", "musculo", "subirdepeso", "aumentardepeso"],
+              bajar: ["bajar", "perder", "grasa", "bajardepeso", "perderpeso"],
+              gluteos: ["gluteos", "gluteo", "glute", "glutes"],
+              abdomen: ["abdomen", "abdominal", "abdominales", "pancita", "panza", "barriga", "vientre", "desinflamar"]
+            };
+
+            var cur = ""; // objetivo actual ("" = todavía no eligió)
+            var subs = []; // quién quiere enterarse de los cambios (landing.js)
+            var api = {
+              via: "", // selector · enlace · memoria
+              key: function () {
+                return cur;
+              },
+              text: function (id) {
+                return cur && own.call(SEG[cur].t, id) ? SEG[cur].t[id] : "";
+              },
+              subscribe: function (fn) {
+                subs.push(fn);
+              }
+            };
+            w.__afObj = api;
+
+            // minúsculas y sin tildes ni símbolos: "GLÚTEOS", "Glúteos " y "gluteos" son lo mismo
+            function plain(s) {
+              s = String(s || "").toLowerCase();
+              try {
+                s = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+              } catch (e) {}
+              return s.replace(/[^a-z]/g, "");
+            }
+
+            // primera palabra de ?m= que corresponda a un objetivo
+            function fromLink(search) {
+              var parts = String(search || "").replace(/^\?/, "").split("&");
+              for (var i = 0; i < parts.length; i++) {
+                var kv = parts[i].split("=");
+                if (kv[0] !== "m") continue;
+                var word = "";
+                try {
+                  word = plain(decodeURIComponent((kv[1] || "").replace(/\+/g, " ")));
+                } catch (e) {}
+                for (var key in ALIAS) {
+                  if (!own.call(ALIAS, key)) continue;
+                  for (var j = 0; j < ALIAS[key].length; j++) {
+                    if (ALIAS[key][j] === word) return key;
+                  }
+                }
+              }
+              return "";
+            }
+
+            function remembered() {
+              try {
+                var k = w.sessionStorage.getItem(STORE) || "";
+                return own.call(SEG, k) ? k : "";
+              } catch (e) {
+                return "";
+              }
+            }
+
+            function remember(k) {
+              try {
+                w.sessionStorage.setItem(STORE, k);
+              } catch (e) {}
+            }
+
+            // pone o quita una marca en <html> sin tocar las demás
+            function flag(name, on) {
+              var cls = root.className.replace(new RegExp("(^|\\s)" + name + "(?=\\s|$)", "g"), "");
+              root.className = on ? cls + (cls ? " " : "") + name : cls;
+            }
+
+            // Alumnas: las que hablan del objetivo van primero. Siempre se parte del orden del HTML.
+            function arrange(k) {
+              var strip = d.querySelector(".chs");
+              if (!strip) return;
+              if (!strip.__oo) {
+                strip.__oo = [];
+                for (var c = strip.firstElementChild; c; c = c.nextElementSibling) strip.__oo.push(c);
+              }
+              var base = strip.__oo;
+              var seq = k ? SEG[k].order : null;
+              if (seq && seq.length !== base.length) seq = null;
+              var want = [];
+              var i;
+              for (i = 0; i < base.length; i++) want.push(base[seq ? seq[i] : i]);
+              var same = true;
+              for (i = 0; i < want.length; i++) if (strip.children[i] !== want[i]) same = false;
+              if (same) return;
+              for (i = 0; i < want.length; i++) {
+                strip.appendChild(want[i]);
+                want[i].style.setProperty("--i", String(i));
+              }
+              strip.scrollLeft = 0;
+            }
+
+            // Textos: cada [data-o] toma el de su objetivo; sin objetivo (o sin texto para ese id) vuelve al del HTML
+            function apply(k) {
+              var list = d.querySelectorAll("[data-o]");
+              for (var i = 0; i < list.length; i++) {
+                var el = list[i];
+                if (el.__od === undefined) el.__od = el.textContent;
+                var t = k ? SEG[k].t[el.getAttribute("data-o")] : undefined;
+                var next = t === undefined ? el.__od : t;
+                if (el.textContent !== next) el.textContent = next;
+              }
+              arrange(k);
+            }
+
+            function mark(k) {
+              var b = d.querySelectorAll(".ob");
+              for (var i = 0; i < b.length; i++) {
+                b[i].setAttribute("aria-pressed", b[i].getAttribute("data-g") === k ? "true" : "false");
+              }
+            }
+
+            // fundido corto del hero al cambiar de objetivo (con "menos movimiento" es solo opacidad: ver styles.css)
+            function fade() {
+              var ids = ["ht", "h-hero", "hl"];
+              for (var i = 0; i < ids.length; i++) {
+                var el = d.getElementById(ids[i]);
+                if (!el) continue;
+                el.className = el.className.replace(/(^|\s)ofd(?=\s|$)/g, "");
+                void el.offsetWidth;
+                el.className += " ofd";
+              }
+            }
+
+            function emit() {
+              for (var i = 0; i < subs.length; i++) {
+                try {
+                  subs[i](cur, api.via);
+                } catch (e) {}
+              }
+            }
+
+            // user = lo tocó la persona: se anuncia a quien usa lector de pantalla y el foco pasa al título nuevo
+            function choose(k, how, user) {
+              if (!own.call(SEG, k)) return;
+              cur = k;
+              api.via = how;
+              apply(k);
+              root.setAttribute("data-m", k);
+              w.__afSeg = k;
+              w.__afSegGoal = SEG[k].goal;
+              mark(k);
+              flag("ow", false);
+              if (how !== "memoria") remember(k);
+              if (user) {
+                fade();
+                var live = d.getElementById("ol");
+                if (live) live.textContent = "Objetivo elegido: " + SEG[k].goal.toLowerCase() + ". La página se ajustó a tu objetivo.";
+                var title = d.getElementById("h-hero");
+                if (title) title.focus({ preventScroll: true });
+              }
+              emit();
+            }
+
+            function wait() {
+              cur = "";
+              api.via = "";
+              root.removeAttribute("data-m");
+              w.__afSeg = "";
+              w.__afSegGoal = "";
+              apply("");
+              mark("");
+              flag("ow", true);
+            }
+
+            try {
+              var btns = d.querySelectorAll(".ob");
+              for (var i = 0; i < btns.length; i++) {
+                (function (b) {
+                  b.addEventListener("click", function () {
+                    choose(b.getAttribute("data-g"), "selector", true);
+                  });
+                })(btns[i]);
+              }
+              var again = d.getElementById("oc");
+              if (again) {
+                again.addEventListener("click", function () {
+                  flag("ow", true);
+                  var on = d.querySelector('.ob[aria-pressed="true"]') || d.querySelector(".ob");
+                  if (on) on.focus();
+                });
+              }
+
+              var k = fromLink(w.location.search);
+              var how = "enlace";
+              if (!k) {
+                k = remembered();
+                how = "memoria";
+              }
+              if (k) choose(k, how, false);
+              else wait();
+              flag("os", true); // al final: si algo fallara antes, el hero se queda como siempre, con su botón
+
+              // el resto de la página todavía no existe: se vuelve a aplicar cuando termine de cargar
+              d.addEventListener("DOMContentLoaded", function () {
+                apply(cur);
+              });
+            } catch (e) {}
+
+            // el <head> escondió el hero (clase mw) mientras llegaba este bloque: ya se puede mostrar
+            flag("mw", false);
+          })(window, document);
+        </script>
         <!-- 1.2 El ciclo que se rompe (los 30 puntos se apagan al bajar).
      Los bloques .split (sp-a, sp-v, sp-b) van apilados en el celular y en dos columnas en escritorio. -->
         <section class="sc" id="s2" aria-labelledby="h-ciclo">
@@ -287,17 +588,9 @@
               <div class="sp-a">
                 <h2 class="rv" id="h-ciclo">
                   El ciclo que se
-                  <span class="nw"
-                    >rompe<button
-                      type="button"
-                      class="key"
-                      data-k="1"
-                      aria-label="Clave escondida 1: tócala para descubrirla"
-                    >
-                      <i aria-hidden="true"></i></button
-                  ></span>
+                  rompe
                 </h2>
-                <p class="lead rv">
+                <p class="lead rv" data-o="cy">
                   Así termina casi siempre cuando lo haces sola. La semana 1 va
                   perfecta. En la semana 2 llegan el trabajo, la casa y el
                   cansancio: faltas un día, luego otro. Y lo dejas.
@@ -337,15 +630,7 @@
                 <div class="qh">
                   <h2 class="rv" id="h-quiz">
                     ¿Te suena
-                    <span class="nw"
-                      >familiar?<button
-                        type="button"
-                        class="key"
-                        data-k="2"
-                        aria-label="Clave escondida 2: tócala para descubrirla"
-                      >
-                        <i aria-hidden="true"></i></button
-                    ></span>
+                    familiar?
                   </h2>
                   <div class="qc rv" aria-hidden="true">
                     <svg viewBox="0 0 36 36">
@@ -413,7 +698,7 @@
               </div>
               <div class="sp-b">
                 <p class="lead qm" id="sm" aria-live="polite">
-                  Lo que marques adapta el resto de la página.
+                  Marca las que te suenen: así Arju sabe desde dónde empiezas.
                 </p>
                 <a
                   class="btn qcta"
@@ -467,41 +752,18 @@
 
       <!-- ===== PASO 2 · Oferta: asesoría 1:1 con Arju + App ArjunaFit ===== -->
       <div class="part" id="asesoria" data-n="2">
-        <!-- 2.1 Promesa (la etiqueta #pn cambia según lo que marque en el cuestionario) -->
-        <section class="sc" data-evo="Con claridad" aria-labelledby="h-promesa">
-          <div class="w ctr">
-            <p class="tag" id="pn">Para ti, que quieres empezar.</p>
-            <h2 class="hl" id="h-promesa">
-              Tu hora con Arju + la App ArjunaFit
-            </h2>
-            <p class="lead">
-              Una hora de entrenamiento acompañada, a la hora que tú puedas, y
-              una app que te sostiene el resto de la semana.
-            </p>
-            <a class="btn" href="#valoracion" data-ev="p2_hero_cta"
-              >Quiero empezar con Arju</a
-            >
-          </div>
-        </section>
+        <!-- 2.1 (quitada en la v6: era la pantalla «Tu hora con Arju + la App ArjunaFit». Se conserva la numeración; su etapa «Con claridad» pasó a 2.2) -->
         <!-- 2.2 Entrenar con Arju: 3 beneficios (el video de Arju está al final del paso 1, bloque 1.4) -->
-        <section class="sc" aria-labelledby="h-entrenar">
+        <section class="sc" data-evo="Con claridad" aria-labelledby="h-entrenar">
           <div class="w wide ctr">
             <h2 class="rv" id="h-entrenar">
               Entrenar directamente con Arju lo cambia
-              <span class="nw"
-                >todo.<button
-                  type="button"
-                  class="key"
-                  data-k="3"
-                  aria-label="Clave escondida 3: tócala para descubrirla"
-                >
-                  <i aria-hidden="true"></i></button
-              ></span>
+              todo.
             </h2>
             <div class="cards">
               <div class="card rvd" data-d="l" style="--i: 0">
                 <h3>Postura corregida</h3>
-                <p>
+                <p data-o="e1">
                   Arju te ve, te corrige y entrenas bien desde el primer día,
                   sin miedo a lesionarte.
                 </p>
@@ -515,7 +777,7 @@
               </div>
               <div class="card rvd" data-d="r" style="--i: 2">
                 <h3>Ajustes semanales</h3>
-                <p>
+                <p data-o="e3">
                   Revisamos tu avance y ajustamos tu plan para que nunca te
                   estanques.
                 </p>
@@ -544,7 +806,7 @@
                 <div class="pho" data-i="M">
                   <img
                     src="https://arjunafit.com/assets/img/recomendaciones/1.png"
-                    alt="Foto de El coach, alumna de ArjunaFit"
+                    alt="Foto del entrenador de ArjunaFit"
                     width="320"
                     height="400"
                     loading="lazy"
@@ -552,7 +814,7 @@
                   /><span class="mo">7 años</span>
                 </div>
                 <figcaption>
-                  <b>Entrenador</b><small>28 años · Medellìn</small>
+                  <b>Entrenador</b><small>28 años · Medellín</small>
                   <blockquote>
                     Mi mayor problema siempre fue con la alimentacion
                   </blockquote>
@@ -591,7 +853,7 @@
                 <div class="pho" data-i="A">
                   <img
                     src="https://arjunafit.com/assets/img/recomendaciones/3.png"
-                    alt="Foto de Alejandra T., alumna de ArjunaFit"
+                    alt="Foto de Dayana G., alumna de ArjunaFit"
                     width="320"
                     height="400"
                     loading="lazy"
@@ -614,7 +876,7 @@
                 <div class="pho" data-i="D">
                   <img
                     src="https://arjunafit.com/assets/img/recomendaciones/4.png"
-                    alt="Foto de Dayana G., alumna de ArjunaFit"
+                    alt="Foto de Nancy R., alumna de ArjunaFit"
                     width="320"
                     height="400"
                     loading="lazy"
@@ -644,15 +906,7 @@
               <div class="sp-a">
                 <h2 class="rv" id="h-app">
                   Mientras tú entrenas, nosotros seguimos
-                  <span class="nw"
-                    >trabajando<button
-                      type="button"
-                      class="key"
-                      data-k="4"
-                      aria-label="Clave escondida 4: tócala para descubrirla"
-                    >
-                      <i aria-hidden="true"></i></button
-                  ></span>
+                  trabajando
                 </h2>
                 <p class="lead rv">
                   Quien empieza hoy con Arju entra primero a la App ArjunaFit,
@@ -895,15 +1149,7 @@
           <div class="w wide ctr">
             <h2 class="rv" id="h-caminos">
               Los 3
-              <span class="nw"
-                >caminos<button
-                  type="button"
-                  class="key"
-                  data-k="5"
-                  aria-label="Clave escondida 5: tócala para descubrirla"
-                >
-                  <i aria-hidden="true"></i></button
-              ></span>
+              caminos
             </h2>
             <div class="vs">
               <div class="rvd" data-d="l" style="--i: 0">
@@ -922,7 +1168,7 @@
               </div>
               <div class="on rvd" data-d="u" style="--i: 2">
                 <h3>3. Empezar hoy con Arju + App</h3>
-                <p>
+                <p data-o="cm3">
                   Una hora acompañada, plan completo, ajustes semanales y acceso
                   prioritario a la app.
                 </p>
@@ -953,8 +1199,8 @@
                   </p>
                 </details>
                 <details>
-                  <summary>¿Tengo que hacer dietas extremas?</summary>
-                  <p>
+                  <summary data-o="fq3q">¿Tengo que hacer dietas extremas?</summary>
+                  <p data-o="fq3a">
                     No. Aprendes a comer con estrategia, sin pasar hambre ni
                     quitarte lo que te gusta.
                   </p>
@@ -966,111 +1212,11 @@
                     plan. Y tu plan se ajusta cada semana según tu avance.
                   </p>
                 </details>
+                <a class="btn faq-cta" href="#valoracion" data-ev="p2_end_cta"
+                  >Quiero empezar con Arju</a
+                >
               </div>
             </div>
-          </div>
-        </section>
-        <!-- 2.7 Tu guía del éxito: las 5 claves escondidas (✦). Se revelan al tocar su ✦ en la página o con "Revelar".
-     Los textos de las claves salen de esta lista (una sola fuente: el aviso inferior los lee de aquí). -->
-        <section class="sc" id="guia" aria-labelledby="h-guia">
-          <div class="w wide ctr">
-            <p class="tag">Tu guía del éxito</p>
-            <h2 class="rv" id="h-guia">Cinco claves, y ya son tuyas.</h2>
-            <p class="lead rv" id="gsub">
-              Las que fuiste encontrando por la página. Si te falta alguna,
-              tócala.
-            </p>
-            <ol class="gd" id="gd">
-              <li class="gk rvd" data-d="u" style="--i: 0" data-k="1">
-                <span class="gn">1</span>
-                <div>
-                  <b>Nunca fue falta de voluntad</b>
-                  <p>
-                    Lo que se rompe es el sistema, no tú. Con alguien al lado,
-                    la constancia deja de depender de las ganas.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="gr"
-                  aria-label="Revelar la clave 1"
-                >
-                  Revelar
-                </button>
-              </li>
-              <li class="gk rvd" data-d="u" style="--i: 1" data-k="2">
-                <span class="gn">2</span>
-                <div>
-                  <b>Empieza pequeño</b>
-                  <p>
-                    Una hora bien acompañada vale más que una semana perfecta
-                    que no puedes sostener.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="gr"
-                  aria-label="Revelar la clave 2"
-                >
-                  Revelar
-                </button>
-              </li>
-              <li class="gk rvd" data-d="u" style="--i: 2" data-k="3">
-                <span class="gn">3</span>
-                <div>
-                  <b>Que alguien te vea</b>
-                  <p>
-                    Cuando alguien corrige tu postura y nota que faltaste,
-                    entrenar deja de ser un acto solitario.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="gr"
-                  aria-label="Revelar la clave 3"
-                >
-                  Revelar
-                </button>
-              </li>
-              <li class="gk rvd" data-d="u" style="--i: 3" data-k="4">
-                <span class="gn">4</span>
-                <div>
-                  <b>Ajusta, no te castigues</b>
-                  <p>
-                    Una mala semana se ajusta, no se paga con culpa. El plan
-                    cambia contigo.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="gr"
-                  aria-label="Revelar la clave 4"
-                >
-                  Revelar
-                </button>
-              </li>
-              <li class="gk rvd" data-d="u" style="--i: 4" data-k="5">
-                <span class="gn">5</span>
-                <div>
-                  <b>Disfrútalo</b>
-                  <p>
-                    Lo que disfrutas, lo sostienes. Tu cuerpo cambia cuando
-                    entrenar deja de ser una batalla.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="gr"
-                  aria-label="Revelar la clave 5"
-                >
-                  Revelar
-                </button>
-              </li>
-            </ol>
-            <p class="gdm" id="gdm" aria-live="polite"></p>
-            <a class="btn" href="#valoracion" data-ev="p2_end_cta"
-              >Quiero empezar con Arju</a
-            >
           </div>
         </section>
       </div>
@@ -1081,7 +1227,6 @@
         <section
           class="sc"
           data-evo="Lista para empezar"
-          data-evo-done="Mente nueva ✦"
           aria-labelledby="h-form"
         >
           <div class="w wide">
@@ -1091,7 +1236,7 @@
                   Llegaste con dudas. Ahora sabes cómo se rompe el ciclo.
                 </p>
                 <h2 class="hl" id="h-form">Empieza hoy con Arju.</h2>
-                <p class="lead">
+                <p class="lead" data-o="fl">
                   Valoración gratis y sin compromiso: vemos tu punto de partida
                   y te decimos tu plan.
                 </p>
@@ -1157,16 +1302,30 @@
                         ><input
                           type="radio"
                           name="o"
-                          value="Perder grasa"
+                          value="Bajar de peso"
                           checked
-                        /><span>Perder grasa</span></label
+                        /><span>Bajar de peso</span></label
                       >
                       <label class="opt"
                         ><input
                           type="radio"
                           name="o"
-                          value="Ganar músculo"
-                        /><span>Ganar músculo</span></label
+                          value="Aumentar de peso"
+                        /><span>Aumentar de peso</span></label
+                      >
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="o"
+                          value="Crecer glúteos"
+                        /><span>Crecer glúteos</span></label
+                      >
+                      <label class="opt"
+                        ><input
+                          type="radio"
+                          name="o"
+                          value="Desinflamar abdomen"
+                        /><span>Desinflamar abdomen</span></label
                       >
                       <label class="opt"
                         ><input
@@ -1305,17 +1464,6 @@
         >Quiero empezar con Arju</a
       >
     </aside>
-    <!-- AVISO de clave encontrada: lo abre landing.js (sección 14) -->
-    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
-      <i class="tsp" aria-hidden="true">✦</i>
-      <div>
-        <b id="tt"></b>
-        <p id="tx"></p>
-      </div>
-      <button type="button" class="tcl" id="tcl" aria-label="Cerrar">
-        &times;
-      </button>
-    </div>
     <!-- FOOTER -->
     <footer>
       ArjunaFit · <a href="https://arjunafit.com/terminos.html">Términos</a> ·
@@ -1326,6 +1474,6 @@
         de empezar.
       </p>
     </footer>
-    <script src="assets/js/landing.js" defer onerror="document.documentElement.className = ''"></script>
+    <script src="assets/js/landing.js" defer onerror="if (window.__afOff) __afOff()"></script>
   </body>
 </html>

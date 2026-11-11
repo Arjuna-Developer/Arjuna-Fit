@@ -4,7 +4,7 @@
 
    ÍNDICE
    01 · Configuración (WhatsApp, video, tiempos, colores del amanecer, textos)
-   02 · Utilidades (DOM, almacenamiento, analítica, WhatsApp)
+   02 · Utilidades (DOM, almacenamiento, analítica, WhatsApp, objetivo elegido)
    03 · Enlaces con data-wa y data-ev
    04 · Aparición al hacer scroll (.rv y .rvd)
    05 · Puntos del ciclo (#dots)
@@ -17,12 +17,12 @@
    12 · Inclinación de tarjetas
    13 · Partículas
    13b · Pausar animaciones (botón bajo el teléfono)
-   14 · Claves escondidas y guía del éxito
-   15 · Etapa de tu camino (header) y resumen final
+   14 · (libre: antes eran las claves escondidas)
+   15 · Etapa de tu camino (header) y resumen sobre el formulario
    16 · Ciclo: volver a encender los días
    17 · Alumnas: fotos (si una no carga, queda la inicial) y carrusel con teclado
    18 · Barra de acción del celular (#dock)
-   19 · Títulos con clave (nombre accesible)
+   19 · Mi objetivo (conecta el selector del hero con el formulario, el cuestionario y los eventos)
    20 · Arranque
 
    Cada sección es una función init...() independiente: si una falla (por
@@ -81,10 +81,6 @@
     // Situaciones del cuestionario
     quizTotal: 4,
 
-    // Claves escondidas por la página y cuánto dura el aviso de clave (ms)
-    keysTotal: 5,
-    toastMs: 5000,
-
     // Amanecer: [posición del scroll de 0 a 1, [R, G, B]]
     // De noche profunda (arriba) a amanecer dorado (abajo).
     sunrise: [
@@ -100,46 +96,36 @@
     ]
   };
 
+  // Objetivo de la visita. Lo maneja el script "1.1b Mi objetivo" de index.html (corre antes que este
+  // archivo): la persona lo elige en el hero, o la dirección ya lo trae (?m=subir | bajar | gluteos | abdomen),
+  // o se recuerda mientras dure la visita. Puede cambiar en cualquier momento, por eso se lee cuando se
+  // necesita. Sin objetivo todo queda como siempre. Con objetivo: el formulario lo deja elegido, el mensaje de
+  // WhatsApp del cuestionario lo dice, las etiquetas de la página lo nombran y cada evento lleva "segmento".
+  const objective = () => String(window.__afSeg || '');
+  const objectiveGoal = () => String(window.__afSegGoal || '');
+  const objectiveText = (id) => (window.__afObj && window.__afObj.text ? window.__afObj.text(id) : '');
+
   // Textos que cambian según lo que marque la visitante.
   // Grupo A = está postergando · Grupo B = ya lo intentó y lo dejó.
   const COPY = {
-    tag: { // etiqueta sobre el título de la sección de oferta (#pn)
-      '':  'Para ti, que quieres empezar.',
-      A:   'Para ti, que lo estás pensando.',
-      B:   'Para ti, que quieres volver a empezar.',
-      AB:  'Para ti, que quieres volver a empezar.'
-    },
     quiz: { // mensaje bajo el cuestionario (#sm)
-      none: 'Lo que marques adapta el resto de la página.',
+      none: 'Marca las que te suenen: así Arju sabe desde dónde empiezas.',
       both: 'Llevas tiempo queriendo empezar y las mismas cosas te frenaron. Esta vez no empiezas sola.',
       a:    'Estás postergando, y postergar también cansa. Hoy puedes empezar con Arju, sin compromiso.',
       b:    'Ya lo intentaste y lo dejaste: no fue falta de voluntad, te faltó compañía y un sistema.'
-    },
-    guide: { // mensaje bajo la guía del éxito (#gdm)
-      none: 'Busca los ✦ por la página o toca «Revelar».',
-      some: (n, total) => n + ' de ' + total + ' reveladas. Te faltan ' + (total - n) + '.',
-      all:  'Las 5 son tuyas. Tu mente ya cambió; ahora toca el cuerpo, de la mano de Arju.'
-    },
-    toastAll: { // aviso al encontrar la quinta clave
-      title: 'Las 5 claves son tuyas',
-      text:  'Tu guía del éxito está más abajo. Tu mente ya cambió: ahora toca el cuerpo.'
-    },
-    recap: { // resumen sobre el formulario (#rc)
-      none: 'Llegaste con dudas. Ahora sabes cómo se rompe el ciclo.',
-      some: (k, kt) => 'Encontraste ' + k + ' de ' + kt + ' claves. Tu mente ya va cambiando.',
-      all:  'Encontraste las 5 claves. Esa mente ya está lista.'
     }
   };
 
   // Mensajes que se envían a WhatsApp
   const MESSAGES = {
     quiz: (items) =>
-      `Hola Arju 👋 Marqué ${items.length} de ${CONFIG.quizTotal} situaciones en tu página: ${items.join(' | ')}. Quiero empezar contigo.`,
+      `Hola Arju 👋 Marqué ${items.length} de ${CONFIG.quizTotal} situaciones en tu página: ${items.join(' | ')}.` +
+      (objectiveGoal() ? ` Mi objetivo: ${objectiveGoal().toLowerCase()}.` : '') +
+      ' Quiero empezar contigo.',
     form: (d) =>
       `Hola Arju 👋 Soy ${d.name}. Quiero empezar con la asesoría 1:1 y la App ArjunaFit.` +
       ` Objetivo: ${d.goal}. Lugar: ${d.place}. Horario: ${d.schedule}.` +
       ` Situaciones que me suenan (${d.items.length} de ${CONFIG.quizTotal}): ${d.items.join(' | ') || 'ninguna'}.` +
-      (d.keys ? ` En tu página encontré ${d.keys} de ${CONFIG.keysTotal} claves.` : '') +
       ` Mi WhatsApp: ${d.phone}` // d.phone ya trae su prefijo (+57 300 123 4567)
   };
 
@@ -151,9 +137,8 @@
   const body = document.body;
   const LIGHT_AT = CONFIG.lightAt;
 
-  // Estado compartido entre módulos: amanecer (06), partículas (13) y
-  // claves (14, state.keys con 0 o 1 por clave)
-  const state = { progress: 0, light: false, keys: [] };
+  // Estado compartido entre módulos: amanecer (06) y partículas (13)
+  const state = { progress: 0, light: false };
 
   const qsa = (selector) => Array.from(document.querySelectorAll(selector));
   const byId = (id) => document.getElementById(id);
@@ -217,9 +202,14 @@
     motion.hooks.forEach((fn) => safe('pausa', fn));
   }
 
-  // Analítica: solo empuja eventos al dataLayer (aún no hay pixel instalado)
+  // Analítica: empuja cada evento al dataLayer (lo leería Google Tag Manager o Analytics si algún día
+  // se instalan). Hoy el Pixel de Meta del <head> solo manda PageView: estos eventos no le llegan.
+  // Con un objetivo elegido (en el hero o con ?m=), cada evento lleva "segmento".
   function track(name) {
-    (window.dataLayer = window.dataLayer || []).push({ event: name });
+    const entry = { event: name };
+    const segment = objective();
+    if (segment) entry.segmento = segment;
+    (window.dataLayer = window.dataLayer || []).push(entry);
   }
 
   // Módulos que no arrancaron (los lee el panel ?diag)
@@ -237,7 +227,7 @@
     }
   }
 
-  // Avisos entre módulos: notify() dice que algo cambió (hoy, las claves) y
+  // Avisos entre módulos: notify() dice que algo cambió (hoy, el objetivo) y
   // cada módulo que lo necesita se suscribe con onChange(fn)
   const listeners = [];
   const onChange = (fn) => listeners.push(fn);
@@ -411,8 +401,8 @@
      07 · CUESTIONARIO "¿TE SUENA FAMILIAR?"
      4 situaciones tocables (.sit, aria-pressed). Grupo A = postergando,
      grupo B = ya lo intentó. Guarda la selección en sessionStorage
-     (claves n, sel, gr), adapta el mensaje y la etiqueta #pn, y arma el
-     enlace para enviar las respuestas por WhatsApp.
+     (claves n, sel), adapta el mensaje y arma el enlace para enviar las
+     respuestas por WhatsApp.
      Devuelve { selected } para que el formulario (09) incluya lo marcado.
      ======================================================================== */
   function initQuiz() {
@@ -422,11 +412,12 @@
     const msg = byId('sm');
     const cta = byId('qcta');
     const send = byId('qsend');
-    const tag = byId('pn');
     let lastCount = -1;
 
     const isOn = (btn) => btn.getAttribute('aria-pressed') === 'true';
-    const labelOf = (btn) => btn.textContent.replace(/\.$/, ''); // texto sin el punto final
+    // Texto de la situación en una sola línea y sin el punto final. Se normalizan los espacios porque
+    // el botón del HTML ocupa varias líneas: sin esto llegaban a WhatsApp saltos de línea y sangría.
+    const labelOf = (btn) => btn.textContent.replace(/\s+/g, ' ').trim().replace(/\.$/, '');
     const selected = () => sits.filter(isOn).map(labelOf);
 
     // Onda que nace donde se toca (o en el centro si fue con teclado)
@@ -472,8 +463,6 @@
 
       store.set('n', n);
       store.set('sel', sits.map((btn) => (isOn(btn) ? 1 : 0)).join(''));
-      store.set('gr', n ? (a && b ? 'AB' : a ? 'A' : 'B') : '');
-      tag.textContent = COPY.tag[store.get('gr') || ''];
 
       msg.textContent = !n
         ? COPY.quiz.none
@@ -498,6 +487,7 @@
     const saved = store.get('sel');
     if (saved) sits.forEach((btn, i) => btn.setAttribute('aria-pressed', saved[i] === '1'));
     render();
+    onChange(render); // si cambia el objetivo: el enlace de WhatsApp
 
     return { selected };
   }
@@ -562,6 +552,17 @@
 
     const savedName = store.get('nm');
     if (savedName) fields.name.input.value = savedName;
+
+    // Si ya hay un objetivo (lo eligió en el hero o la dirección lo traía), esa opción llega elegida, y si
+    // lo cambia arriba, el formulario lo sigue. Si no existe en el formulario, queda la que ya venía marcada.
+    const preselect = () => {
+      const goal = objectiveGoal();
+      if (!goal) return;
+      const wanted = qsa('input[name="o"]').filter((radio) => radio.value === goal)[0];
+      if (wanted) wanted.checked = true;
+    };
+    preselect();
+    onChange(preselect);
 
     // "300 123 4567", "300-123-4567", "57 300 123 4567" y "+57 300 123 4567"
     // dan "+57 300 123 4567". Con + o 00 delante se acepta otro país
@@ -653,7 +654,6 @@
         place: String(data.get('l')).toLowerCase(),
         schedule: String(data.get('h')).toLowerCase(),
         items: quiz ? quiz.selected() : [],
-        keys: state.keys.filter(Boolean).length,
         phone: readPhone(fields.phone.input.value)
       }));
 
@@ -918,140 +918,19 @@
 
 
   /* ========================================================================
-     14 · CLAVES ESCONDIDAS Y GUÍA DEL ÉXITO
-     Hay 5 ✦ (.key, data-k = 1 a 5) escondidos junto a los títulos. Al tocar
-     uno se descubre la clave: pasa a estrella (.found), se abre el aviso
-     #toast con su texto, sube el contador del header (#kn) y la clave queda
-     lista en la guía (#gd) del final. En la guía, "Revelar" (.gr) descubre
-     las que falten. Los textos salen de la guía (una sola fuente).
-     Se guarda en sessionStorage (clave "keys", por ejemplo "10110").
-     ======================================================================== */
-  function initKeys() {
-    const total = CONFIG.keysTotal;
-    const stars = qsa('.key');
-    const rows = qsa('.gk');
-    const guide = byId('gd');
-    const chip = byId('kc');
-    const counter = byId('kn');
-    const message = byId('gdm');
-    const toast = byId('toast');
-    const toastTitle = byId('tt');
-    const toastText = byId('tx');
-    let hideTimer = 0;
-    let closeTimer = 0;
-
-    // Lo que ya había descubierto en esta sesión
-    const saved = store.get('keys') || '';
-    state.keys = Array.from({ length: total }, (_, i) => (saved[i] === '1' ? 1 : 0));
-
-    const count = () => state.keys.filter(Boolean).length;
-
-    // Título y texto de la clave k, tomados de la guía
-    const info = (k) => {
-      const row = rows.find((r) => Number(r.dataset.k) === k);
-      return row
-        ? { title: row.querySelector('b').textContent, text: row.querySelector('p').textContent }
-        : { title: 'Clave ' + k, text: '' };
-    };
-
-    // Pinta ✦, filas de la guía, contador y mensaje según state.keys
-    const paint = () => {
-      const n = count();
-      stars.forEach((star) => {
-        const k = Number(star.dataset.k);
-        const on = !!state.keys[k - 1];
-        star.classList.toggle('found', on);
-        star.setAttribute('aria-label', on
-          ? 'Clave ' + k + ' descubierta: ' + info(k).title
-          : 'Clave escondida ' + k + ': tócala para descubrirla');
-      });
-      rows.forEach((row) => row.classList.toggle('found', !!state.keys[Number(row.dataset.k) - 1]));
-      counter.textContent = n;
-      chip.classList.toggle('full', n === total);
-      chip.setAttribute('aria-label', 'Claves encontradas: ' + n + ' de ' + total);
-      guide.classList.toggle('done', n === total);
-      message.textContent = n === 0 ? COPY.guide.none : n === total ? COPY.guide.all : COPY.guide.some(n, total);
-      message.classList.toggle('on', n > 0);
-    };
-
-    const hideToast = () => {
-      clearTimeout(hideTimer);
-      clearTimeout(closeTimer);
-      toast.classList.remove('on');
-      closeTimer = setTimeout(() => { toast.hidden = true; }, reducedMotion ? 0 : 450);
-    };
-
-    const showToast = (title, text) => {
-      clearTimeout(hideTimer);
-      clearTimeout(closeTimer);
-      toastTitle.textContent = title;
-      toastText.textContent = text;
-      toast.hidden = false;
-      void toast.offsetWidth; // para que la transición arranque
-      toast.classList.add('on');
-      hideTimer = setTimeout(hideToast, CONFIG.toastMs);
-    };
-
-    // Descubre la clave k. fromGuide = vino del botón "Revelar" (sin aviso, salvo la última)
-    const reveal = (k, fromGuide) => {
-      const isNew = !state.keys[k - 1];
-      state.keys[k - 1] = 1;
-      store.set('keys', state.keys.join(''));
-      paint();
-
-      if (isNew) {
-        const star = stars.find((s) => Number(s.dataset.k) === k);
-        if (star && !reducedMotion) replay(star, 'pop');
-        if (!reducedMotion) replay(chip, 'pop');
-        buzz(12);
-        track('clave_' + k);
-      }
-
-      const n = count();
-      if (n === total && isNew) {
-        showToast(COPY.toastAll.title, COPY.toastAll.text);
-        track('claves_completas');
-      } else if (!fromGuide) {
-        const data = info(k);
-        showToast('Clave ' + k + ' · ' + data.title, data.text); // sin "de 5": el contador del header ya dice cuántas llevas
-      }
-      notify();
-    };
-
-    stars.forEach((star) => {
-      star.addEventListener('click', () => reveal(Number(star.dataset.k), false));
-    });
-
-    rows.forEach((row) => {
-      const button = row.querySelector('.gr');
-      if (button) button.addEventListener('click', () => reveal(Number(row.dataset.k), true));
-    });
-
-    byId('tcl').addEventListener('click', hideToast);
-    addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !toast.hidden) hideToast();
-    });
-
-    paint();
-  }
-
-
-  /* ========================================================================
-     15 · ETAPA DE TU CAMINO (HEADER) Y RESUMEN FINAL
+     15 · ETAPA DE TU CAMINO (HEADER) Y RESUMEN SOBRE EL FORMULARIO
      Cada sección con data-evo="Palabra" marca una etapa: Con dudas, Te
      reconoces, Conoces a Arju, Con claridad, Con confianza, Con decisión,
      Lista para empezar. #evo muestra la de la última sección que ya pasó el
-     55 % de la pantalla. Con data-evo-done, si ya encontró las 5 claves, la
-     última etapa dice otra cosa ("Mente nueva"). #rc resume cuántas
-     encontró, sobre el formulario.
+     55 % de la pantalla. #rc es el resumen sobre el formulario: con un
+     objetivo elegido lo nombra; si no, queda el texto del HTML.
      ======================================================================== */
   function initEvolution() {
     const label = byId('evo');
     const stages = qsa('[data-evo]');
     const recap = byId('rc');
+    const recapDefault = recap ? recap.textContent : ''; // el del HTML
     let current = '';
-
-    const allDone = () => state.keys.length > 0 && state.keys.every(Boolean);
 
     const update = () => {
       if (!stages.length) return;
@@ -1060,7 +939,7 @@
       stages.forEach((el) => {
         if (el.getBoundingClientRect().top <= line) stage = el;
       });
-      const word = stage.dataset.evoDone && allDone() ? stage.dataset.evoDone : stage.dataset.evo;
+      const word = stage.dataset.evo;
       if (word !== current) {
         current = word;
         label.textContent = word;
@@ -1069,17 +948,10 @@
     };
 
     const summary = () => {
-      if (!recap) return;
-      const k = state.keys.filter(Boolean).length;
-      recap.textContent = k === CONFIG.keysTotal
-        ? COPY.recap.all
-        : k
-          ? COPY.recap.some(k, CONFIG.keysTotal)
-          : COPY.recap.none;
+      if (recap) recap.textContent = objectiveText('rc') || recapDefault;
     };
 
     frameHooks.push(update);
-    onChange(update);
     onChange(summary);
     summary();
     update();
@@ -1155,10 +1027,9 @@
        · la persona ya llegó a la oferta (paso 2)
        · no hay otro botón dorado a la vista (un solo botón lleno por pantalla)
        · el formulario todavía no está en pantalla
-     Con esa misma condición se pone body.dk: sube el aviso de claves para que
-     no se tape con la barra y, desde 760 px de ancho y en celular horizontal
-     (donde no hay barra), muestra el botón "Quiero empezar con Arju" del
-     header (#hcta).
+     Con esa misma condición se pone body.dk: desde 760 px de ancho y en celular
+     horizontal (donde no hay barra), muestra el botón "Quiero empezar con Arju"
+     del header (#hcta).
      Si el navegador no tiene IntersectionObserver, no sale ninguno de los dos.
      ======================================================================== */
   function initDock() {
@@ -1202,20 +1073,28 @@
 
 
   /* ========================================================================
-     19 · TÍTULOS CON CLAVE
-     Cinco títulos llevan un botón ✦ (.key) pegado a la última palabra. Sin
-     esto, el lector de pantalla leería "El ciclo que se rompe, Clave
-     escondida 1: tócala para descubrirla" como título. Aquí cada título
-     recibe como nombre su propio texto, sin el botón, y se actualiza solo
-     si cambias el título en el HTML.
+     19 · MI OBJETIVO
+     El hero pregunta «Mi objetivo es:» y el script "1.1b" de index.html (corre
+     antes que este archivo) ajusta los textos de toda la página y deja el
+     estado en window.__afObj. Aquí se conecta lo que depende de este archivo:
+       · formulario: deja elegido el objetivo (initForm)
+       · cuestionario: el mensaje de WhatsApp lo nombra (initQuiz)
+       · resumen sobre el formulario #rc (initEvolution)
+       · cada evento lleva "segmento" (track)
+     Cuando la persona cambia de objetivo, __afObj avisa y notify() vuelve a
+     pintar esas piezas. Si el script 1.1b no corrió (no existe __afObj), no
+     pasa nada: la página queda general, como siempre.
+     Eventos: hero_segmento (la visita llegó con ?m=) y objetivo_elegido (lo
+     eligió en el hero).
      ======================================================================== */
-  function initHeadings() {
-    qsa('h2').forEach((heading) => {
-      if (!heading.querySelector('.key')) return;
-      const copy = heading.cloneNode(true);
-      copy.querySelectorAll('.key').forEach((key) => key.remove());
-      heading.setAttribute('aria-label', copy.textContent.replace(/\s+/g, ' ').trim());
+  function initObjective() {
+    const obj = window.__afObj;
+    if (!obj || !obj.subscribe) return;
+    obj.subscribe((key, via) => {
+      if (via === 'selector') track('objetivo_elegido');
+      notify();
     });
+    if (obj.via === 'enlace') track('hero_segmento');
   }
 
 
@@ -1227,7 +1106,6 @@
   function boot() {
     safe('efectos', wakeEffects);
     safe('enlaces', initLinks);
-    safe('títulos', initHeadings);
     safe('aparición', initReveal);
     safe('fotos', initPhotos);
     safe('carrusel', initCarousel);
@@ -1235,7 +1113,6 @@
     const quiz = safe('cuestionario', initQuiz);
     safe('pasos', initStepIndicator);
     const sunrise = safe('amanecer', initSunrise);
-    safe('claves', initKeys);
     safe('ciclo', initRelight);
     safe('etapa', initEvolution);
     safe('formulario', () => initForm(quiz));
@@ -1245,6 +1122,7 @@
     safe('tarjetas', initTilt);
     safe('partículas', initParticles);
     safe('pausa', initMotionToggle);
+    safe('objetivo', initObjective);
     if (sunrise) sunrise.update();
   }
 

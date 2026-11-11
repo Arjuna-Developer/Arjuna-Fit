@@ -86,6 +86,8 @@
     lines.push('Marca "js" en <html>: ' + (/(^|\s)js(\s|$)/.test(d.documentElement.className) ? 'sí' : 'NO'));
     lines.push('Módulos con error: ' + (failed.length ? failed.join(' | ') : 'ninguno'));
     lines.push('Errores capturados: ' + (errors.length ? errors.slice(0, 5).join(' | ') : 'ninguno'));
+    lines.push('Objetivo: ' + (w.__afSeg ? w.__afSeg + ' (' + ((w.__afObj && w.__afObj.via) || '?') + ')' : 'ninguno (página general)') +
+      ' · selector ' + (/(^|\s)os(\s|$)/.test(d.documentElement.className) ? 'activo' : 'NO activo'));
     lines.push('');
 
     lines.push('== Este celular');
